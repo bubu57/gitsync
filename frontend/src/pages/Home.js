@@ -8,6 +8,7 @@ const Home = () => {
   const [repoDetails, setRepoDetails] = useState(null);
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState('');
+  const [UInt, setUInt] = useState();
 
   useEffect(() => {
     axios.get('/api/repos')
@@ -71,6 +72,12 @@ const Home = () => {
     fetchRepoDetails(selectedRepo.owner, selectedRepo.name, branch);
   };
 
+  const handleUIntchnage = (event) => {
+    const newUInt = event.target.value;
+    setUInt(newUInt);
+    console.log(newUInt);
+  }
+
   return (
     <div className="home-container">
       <h2>Liste des Dépôts</h2>
@@ -103,6 +110,11 @@ const Home = () => {
                     <p>Dernier commit: {repoDetails.lastCommitMessage}</p>
                     <p>Commit par: {repoDetails.lastCommitAuthor}</p>
                     <p>Date du dernier commit: {repoDetails.lastCommitDate}</p>
+                    <p>Nombre de commits: {repoDetails.commits}</p>
+                    <h3>Parametres</h3>
+                    <p>Interval: </p><input type='number' value={UInt} onChange={handleUIntchnage} placeholder={repo.UInt} />
+
+
                   </div>
                 )}
               </div>
