@@ -5,7 +5,8 @@ import GitHubApi from 'github-api';
 import cors from 'cors';
 
 const app = express();
-const PORT = 5000;
+const port = parseInt(process.env.PORT) || process.argv[3] || 8080;
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -96,6 +97,6 @@ app.post('/repos/:index/update', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Serveur backend démarré sur le port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Serveur backend démarré sur le port ${port}`);
 });
