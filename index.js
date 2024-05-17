@@ -1,8 +1,8 @@
-// parseInt(process.env.PORT) || process.argv[3] || 8080;
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 const app = express();
 const PORT = parseInt(process.env.PORT) || process.argv[3] || 8080;
@@ -39,6 +39,22 @@ app.get('/api/repos/:name', (req, res) => {
       return;
     }
     res.json(repo);
+  });
+});
+
+app.post('/api/repos/pull', (req, res) => {
+  const { path } = req.body;
+  if (!path) {
+    return res.status(400).json({ error: 'Le chemin du dépôt est requis' });
+  }
+
+  exec(`git -C ${path} pull`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Erreur lors de l'exécution de git pull : ${error}`);
+      return res.status(500).json({ error: `Erreur lors de l'exécution de git pull : ${stderr}` });
+    }
+
+    res.json({ message: stdout });
   });
 });
 
