@@ -1,19 +1,15 @@
 {
-  "name": "gitsync",
+  "name": "gitsync-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Backend for GitSync project",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "child_process": "^1.0.2",
-    "clear": "^0.1.0",
-    "fs": "^0.0.1-security",
-    "github-api": "^3.4.0",
-    "inquirer": "^9.2.21"
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "github-api": "^3.3.0",
+    "cors": "^2.8.5"
   }
 }
