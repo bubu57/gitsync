@@ -2,27 +2,27 @@ import os
 import json
 import time
 import logging
-from datetime import datetime
-from git import Repo, remote
+import requests
+from git import Repo
 
 # Configuration du logging
 log_format = '%(asctime)s - %(levelname)s - %(message)s'
 logging.basicConfig(level=logging.INFO, format=log_format)
 
-# Create handlers
+# Création des gestionnaires de log
 file_handler = logging.FileHandler('data/action.log')
 console_handler = logging.StreamHandler()
 
-# Set level for handlers
+# Définition du niveau de log pour les gestionnaires
 file_handler.setLevel(logging.INFO)
 console_handler.setLevel(logging.INFO)
 
-# Create formatters and add them to the handlers
+# Création des formateurs et ajout à chaque gestionnaire
 formatter = logging.Formatter(log_format)
 file_handler.setFormatter(formatter)
 console_handler.setFormatter(formatter)
 
-# Add handlers to the logger
+# Ajout des gestionnaires au logger
 logger = logging.getLogger()
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
@@ -40,15 +40,15 @@ def update_repo(repo_info):
     branch = repo_info['branch']
     repo = Repo(path)
     
-    # Fetch latest changes
+    # Récupération des derniers changements
     repo.remotes.origin.fetch()
     
-    # Check if the branch is up-to-date
+    # Vérification si la branche est à jour
     local_commit = repo.commit(branch)
     remote_commit = repo.remotes.origin.refs[branch].commit
 
     if local_commit != remote_commit:
-        logger.info(f"Updating repo {repo_info['name']} on branch {branch}")
+        logger.info(f"Mise à jour du dépôt {repo_info['name']} sur la branche {branch}")
         repo.git.checkout(branch)
         repo.remotes.origin.pull()
 
@@ -73,6 +73,18 @@ def check_commit_pattern(repo_info, pattern):
         return True
     return False
 
+def get_latest_commit_sha(owner, repo_name, branch):
+    url = f"https://api.github.com/repos/{owner}/{repo_name}/commits/{branch}"
+    headers = {"Accept": "application/vnd.github.v3+json"}
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data['sha']
+    else:
+        logger.error(f"Erreur lors de la récupération du dernier SHA pour le dépôt {repo_name}")
+        return None
+
 def main():
     file_path = 'data/repos.json'
     
@@ -86,7 +98,7 @@ def main():
 
             if repo_info.get('UInt'):
                 parameters += 1
-                logger.info(f"Scheduled update for repo {repo_info['name']} due to UInt parameter.")
+                logger.info(f"Mise à jour planifiée pour le dépôt {repo_info['name']} en raison du paramètre UInt")
                 update_repo(repo_info)
                 interval = int(repo_info['UInt'])
                 time.sleep(interval * 60)
@@ -95,30 +107,33 @@ def main():
             if repo_info.get('UlastPush'):
                 parameters += 1
                 if check_new_push(repo_info):
-                    logger.info(f"New push detected for repo {repo_info['name']}. Updating...")
+                    logger.info(f"Nouveau push détecté pour le dépôt {repo_info['name']}. Mise à jour en cours...")
                     update_repo(repo_info)
                     update_needed = True
             
             if repo_info.get('UpatCom'):
                 parameters += 1
                 pattern = repo_info['UpatCom']
-                if check_commit_pattern(repo_info, pattern):
-                    logger.info(f"Commit pattern '{pattern}' found for repo {repo_info['name']}. Updating...")
-                    update_repo(repo_info)
-                    update_needed = True
-
-            if update_needed:
-                # Fetch the new SHA of the latest commit
                 repo = Repo(repo_info['path'])
+                repo.remotes.origin.fetch()  # Assurer que nous récupérons les derniers changements
                 latest_commit_sha = repo.commit(repo_info['branch']).hexsha
+                latest_api_commit_sha = get_latest_commit_sha(repo_info['owner'], repo_info['name'], repo_info['branch'])
+                if latest_api_commit_sha and latest_commit_sha != latest_api_commit_sha:
+                    if check_commit_pattern(repo_info, pattern):
+                        logger.info(f"Pattern de commit '{pattern}' trouvé pour le dépôt {repo_info['name']}. Mise à jour en cours...")
+                        update_repo(repo_info)
+                        update_needed = True
+                    
+                # Mettre à jour le SHA du dernier commit dans le fichier JSON
                 repo_info['lastCommitSha'] = latest_commit_sha
 
             print(repo_info.get('name'), parameters)
 
-        # Save updated repo info back to the JSON file
-        save_repos(file_path, data)
+        # Sauvegarde des informations de dépôt mises à jour dans le fichier JSON
+        if update_needed:
+            save_repos(file_path, data)
 
-        time.sleep(5)  # Wait for 5 seconds before next check
+        time.sleep(5)  # Attente de 5 secondes avant la prochaine vérification
 
 if __name__ == "__main__":
     main()
