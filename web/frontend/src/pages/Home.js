@@ -8,7 +8,7 @@ const Home = () => {
   const [repoDetails, setRepoDetails] = useState(null);
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState('');
-  const [UInt, setUInt] = useState();
+  const [UInt, setUInt] = useState('');
 
   useEffect(() => {
     axios.get('/api/repos')
@@ -36,17 +36,18 @@ const Home = () => {
     try {
       const gh = new GitHub();
       const repo = gh.getRepo(repoOwner, repoName);
-      const { data: { name, owner, description, html_url } } = await repo.getDetails();
+      const repodata = await repo.getDetails();
       const lastCommit = await repo.getBranch(branch);
-      const { commit: { author: { name: commitAuthor }, message }, commit: { author: { date } } } = lastCommit.data.commit;
+      console.log(lastCommit);
+      console.log(repodata);
       setRepoDetails({
-        name,
-        owner: owner.login,
-        description,
-        url: html_url,
-        lastCommitMessage: message,
-        lastCommitAuthor: commitAuthor,
-        lastCommitDate: new Date(date).toLocaleString()
+        name: repodata.data.name,
+        owner: repodata.data.owner.login,
+        url: repodata.data.html_url,
+        lastCommitMessage: lastCommit.data.commit.commit.message,
+        lastCommitAuthor: lastCommit.data.commit.author.login,
+        lastCommitDate: new Date(lastCommit.data.commit.commit.author.date).toLocaleString(),
+        lastCommitSha: lastCommit.data.commit.sha
       });
     } catch (error) {
       console.error('Erreur lors de la récupération des détails du dépôt :', error);
@@ -72,7 +73,7 @@ const Home = () => {
     fetchRepoDetails(selectedRepo.owner, selectedRepo.name, branch);
   };
 
-  const handleUIntchnage = (event) => {
+  const handleUIntChange = (event) => {
     const newUInt = event.target.value;
     setUInt(newUInt);
     console.log(newUInt);
@@ -105,16 +106,19 @@ const Home = () => {
                   <div>
                     <h3>Détails du Dépôt: {repoDetails.name}</h3>
                     <p>Propriétaire: {repoDetails.owner}</p>
-                    <p>Description: {repoDetails.description}</p>
                     <p>URL: <a href={repoDetails.url}>{repoDetails.url}</a></p>
                     <p>Dernier commit: {repoDetails.lastCommitMessage}</p>
                     <p>Commit par: {repoDetails.lastCommitAuthor}</p>
                     <p>Date du dernier commit: {repoDetails.lastCommitDate}</p>
-                    <p>Nombre de commits: {repoDetails.commits}</p>
-                    <h3>Parametres</h3>
-                    <p>Interval: </p><input type='number' value={UInt} onChange={handleUIntchnage} placeholder={repo.UInt} />
-
-
+                    <p>SHA du dernier commit: {repoDetails.lastCommitSha}</p>
+                    <h3>Paramètres</h3>
+                    <p>Interval: </p>
+                    <input 
+                      type='number' 
+                      value={UInt} 
+                      onChange={handleUIntChange} 
+                      placeholder={repo.UInt} 
+                    />
                   </div>
                 )}
               </div>

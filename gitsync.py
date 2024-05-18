@@ -80,7 +80,8 @@ def main():
                 parameters = parameters + 1
                 logger.info(f"Scheduled update for repo {repo_info['name']} due to UInt parameter.")
                 update_repo(repo_info)
-                time.sleep(repo_info['UInt'] * 60)
+                interval = int(repo_info['UInt'])
+                time.sleep(interval * 60)
 
             if repo_info.get('UlastPush'):
                 parameters = parameters + 1
