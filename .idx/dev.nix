@@ -1,11 +1,11 @@
-# To learn more about how to use Nix to configure your environment
-# see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
   channel = "stable-23.11"; # or "unstable"
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_20
+    pkgs.python310
+    #pkgs.python310Packages.pip
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -20,13 +20,14 @@
         npm-install = "npm install";
       };
       # To run something each time the workspace is (re)started, use the `onStart` hook
+      onStart = {};
     };
     # Enable previews and customize configuration
     previews = {
       enable = true;
       previews = {
         web = {
-          command = ["npm" "start" "--" "--port" "$PORT"];
+          command = ["npm" "start" "--prefix" "web/backend" "--" "--port" "$PORT"];
           manager = "web";
         };
       };

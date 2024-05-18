@@ -8,10 +8,10 @@ const app = express();
 const PORT = parseInt(process.env.PORT) || process.argv[3] || 8080;
 
 app.use(express.json());
-app.use(express.static('frontend/build'));
+app.use(express.static('../frontend/build'));
 app.use(bodyParser.json());
 
-const reposFilePath = path.join(__dirname, 'repos.json');
+const reposFilePath = path.join(__dirname, '../../data/repos.json');
 
 app.get('/api/repos', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
@@ -59,7 +59,7 @@ app.post('/api/repos/pull', (req, res) => {
 });
 
 app.get('/*', (_, res) => {
-  res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
 app.listen(PORT, () => {
