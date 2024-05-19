@@ -143,19 +143,19 @@ const Home = () => {
   };
 
   return (
-    <div className="home-container">
+    <div class="home-container">
       <h2>Liste des Dépôts</h2>
       {token ? (
         <ul>
           {repos.map((repo, index) => (
-            <li key={index}>
+            <li key={index} class="fadeIn">
               <a href="#!" onClick={() => handleRepoClick(repo)}>
                 {repo.name}
               </a>
               {selectedRepo && selectedRepo.name === repo.name && (
-                <div>
+                <div class="repo-details slideIn">
                   <div>
-                    <label htmlFor="branch-select">Sélectionnez une branche :</label>
+                    <label for="branch-select">Sélectionnez une branche :</label>
                     <select
                       id="branch-select"
                       value={selectedBranch}
@@ -169,15 +169,14 @@ const Home = () => {
                   {repoDetails && (
                     <div>
                       <h3>Détails du Dépôt: {repoDetails.name}</h3>
-                      <p>Propriétaire: {repoDetails.owner}</p>
-                      <p>URL: <a href={repoDetails.url}>{repoDetails.url}</a></p>
-                      <p>Dernier commit: {repoDetails.lastCommitMessage}</p>
-                      <p>Commit par: {repoDetails.lastCommitAuthor}</p>
-                      <p>Date du dernier commit: {repoDetails.lastCommitDate}</p>
-                      <p>SHA du dernier commit: {repoDetails.lastCommitSha}</p>
+                      <p><b>Propriétaire:</b> {repoDetails.owner}</p>
+                      <p><b>URL:</b> <a href={repoDetails.url}>{repoDetails.url}</a></p>
+                      <p><b>Dernier commit:</b> {repoDetails.lastCommitMessage}</p>
+                      <p><b>Commit par:</b> {repoDetails.lastCommitAuthor}</p>
+                      <p><b>Date du dernier commit:</b> {repoDetails.lastCommitDate}</p>
                       <h3>Paramètres</h3>
                       <div>
-                        <label htmlFor="UInt-input">UInt :</label>
+                        <label for="UInt-input">Pull par interval :</label>
                         <input 
                           type="text" 
                           id="UInt-input"
@@ -188,7 +187,7 @@ const Home = () => {
                       </div>
 
                       <div>
-                        <label htmlFor="UlastPush-input">UlastPush :</label>
+                        <label for="UlastPush-input">Pull lors au dernier push :</label>
                         <input 
                           type="text" 
                           id="UlastPush-input"
@@ -199,7 +198,7 @@ const Home = () => {
                       </div>
 
                       <div>
-                        <label htmlFor="UpatCom-input">UpatCom :</label>
+                        <label for="UpatCom-input">Pull avec pattern dans le dernier commit :</label>
                         <input 
                           type="text" 
                           id="UpatCom-input"
@@ -216,23 +215,26 @@ const Home = () => {
           ))}
         </ul>
       ) : (
-        <div>
+        <div class="token-prompt fadeIn">
           <p>Veuillez créer un token d'accès personnel pour afficher les dépôts privés.</p>
-          <button onClick={handleCreateAccessToken}>Créer un token d'accès</button>
-          <div>
+          <div class="create-token-button">
+            <button onClick={handleCreateAccessToken} class="fadeIn">Créer un token d'accès</button>
+          </div>
+          <div class="token-input fadeIn">
             <input 
               type="text" 
               placeholder="Entrez votre token d'accès" 
               value={newToken} 
               onChange={handleTokenInputChange} 
             />
-            <button onClick={handleSaveToken}>Enregistrer le token</button>
+            <button onClick={handleSaveToken} class="fadeIn">Enregistrer le token</button>
           </div>
         </div>
       )}
       {showAlert && (
-        <div className="alert">Paramètres mis à jour avec succès</div>
+        <div class="alert slideIn">Paramètres mis à jour avec succès</div>
       )}
+
     </div>
   );
 };

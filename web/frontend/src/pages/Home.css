@@ -1,122 +1,175 @@
-/* Home.css */
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Body */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 20px;
+}
+
+/* Container */
 .home-container {
-    font-family: 'Arial', sans-serif;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Header */
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Repos List */
+ul {
+  list-style: none;
+}
+
+li {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+li:hover {
+  transform: translateY(-5px);
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+/* Repository Details */
+.repo-details {
+  margin-top: 20px;
+}
+
+.repo-details h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.repo-details p {
+  margin-bottom: 5px;
+}
+
+.repo-details a {
+  color: #555;
+}
+
+.repo-details a:hover {
+  color: #333;
+}
+
+/* Form Input */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type='text'] {
+  width: calc(100% - 120px);
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Alert */
+.alert {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Token Prompt */
+.token-prompt {
+  margin-top: 20px;
+}
+
+.token-prompt input[type='text'] {
+  width: calc(100% - 150px);
+  margin-right: 10px;
+}
+
+/* Token Buttons */
+.token-buttons button {
+  margin-top: 10px;
+}
+
+/* Create Token Button */
+.create-token-button button {
+  margin-top: 20px;
+}
+
+/* Branch Select */
+#branch-select {
+  width: 200px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  to {
+    opacity: 1;
   }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
   }
-  
-  li {
-    margin-bottom: 20px;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  a {
-    color: #0366d6;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  .alert {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 5px;
-    text-align: center;
-    animation: fadeInOut 0.5s ease-in-out forwards;
-  }
-  
-  @keyframes fadeInOut {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .branch-select-container {
-    margin-bottom: 20px;
-  }
-  
-  .branch-select-container label {
-    margin-right: 10px;
-  }
-  
-  .branch-select-container select {
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    transition: border-color 0.3s ease-in-out;
-  }
-  
-  .branch-select-container select:hover,
-  .branch-select-container select:focus {
-    border-color: #0366d6;
-  }
-  
-  .repo-details {
-    margin-top: 20px;
-  }
-  
-  .repo-details h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .repo-details p {
-    margin-bottom: 5px;
-  }
-  
-  .repo-details a {
-    color: #0366d6;
-  }
-  
-  .input-container {
-    margin-bottom: 10px;
-  }
-  
-  .input-container label {
-    margin-right: 10px;
-  }
-  
-  .input-container input[type="text"] {
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    transition: border-color 0.3s ease-in-out;
-  }
-  
-  .input-container input[type="text"]:hover,
-  .input-container input[type="text"]:focus {
-    border-color: #0366d6;
-  }
-  
-  .input-container button {
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: none;
-    background-color: #0366d6;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .input-container button:hover {
-    background-color: #0056b3;
-  }
-  
+}
+
+.slideIn {
+  animation: slideIn 0.5s ease-out;
+}
