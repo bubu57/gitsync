@@ -1,0 +1,122 @@
+/* Home.css */
+
+.home-container {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 20px;
+  }
+  
+  a {
+    color: #0366d6;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .alert {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    text-align: center;
+    animation: fadeInOut 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .branch-select-container {
+    margin-bottom: 20px;
+  }
+  
+  .branch-select-container label {
+    margin-right: 10px;
+  }
+  
+  .branch-select-container select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .branch-select-container select:hover,
+  .branch-select-container select:focus {
+    border-color: #0366d6;
+  }
+  
+  .repo-details {
+    margin-top: 20px;
+  }
+  
+  .repo-details h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .repo-details p {
+    margin-bottom: 5px;
+  }
+  
+  .repo-details a {
+    color: #0366d6;
+  }
+  
+  .input-container {
+    margin-bottom: 10px;
+  }
+  
+  .input-container label {
+    margin-right: 10px;
+  }
+  
+  .input-container input[type="text"] {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .input-container input[type="text"]:hover,
+  .input-container input[type="text"]:focus {
+    border-color: #0366d6;
+  }
+  
+  .input-container button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #0366d6;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .input-container button:hover {
+    background-color: #0056b3;
+  }
+  

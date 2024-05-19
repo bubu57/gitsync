@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import GitHub from 'github-api';
 import axios from 'axios';
+import './Home.css'; // Import du CSS
 
 const Home = () => {
   const [repos, setRepos] = useState([]);
@@ -11,6 +12,7 @@ const Home = () => {
   const [token, setToken] = useState('');
   const [newToken, setNewToken] = useState('');
   const [updatedParams, setUpdatedParams] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     axios.get('/api/token')
@@ -109,6 +111,8 @@ const Home = () => {
       .then(response => {
         setToken(newToken);
         setNewToken('');
+        setShowAlert(true); // Afficher l'alerte lorsque le token est enregistré avec succès
+        setTimeout(() => setShowAlert(false), 3000); // Masquer l'alerte après 3 secondes
       })
       .catch(error => {
         console.error('Erreur lors de l\'enregistrement du token :', error);
@@ -125,6 +129,8 @@ const Home = () => {
         // Refresh repo details
         setSelectedRepo(updatedRepo);
         fetchBranches(updatedRepo.owner, updatedRepo.name);
+        setShowAlert(true); // Afficher l'alerte lorsque les paramètres sont mis à jour avec succès
+        setTimeout(() => setShowAlert(false), 3000); // Masquer l'alerte après 3 secondes
       })
       .catch(error => {
         console.error('Erreur lors de la mise à jour des paramètres du dépôt :', error);
@@ -134,11 +140,6 @@ const Home = () => {
   const handleInputChange = (event, parameter) => {
     const value = event.target.value;
     setUpdatedParams(prevParams => ({ ...prevParams, [parameter]: value }));
-  };
-
-  const handleDeleteParameter = (parameter) => {
-    setUpdatedParams(prevParams => ({ ...prevParams, [parameter]: '' }));
-    handleUpdateParams();
   };
 
   return (
@@ -183,7 +184,6 @@ const Home = () => {
                           value={updatedParams.UInt} 
                           onChange={(event) => handleInputChange(event, 'UInt')} 
                         />
-                        <button onClick={() => handleDeleteParameter('UInt')}>Supprimer</button>
                         <button onClick={handleUpdateParams}>Enregistrer</button>
                       </div>
 
@@ -195,7 +195,6 @@ const Home = () => {
                           value={updatedParams.UlastPush} 
                           onChange={(event) => handleInputChange(event, 'UlastPush')} 
                         />
-                        <button onClick={() => handleDeleteParameter('UlastPush')}>Supprimer</button>
                         <button onClick={handleUpdateParams}>Enregistrer</button>
                       </div>
 
@@ -207,7 +206,6 @@ const Home = () => {
                           value={updatedParams.UpatCom} 
                           onChange={(event) => handleInputChange(event, 'UpatCom')} 
                         />
-                        <button onClick={() => handleDeleteParameter('UpatCom')}>Supprimer</button>
                         <button onClick={handleUpdateParams}>Enregistrer</button>
                       </div>
                     </div>
@@ -231,6 +229,9 @@ const Home = () => {
             <button onClick={handleSaveToken}>Enregistrer le token</button>
           </div>
         </div>
+      )}
+      {showAlert && (
+        <div className="alert">Paramètres mis à jour avec succès</div>
       )}
     </div>
   );

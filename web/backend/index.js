@@ -116,18 +116,24 @@ app.post('/api/updateRepoParams', async (req, res) => {
   const updatedRepo = req.body;
 
   try {
-    // Charger le fichier repo.json
-    const repoData = await fs.readFile('repo.json', 'utf-8');
-    const repos = JSON.parse(repoData);
+    // Charger le fichier repos.json
+    let repoData = fs.readFileSync('../../data/repos.json', 'utf-8');
+    let repos = JSON.parse(repoData).repos;
+
+    // Vérifier si repos est un tableau
+    if (!Array.isArray(repos)) {
+      res.status(500).json({ message: 'Le fichier repos.json ne contient pas un tableau de dépôts' });
+      return;
+    }
 
     // Trouver le dépôt à mettre à jour
     const index = repos.findIndex(repo => repo.name === updatedRepo.name);
     if (index !== -1) {
       // Mettre à jour les paramètres du dépôt
-      repos[index] = updatedRepo;
+      repos[index] = { ...repos[index], ...updatedRepo };
 
-      // Enregistrer les modifications dans le fichier repo.json
-      await fs.writeFile('repo.json', JSON.stringify(repos, null, 2));
+      // Enregistrer les modifications dans le fichier repos.json
+      fs.writeFileSync('../../data/repos.json', JSON.stringify({ repos }, null, 2));
 
       res.status(200).json({ message: 'Paramètres du dépôt mis à jour avec succès' });
     } else {
@@ -138,6 +144,15 @@ app.post('/api/updateRepoParams', async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la mise à jour des paramètres du dépôt' });
   }
 });
+
+
+
+
+
+
+
+
+
 
 app.get('/*', (_, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
