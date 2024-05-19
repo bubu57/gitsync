@@ -12,6 +12,7 @@ app.use(express.static('../frontend/build'));
 app.use(bodyParser.json());
 
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
+const tokenFilePath = path.join(__dirname, '../../data/token.json');
 
 app.get('/api/repos', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
@@ -39,6 +40,22 @@ app.get('/api/repos/:name', (req, res) => {
       return;
     }
     res.json(repo);
+  });
+});
+
+app.post('/api/token', (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.status(400).json({ error: 'Le token est requis' });
+  }
+
+  fs.writeFile(tokenFilePath, JSON.stringify({ token }), 'utf8', (err) => {
+    if (err) {
+      console.error('Erreur lors de l\'enregistrement du token :', err);
+      return res.status(500).json({ error: 'Erreur lors de l\'enregistrement du token' });
+    }
+
+    res.json({ message: 'Token enregistré avec succès' });
   });
 });
 
