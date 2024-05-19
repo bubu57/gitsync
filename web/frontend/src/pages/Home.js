@@ -138,7 +138,13 @@ const Home = () => {
   };
 
   const handleInputChange = (event, parameter) => {
-    const value = event.target.value;
+    const value = "";
+    if (parameter === "UlastPush") {
+      value = "true";
+    } else {
+      value = event.target.value;
+    }
+
     setUpdatedParams(prevParams => ({ ...prevParams, [parameter]: value }));
   };
 
@@ -176,7 +182,7 @@ const Home = () => {
                       <p><b>Date du dernier commit:</b> {repoDetails.lastCommitDate}</p>
                       <h3>Paramètres</h3>
                       <div>
-                        <label for="UInt-input">Pull par interval :</label>
+                        <label for="UInt-input">Pull par interval en min :</label>
                         <input 
                           type="text" 
                           id="UInt-input"
@@ -189,7 +195,7 @@ const Home = () => {
                       <div>
                         <label for="UlastPush-input">Pull lors au dernier push :</label>
                         <input 
-                          type="text" 
+                          type="radio" 
                           id="UlastPush-input"
                           value={updatedParams.UlastPush} 
                           onChange={(event) => handleInputChange(event, 'UlastPush')} 
