@@ -138,7 +138,7 @@ const Home = () => {
   };
 
   const handleInputChange = (event, parameter) => {
-    const value = "";
+    let value = "";
     if (parameter === "UlastPush") {
       value = "true";
     } else {
@@ -181,7 +181,7 @@ const Home = () => {
                       <p><b>Commit par:</b> {repoDetails.lastCommitAuthor}</p>
                       <p><b>Date du dernier commit:</b> {repoDetails.lastCommitDate}</p>
                       <h3>Paramètres</h3>
-                      <div>
+                      <div class="input-group">
                         <label for="UInt-input">Pull par interval en min :</label>
                         <input 
                           type="text" 
@@ -192,10 +192,10 @@ const Home = () => {
                         <button onClick={handleUpdateParams}>Enregistrer</button>
                       </div>
 
-                      <div>
+                      <div class="input-group">
                         <label for="UlastPush-input">Pull lors au dernier push :</label>
                         <input 
-                          type="radio" 
+                          type="checkbox" 
                           id="UlastPush-input"
                           value={updatedParams.UlastPush} 
                           onChange={(event) => handleInputChange(event, 'UlastPush')} 
@@ -203,7 +203,7 @@ const Home = () => {
                         <button onClick={handleUpdateParams}>Enregistrer</button>
                       </div>
 
-                      <div>
+                      <div class="input-group">
                         <label for="UpatCom-input">Pull avec pattern dans le dernier commit :</label>
                         <input 
                           type="text" 
@@ -240,8 +240,8 @@ const Home = () => {
       {showAlert && (
         <div class="alert slideIn">Paramètres mis à jour avec succès</div>
       )}
-
     </div>
+
   );
 };
 

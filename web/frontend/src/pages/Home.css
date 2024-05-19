@@ -85,6 +85,21 @@ label {
   margin-bottom: 5px;
 }
 
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-group label {
+  margin-right: 10px;
+}
+
+.input-group input[type='text'],
+.input-group button {
+  margin-right: 10px;
+}
+
 input[type='text'] {
   width: calc(100% - 120px);
   padding: 8px;
