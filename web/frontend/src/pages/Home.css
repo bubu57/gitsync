@@ -85,21 +85,6 @@ label {
   margin-bottom: 5px;
 }
 
-.input-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.input-group label {
-  margin-right: 10px;
-}
-
-.input-group input[type='text'],
-.input-group button {
-  margin-right: 10px;
-}
-
 input[type='text'] {
   width: calc(100% - 120px);
   padding: 8px;
@@ -110,6 +95,7 @@ input[type='text'] {
 
 button {
   background-color: #007bff;
+  margin-left: 10px;
   color: #fff;
   border: none;
   padding: 10px 20px;
