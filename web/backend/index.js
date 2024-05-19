@@ -1,24 +1,19 @@
-// Importer les modules nécessaires
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { exec } = require('child_process');
 
-// Créer une application Express
 const app = express();
 const PORT = parseInt(process.env.PORT) || process.argv[3] || 8080;
 
-// Utiliser les middleware
 app.use(express.json());
 app.use(express.static('../frontend/build'));
 app.use(bodyParser.json());
 
-// Chemin du fichier repos.json
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
 
-// Gérer les requêtes pour récupérer la liste des dépôts
 app.get('/api/repos', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -31,20 +26,30 @@ app.get('/api/repos', (req, res) => {
   });
 });
 
-app.get('/api/token', (req, res) => {
-  console.log("ok")
-  fs.readFile(tokenFilePath, 'utf8', (err, data) => {
+app.post('/api/ntoken', (req, res) => {
+  const { token } = req.body;
+  fs.writeFile(tokenFilePath, JSON.stringify({ token }), (err) => {
     if (err) {
-      console.error('Erreur lors de la lecture du fichier repos.json :', err);
-      res.status(500).json({ error: 'Erreur lors de la lecture du fichier repos.json' });
+      console.error('Erreur lors de l\'enregistrement du token :', err);
+      res.status(500).json({ error: 'Erreur lors de l\'enregistrement du token' });
       return;
     }
-    const repos = JSON.parse(data);
-    res.json(repos);
+    res.json({ message: 'Token enregistré avec succès' });
   });
 });
 
-// Gérer les requêtes pour récupérer un dépôt spécifique
+app.get('/api/token', (req, res) => {
+  fs.readFile(tokenFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier token.json :', err);
+      res.status(500).json({ error: 'Erreur lors de la lecture du fichier token.json' });
+      return;
+    }
+    const tokenData = JSON.parse(data);
+    res.json(tokenData);
+  });
+});
+
 app.get('/api/repos/:name', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -62,13 +67,9 @@ app.get('/api/repos/:name', (req, res) => {
   });
 });
 
-// Gérer les requêtes pour créer un dépôt
-app.post('/api/repos', (req, res) => {
-  const newRepo = req.body;
-  if (!newRepo.name || !newRepo.path || !newRepo.owner) {
-    return res.status(400).json({ error: 'Le nom, le chemin et le propriétaire du dépôt sont requis' });
-  }
-
+app.post('/api/repos/:name/update', (req, res) => {
+  const { name } = req.params;
+  const { UInt, UlastPush, UpatCom } = req.body;
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Erreur lors de la lecture du fichier repos.json :', err);
@@ -76,19 +77,25 @@ app.post('/api/repos', (req, res) => {
       return;
     }
     const repos = JSON.parse(data);
-    repos.repos.push(newRepo);
-    fs.writeFile(reposFilePath, JSON.stringify(repos, null, 4), (err) => {
+    const repoIndex = repos.repos.findIndex(r => r.name === name);
+    if (repoIndex === -1) {
+      res.status(404).json({ error: 'Dépôt non trouvé' });
+      return;
+    }
+    if (UInt !== undefined) repos.repos[repoIndex].UInt = UInt;
+    if (UlastPush !== undefined) repos.repos[repoIndex].UlastPush = UlastPush;
+    if (UpatCom !== undefined) repos.repos[repoIndex].UpatCom = UpatCom;
+    fs.writeFile(reposFilePath, JSON.stringify(repos, null, 2), (err) => {
       if (err) {
-        console.error('Erreur lors de l\'écriture dans le fichier repos.json :', err);
-        res.status(500).json({ error: 'Erreur lors de l\'écriture dans le fichier repos.json' });
+        console.error('Erreur lors de la mise à jour des paramètres du dépôt :', err);
+        res.status(500).json({ error: 'Erreur lors de la mise à jour des paramètres du dépôt' });
         return;
       }
-      res.json(newRepo);
+      res.json({ message: 'Paramètres du dépôt mis à jour avec succès' });
     });
   });
 });
 
-// Gérer les requêtes pour effectuer un pull sur un dépôt
 app.post('/api/repos/pull', (req, res) => {
   const { path } = req.body;
   if (!path) {
@@ -105,12 +112,37 @@ app.post('/api/repos/pull', (req, res) => {
   });
 });
 
-// Gérer toutes les autres requêtes en renvoyant le fichier index.html du frontend
+app.post('/api/updateRepoParams', async (req, res) => {
+  const updatedRepo = req.body;
+
+  try {
+    // Charger le fichier repo.json
+    const repoData = await fs.readFile('repo.json', 'utf-8');
+    const repos = JSON.parse(repoData);
+
+    // Trouver le dépôt à mettre à jour
+    const index = repos.findIndex(repo => repo.name === updatedRepo.name);
+    if (index !== -1) {
+      // Mettre à jour les paramètres du dépôt
+      repos[index] = updatedRepo;
+
+      // Enregistrer les modifications dans le fichier repo.json
+      await fs.writeFile('repo.json', JSON.stringify(repos, null, 2));
+
+      res.status(200).json({ message: 'Paramètres du dépôt mis à jour avec succès' });
+    } else {
+      res.status(404).json({ message: 'Dépôt non trouvé' });
+    }
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour des paramètres du dépôt :', error);
+    res.status(500).json({ message: 'Erreur lors de la mise à jour des paramètres du dépôt' });
+  }
+});
+
 app.get('/*', (_, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
-// Lancer le serveur
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port: ${PORT}`);
 });
