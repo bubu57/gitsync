@@ -2,4 +2,4 @@ node_modules
 repos.json
 action.log
 myenv
-token.json
+data/token.json
