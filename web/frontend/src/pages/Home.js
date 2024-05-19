@@ -12,6 +12,17 @@ const Home = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
+    axios.get('/api/token')
+      .then(response => {
+        setToken(response.data.token);
+        console.log(`token: ${token}`)
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération du token :', error);
+      });
+  }, []);
+
+  useEffect(() => {
     axios.get('/api/repos')
       .then(response => {
         setRepos(response.data.repos);
@@ -23,10 +34,10 @@ const Home = () => {
 
   const handleRepoClick = (repo) => {
     if (selectedRepo && selectedRepo.name === repo.name) {
-      setSelectedRepo(null);
-      setRepoDetails(null);
-      setBranches([]);
-      setSelectedBranch('');
+      setSelectedRepo(null); // Unselect if already selected
+      setRepoDetails(null); // Clear repo details
+      setBranches([]); // Clear branches
+      setSelectedBranch(''); // Clear selected branch
     } else {
       setSelectedRepo(repo);
       fetchBranches(repo.owner, repo.name);
@@ -35,10 +46,12 @@ const Home = () => {
 
   const fetchRepoDetails = async (repoOwner, repoName, branch) => {
     try {
-      const gh = new GitHub({ token });
+      const gh = new GitHub({ token: token }); // Use access token
       const repo = gh.getRepo(repoOwner, repoName);
       const repodata = await repo.getDetails();
       const lastCommit = await repo.getBranch(branch);
+      console.log(lastCommit);
+      console.log(repodata);
       setRepoDetails({
         name: repodata.data.name,
         owner: repodata.data.owner.login,
@@ -55,12 +68,12 @@ const Home = () => {
 
   const fetchBranches = async (repoOwner, repoName) => {
     try {
-      const gh = new GitHub({ token });
+      const gh = new GitHub({ token: token }); // Use access token
       const repo = gh.getRepo(repoOwner, repoName);
       const branches = await repo.listBranches();
       setBranches(branches.data);
-      setSelectedBranch(branches.data[0].name);
-      fetchRepoDetails(repoOwner, repoName, branches.data[0].name);
+      setSelectedBranch(branches.data[0].name); // Set default selected branch
+      fetchRepoDetails(repoOwner, repoName, branches.data[0].name); // Fetch details for the default branch
     } catch (error) {
       console.error('Erreur lors de la récupération des branches :', error);
     }
@@ -75,20 +88,12 @@ const Home = () => {
   const handleUIntChange = (event) => {
     const newUInt = event.target.value;
     setUInt(newUInt);
+    console.log(newUInt);
   };
 
-  const handleTokenChange = (event) => {
-    setToken(event.target.value);
-  };
-
-  const handleTokenSubmit = () => {
-    axios.post('/api/token', { token })
-      .then(response => {
-        console.log('Token enregistré avec succès');
-      })
-      .catch(error => {
-        console.error('Erreur lors de l\'enregistrement du token :', error);
-      });
+  const handleCreateAccessToken = () => {
+    // Redirect user to GitHub to create a personal access token
+    window.location.href = 'https://github.com/settings/tokens/new';
   };
 
   return (
@@ -138,21 +143,6 @@ const Home = () => {
           </li>
         ))}
       </ul>
-      <div>
-        <h3>Accéder à vos dépôts privés</h3>
-        <p>
-          <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener noreferrer">
-            Créer un token d'accès GitHub
-          </a>
-        </p>
-        <input 
-          type='text' 
-          value={token} 
-          onChange={handleTokenChange} 
-          placeholder="Entrez votre token GitHub" 
-        />
-        <button onClick={handleTokenSubmit}>Enregistrer le token</button>
-      </div>
     </div>
   );
 };
