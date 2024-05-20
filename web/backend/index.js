@@ -5,7 +5,7 @@ const fs = require('fs');
 const { exec } = require('child_process');
 
 const app = express();
-const PORT = parseInt(process.env.PORT) || process.argv[3] || 8080;
+const PORT = parseInt(process.env.PORT) || process.argv[3] || 7000;
 
 app.use(express.json());
 app.use(express.static('../frontend/build'));
