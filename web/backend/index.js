@@ -69,7 +69,7 @@ app.get('/api/repos/:name', (req, res) => {
 
 app.post('/api/repos/:name/update', (req, res) => {
   const { name } = req.params;
-  const { UInt, UlastPush, UpatCom } = req.body;
+  const { UInt, UlastPush, UpatCom, branch } = req.body;
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Erreur lors de la lecture du fichier repos.json :', err);
@@ -85,6 +85,7 @@ app.post('/api/repos/:name/update', (req, res) => {
     if (UInt !== undefined) repos.repos[repoIndex].UInt = UInt;
     if (UlastPush !== undefined) repos.repos[repoIndex].UlastPush = UlastPush;
     if (UpatCom !== undefined) repos.repos[repoIndex].UpatCom = UpatCom;
+    if (branch !== undefined) repos.repos[repoIndex].branch = branch;
     fs.writeFile(reposFilePath, JSON.stringify(repos, null, 2), (err) => {
       if (err) {
         console.error('Erreur lors de la mise à jour des paramètres du dépôt :', err);
@@ -116,24 +117,19 @@ app.post('/api/updateRepoParams', async (req, res) => {
   const updatedRepo = req.body;
 
   try {
-    // Charger le fichier repos.json
-    let repoData = fs.readFileSync('../../data/repos.json', 'utf-8');
+    let repoData = fs.readFileSync(reposFilePath, 'utf-8');
     let repos = JSON.parse(repoData).repos;
 
-    // Vérifier si repos est un tableau
     if (!Array.isArray(repos)) {
       res.status(500).json({ message: 'Le fichier repos.json ne contient pas un tableau de dépôts' });
       return;
     }
 
-    // Trouver le dépôt à mettre à jour
     const index = repos.findIndex(repo => repo.name === updatedRepo.name);
     if (index !== -1) {
-      // Mettre à jour les paramètres du dépôt
       repos[index] = { ...repos[index], ...updatedRepo };
 
-      // Enregistrer les modifications dans le fichier repos.json
-      fs.writeFileSync('../../data/repos.json', JSON.stringify({ repos }, null, 2));
+      fs.writeFileSync(reposFilePath, JSON.stringify({ repos }, null, 2));
 
       res.status(200).json({ message: 'Paramètres du dépôt mis à jour avec succès' });
     } else {
@@ -145,14 +141,55 @@ app.post('/api/updateRepoParams', async (req, res) => {
   }
 });
 
+app.post('/api/addrepo', (req, res) => {
+  const newRepo = req.body;
 
+  fs.readFile(reposFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier repos.json :', err);
+      res.status(500).json({ error: 'Erreur lors de la lecture du fichier repos.json' });
+      return;
+    }
 
+    const repos = JSON.parse(data);
+    repos.repos.push(newRepo);
 
+    fs.writeFile(reposFilePath, JSON.stringify(repos, null, 2), (err) => {
+      if (err) {
+        console.error('Erreur lors de l\'ajout du dépôt :', err);
+        res.status(500).json({ error: 'Erreur lors de l\'ajout du dépôt' });
+        return;
+      }
 
+      res.json({ message: 'Dépôt ajouté avec succès' });
+    });
+  });
+});
 
+app.post('/api/delrepo', (req, res) => {
+  const { name } = req.body;
 
+  fs.readFile(reposFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier repos.json :', err);
+      res.status(500).json({ error: 'Erreur lors de la lecture du fichier repos.json' });
+      return;
+    }
 
+    let repos = JSON.parse(data);
+    repos.repos = repos.repos.filter(repo => repo.name !== name);
 
+    fs.writeFile(reposFilePath, JSON.stringify(repos, null, 2), (err) => {
+      if (err) {
+        console.error('Erreur lors de la suppression du dépôt :', err);
+        res.status(500).json({ error: 'Erreur lors de la suppression du dépôt' });
+        return;
+      }
+
+      res.json({ message: 'Dépôt supprimé avec succès' });
+    });
+  });
+});
 
 app.get('/*', (_, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
@@ -161,3 +198,4 @@ app.get('/*', (_, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port: ${PORT}`);
 });
+
