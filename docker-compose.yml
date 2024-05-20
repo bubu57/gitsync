@@ -1,4 +1,4 @@
-  version: '3.8'
+version: '3.8'
 
 services:
   web:
@@ -7,6 +7,5 @@ services:
     ports:
       - "7000:7000"
     volumes:
-      - ./web:/web
-      - ./data:/data  # Montage du dossier data pour stocker les fichiers JSON
-    command: cd ../frontend && npm install && cd web/backend && npm install && npm start
+      - ./:/gitsync 
+    command: sh -c "cd /gitsync/web/frontend && npm install && npm run build && cd /gitsync/web/backend && npm install && npm start
