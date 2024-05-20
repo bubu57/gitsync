@@ -17,6 +17,11 @@ def save_repos(file_path, data):
     with open(file_path, 'w') as file:
         json.dump(data, file, indent=4)
 
+def load_token(token_file_path):
+    with open(token_file_path, 'r') as file:
+        token_data = json.load(file)
+        return token_data['token']
+
 def update_repo(repo_info):
     repo_path = repo_info['path']
     branch = repo_info['branch']
@@ -52,9 +57,12 @@ def check_commit_pattern(repo_info, pattern):
         return True
     return False
 
-def get_latest_commit_sha(owner, repo_name, branch):
+def get_latest_commit_sha(owner, repo_name, branch, token):
     url = f"https://api.github.com/repos/{owner}/{repo_name}/commits/{branch}"
-    headers = {"Accept": "application/vnd.github.v3+json"}
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "Authorization": f"token {token}"
+    }
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
@@ -73,6 +81,8 @@ def handle_uint_updates(repo_info):
 
 def main():
     file_path = 'data/repos.json'
+    token_file_path = 'data/token.json'
+    token = load_token(token_file_path)
     interval_threads = []
 
     while True:
@@ -102,7 +112,7 @@ def main():
                 parameters_count += 1
                 pattern = repo_info['UpatCom']
                 latest_commit_sha = Repo(repo_info['path']).commit(repo_info['branch']).hexsha
-                latest_api_commit_sha = get_latest_commit_sha(repo_info['owner'], repo_info['name'], repo_info['branch'])
+                latest_api_commit_sha = get_latest_commit_sha(repo_info['owner'], repo_info['name'], repo_info['branch'], token)
                 if latest_api_commit_sha and latest_commit_sha != latest_api_commit_sha:
                     if check_commit_pattern(repo_info, pattern):
                         update_repo(repo_info)
@@ -120,7 +130,7 @@ def main():
 
         save_repos(file_path, repos_data)
 
-        time.sleep(5)
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()

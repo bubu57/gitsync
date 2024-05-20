@@ -23,6 +23,8 @@ const Home = () => {
     UlastPush: '',
     UpatCom: ''
   });
+  const [showAddRepo, setShowAddRepo] = useState(false);
+  const [showTokenSection, setShowTokenSection] = useState(false);
 
   useEffect(() => {
     axios.get('/api/token')
@@ -35,15 +37,17 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    axios.get('/api/repos', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        setRepos(response.data.repos);
+    if (token) {
+      axios.get('/api/repos', {
+        headers: { Authorization: `Bearer ${token}` }
       })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des dépôts :', error);
-      });
+        .then(response => {
+          setRepos(response.data.repos);
+        })
+        .catch(error => {
+          console.error('Erreur lors de la récupération des dépôts :', error);
+        });
+    }
   }, [token]);
 
   useEffect(() => {
@@ -213,7 +217,7 @@ const Home = () => {
                         <p><b>Commit par:</b> {repoDetails.lastCommitAuthor}</p>
                         <p><b>Date du dernier commit:</b> {repoDetails.lastCommitDate}</p>
                         <h3>Paramètres</h3>
-                        <div>
+                        <div className="input-group">
                           <label htmlFor="UInt-input">Branch a mettre a jour</label>
                           <input 
                             type="text" 
@@ -223,7 +227,7 @@ const Home = () => {
                           />
                         </div>
             
-                        <div>
+                        <div className="input-group">
                           <label htmlFor="UInt-input">Pull par interval :</label>
                           <input 
                             type="text" 
@@ -233,7 +237,7 @@ const Home = () => {
                           />
                         </div>
 
-                        <div>
+                        <div className="input-group">
                           <label htmlFor="UlastPush-input">Pull lors du dernier push (true or empty) :</label>
                           <input
                             type="text" 
@@ -243,7 +247,7 @@ const Home = () => {
                           />
                         </div>
 
-                        <div>
+                        <div className="input-group">
                           <label htmlFor="UpatCom-input">Pull avec pattern dans le dernier commit :</label>
                           <input 
                             type="text" 
@@ -260,69 +264,78 @@ const Home = () => {
               </li>
             ))}
           </ul>
-          <h2>Ajouter un nouveau dépôt</h2>
-          <div>
-            <input
-              type="text"
-              placeholder="Propriétaire"
-              value={newRepo.owner}
-              onChange={(e) => setNewRepo({ ...newRepo, owner: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Nom"
-              value={newRepo.name}
-              onChange={(e) => setNewRepo({ ...newRepo, name: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Chemin"
-              value={newRepo.path}
-              onChange={(e) => setNewRepo({ ...newRepo, path: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Branche"
-              value={newRepo.branch}
-              onChange={(e) => setNewRepo({ ...newRepo, branch: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Pull par interval"
-              value={newRepo.UInt}
-              onChange={(e) => setNewRepo({ ...newRepo, UInt: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Pull lors du dernier push (true or empty)"
-              value={newRepo.UlastPush}
-              onChange={(e) => setNewRepo({ ...newRepo, UlastPush: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Pull avec pattern dans le dernier commit"
-              value={newRepo.UpatCom}
-              onChange={(e) => setNewRepo({ ...newRepo, UpatCom: e.target.value })}
-            />
-            <button onClick={handleAddRepo}>Ajouter</button>
-          </div>
-
-          <h2>Changer le token d'accès</h2>
-          <div>
-            <input
-              type="text"
-              placeholder="Nouveau token"
-              value={newToken}
-              onChange={handleTokenInputChange}
-            />
-            <button onClick={handleSaveToken}>Enregistrer le token</button>
-            <button onClick={handleCreateAccessToken}>Créer un nouveau token</button>
-          </div>
+          <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
+            {showAddRepo ? 'Masquer le formulaire d\'ajout de dépôt' : 'Ajouter un nouveau dépôt'}
+          </button>
+          {showAddRepo && (
+            <div className="add-repo-form slideIn">
+              <h2>Ajouter un nouveau dépôt</h2>
+              <input
+                type="text"
+                placeholder="Propriétaire"
+                value={newRepo.owner}
+                onChange={(e) => setNewRepo({ ...newRepo, owner: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Nom"
+                value={newRepo.name}
+                onChange={(e) => setNewRepo({ ...newRepo, name: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Chemin"
+                value={newRepo.path}
+                onChange={(e) => setNewRepo({ ...newRepo, path: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Branche"
+                value={newRepo.branch}
+                onChange={(e) => setNewRepo({ ...newRepo, branch: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Pull par interval"
+                value={newRepo.UInt}
+                onChange={(e) => setNewRepo({ ...newRepo, UInt: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Pull lors du dernier push (true or empty)"
+                value={newRepo.UlastPush}
+                onChange={(e) => setNewRepo({ ...newRepo, UlastPush: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Pull avec pattern dans le dernier commit"
+                value={newRepo.UpatCom}
+                onChange={(e) => setNewRepo({ ...newRepo, UpatCom: e.target.value })}
+              />
+              <button onClick={handleAddRepo}>Ajouter</button>
+            </div>
+          )}
+          <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>
+            {showTokenSection ? 'Masquer le formulaire de token' : 'Changer le token d\'accès'}
+          </button>
+          {showTokenSection && (
+            <div className="token-form slideIn">
+              <h2>Changer le token d'accès</h2>
+              <input
+                type="text"
+                placeholder="Nouveau token"
+                value={newToken}
+                onChange={handleTokenInputChange}
+              />
+              <button onClick={handleSaveToken}>Enregistrer le token</button>
+              <button onClick={handleCreateAccessToken}>Créer un nouveau token</button>
+            </div>
+          )}
         </>
       ) : (
         <>
           <h2>Changer le token d'accès</h2>
-          <div>
+          <div className="token-form">
             <input
               type="text"
               placeholder="Nouveau token"

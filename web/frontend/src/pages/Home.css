@@ -1,176 +1,156 @@
-/* Reset CSS */
-* {
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #0d1117; /* Dark background */
+  color: #c9d1d9; /* Light text color */
   margin: 0;
   padding: 0;
+}
+
+.home-container {
+  max-width: 900px;
+  margin: 40px auto 0 auto; /* Added top margin */
+  padding: 20px;
+  background-color: #161b22; /* Dark container background */
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(27, 31, 35, 0.12), 0 8px 24px rgba(27, 31, 35, 0.12);
   box-sizing: border-box;
 }
 
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-/* Body */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f8f8f8;
-  color: #333;
-  padding: 20px;
-}
-
-/* Container */
-.home-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Header */
 h2 {
-  font-size: 28px;
+  font-size: 24px;
   margin-bottom: 20px;
+  color: #c9d1d9; /* Light text color */
 }
 
-/* Repos List */
 ul {
-  list-style: none;
+  list-style-type: none;
+  padding: 0;
 }
 
 li {
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #30363d; /* Dark border */
 }
 
-li:hover {
-  transform: translateY(-5px);
-}
-
-a {
-  color: #007bff;
+li a {
   text-decoration: none;
-  font-weight: 700;
-  transition: color 0.3s ease;
+  color: #58a6ff; /* Blue link color */
+  font-size: 18px;
 }
 
-a:hover {
-  color: #0056b3;
-}
-
-/* Repository Details */
-.repo-details {
-  margin-top: 20px;
-}
-
-.repo-details h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.repo-details p {
-  margin-bottom: 5px;
-}
-
-.repo-details a {
-  color: #555;
-}
-
-.repo-details a:hover {
-  color: #333;
-}
-
-/* Form Input */
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type='text'] {
-  width: calc(100% - 120px);
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
+li a:hover {
+  text-decoration: underline;
 }
 
 button {
-  background-color: #007bff;
-  margin-left: 10px;
-  color: #fff;
+  background-color: #238636; /* Green button */
+  color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-left: 10px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #2ea043; /* Darker green button */
 }
 
-/* Alert */
+.repo-details {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #30363d; /* Dark border */
+  border-radius: 6px;
+  background-color: #161b22; /* Dark container background */
+}
+
+input[type="text"], select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #30363d; /* Dark border */
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #0d1117; /* Dark input background */
+  color: #c9d1d9; /* Light text color */
+}
+
 .alert {
-  background-color: #28a745;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-/* Token Prompt */
-.token-prompt {
+  color: #238636; /* Green alert color */
   margin-top: 20px;
 }
 
-.token-prompt input[type='text'] {
-  width: calc(100% - 150px);
-  margin-right: 10px;
-}
-
-/* Token Buttons */
-.token-buttons button {
-  margin-top: 10px;
-}
-
-/* Create Token Button */
-.create-token-button button {
-  margin-top: 20px;
-}
-
-/* Branch Select */
-#branch-select {
-  width: 200px;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.input-group {
   margin-bottom: 10px;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.add-repo-form, .token-form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #30363d; /* Dark border */
+  border-radius: 6px;
+  background-color: #161b22; /* Dark container background */
 }
 
-.fadeIn {
-  animation: fadeIn 0.5s ease-out;
+.toggle-button {
+  display: block;
+  margin: 20px 0;
+  background-color: #58a6ff; /* Blue button */
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.toggle-button:hover {
+  background-color: #1f6feb; /* Darker blue button */
 }
 
 .slideIn {
-  animation: slideIn 0.5s ease-out;
+  animation: slide-in 0.5s ease-out forwards;
+}
+
+.fadeIn {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .home-container {
+    padding: 15px;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+
+  input[type="text"], select {
+    width: 100%;
+  }
 }
