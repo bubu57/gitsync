@@ -3,8 +3,8 @@ import json
 import time
 import logging
 import requests
-from git import Repo
 from threading import Thread
+from git import Repo
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -23,7 +23,7 @@ def load_token(token_file_path):
         return token_data['token']
 
 def update_repo(repo_info):
-    repo_path = repo_info['path']
+    repo_path = "/user_sys/" +  repo_info['path']
     branch = repo_info['branch']
     repo = Repo(repo_path)
     
@@ -37,7 +37,7 @@ def update_repo(repo_info):
         repo.remotes.origin.pull()
 
 def check_new_push(repo_info):
-    repo_path = repo_info['path']
+    repo_path = "/user_sys/" + repo_info['path']
     branch = repo_info['branch']
     repo = Repo(repo_path)
     
@@ -48,7 +48,7 @@ def check_new_push(repo_info):
     return local_commit != remote_commit
 
 def check_commit_pattern(repo_info, pattern):
-    repo_path = repo_info['path']
+    repo_path = "/user_sys/" + repo_info['path']
     branch = repo_info['branch']
     repo = Repo(repo_path)
     
@@ -80,8 +80,8 @@ def handle_uint_updates(repo_info):
         time.sleep(interval * 60)
 
 def main():
-    file_path = 'data/repos.json'
-    token_file_path = 'data/token.json'
+    file_path = '/gitsync/data/repos.json'
+    token_file_path = '/gitsync/data/token.json'
     token = load_token(token_file_path)
     interval_threads = []
 
@@ -111,7 +111,7 @@ def main():
             if repo_info.get('UpatCom'):
                 parameters_count += 1
                 pattern = repo_info['UpatCom']
-                latest_commit_sha = Repo(repo_info['path']).commit(repo_info['branch']).hexsha
+                latest_commit_sha = Repo("/user_sys/" + repo_info['path']).commit(repo_info['branch']).hexsha
                 latest_api_commit_sha = get_latest_commit_sha(repo_info['owner'], repo_info['name'], repo_info['branch'], token)
                 if latest_api_commit_sha and latest_commit_sha != latest_api_commit_sha:
                     if check_commit_pattern(repo_info, pattern):
@@ -121,7 +121,7 @@ def main():
                 repo_info['lastCommitSha'] = latest_commit_sha
 
             if update_needed:
-                repo = Repo(repo_info['path'])
+                repo = Repo("/user_sys/" + repo_info['path'])
                 latest_commit_sha = repo.commit(repo_info['branch']).hexsha
                 if repo_info['lastCommitSha'] != latest_commit_sha:
                     repo_info['lastCommitSha'] = latest_commit_sha

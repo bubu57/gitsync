@@ -11,9 +11,9 @@ services:
     command: sh -c "cd /gitsync/web/frontend && npm install && npm run build && cd /gitsync/web/backend && npm install && npm start"
 
   gitsync:
-    image: python:3.11
+    image: ubuntu:22.04
     container_name: gitsync
     volumes:
       - ./:/gitsync
       - /:/user_sys
-    command: sh -c "cd /gitsync && python3 gitsync.py"
+    command: sh -c "cd /gitsync/scripts && chmod +x ubuntu_setup.sh && ./ubuntu_setup.sh"
