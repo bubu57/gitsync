@@ -1,11 +1,13 @@
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
   channel = "stable-23.11"; # or "unstable"
+  services.docker.enable=true;
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_20
     pkgs.python310
-    #pkgs.python310Packages.pip
+    pkgs.docker
+    pkgs.docker-compose
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -27,7 +29,9 @@
       enable = true;
       previews = {
         web = {
-          command = ["npm" "start" "--prefix" "web/backend" "--" "--port" "$PORT"];
+          # command = ["npm" "start" "--prefix" "web/backend" "--" "--port" "$PORT"];
+          # command = ["docker-compose" "up"];
+          command = ["sh" "-c" "echo $PORT && docker-compose up"];
           manager = "web";
         };
       };

@@ -5,7 +5,7 @@ services:
     image: node:20.11.1
     container_name: web
     ports:
-      - "7000:7000"
+      - "9002:7000"
     volumes:
       - ./:/gitsync 
     command: sh -c "cd /gitsync/web/frontend && npm install && npm run build && cd /gitsync/web/backend && npm install && npm start"
@@ -17,5 +17,3 @@ services:
       - ./:/gitsync
       - /:/user_sys
     command: sh -c "cd /gitsync && python3 gitsync.py"
-
-  
