@@ -1,5 +1,5 @@
 node_modules
-data/repos.json
+repos.json
 action.log
-data/token.json
+token.json
 myenv
