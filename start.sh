@@ -15,7 +15,6 @@ if [[ ! -f "data/repos.json" ]]; then
     echo '{"repos":[]}' > data/repos.json
 fi
 
-
 # Vérifie la présence de Docker et Docker Compose
 if ! command -v docker &> /dev/null; then
     echo "Erreur : Docker n'est pas installé."
@@ -25,3 +24,5 @@ if ! command -v docker-compose &> /dev/null; then
     echo "Erreur : Docker Compose n'est pas installé."
     exit 1
 fi
+
+docker-compose up

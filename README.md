@@ -40,7 +40,8 @@ cd gitsync
 Run the following command to start the containers:
 
 ```bash
-docker-compose up
+chmod +x start.sh
+./start.sh
 ```
 
 This will start the `web` service (React frontend and Node.js backend) and the `gitsync` service (Python script for syncing repositories).
