@@ -53,15 +53,16 @@ def load_token(token_file_path):
         try:
             with open(token_file_path, 'r') as file:
                 token_data = json.load(file)
-                if 'token' in token_data:
+                token = token_data.get('token')
+                if token and token.strip():
                     logging.info("Token loaded successfully.")
-                    return token_data['token']
+                    return token
                 else:
-                    logging.error("Token not found in file.")
+                    logging.error("Token not found or empty in file.")
         except (json.JSONDecodeError, FileNotFoundError) as e:
             logging.error(f"Error loading token: {e}")
         
-        logging.info("Retrying to load token in 10 seconds...")
+        logging.info("Retrying to load token in 5 seconds...")
         time.sleep(5)
 
 def update_repo(repo_info):
