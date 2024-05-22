@@ -7,35 +7,8 @@ from threading import Thread
 from git import Repo
 import subprocess
 
-# Création des répertoires de logs si nécessaires
-os.makedirs('/gitsync/data', exist_ok=True)
-
-# Configuration des gestionnaires de logs avec timestamps
-logging.basicConfig(level=logging.INFO)
-
-# Gestionnaire de log info
-info_handler = logging.FileHandler('/gitsync/data/info.log')
-info_handler.setLevel(logging.INFO)
-info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-info_handler.setFormatter(info_formatter)
-
-# Gestionnaire de log error
-error_handler = logging.FileHandler('/gitsync/data/error.log')
-error_handler.setLevel(logging.ERROR)
-error_formatter = logging.Formatter('%(asctime)s - %(levellevel)s - %(message)s')
-error_handler.setFormatter(error_formatter)
-
-# Gestionnaire de log action
-action_handler = logging.FileHandler('/gitsync/data/action.log')
-action_handler.setLevel(logging.INFO)
-action_formatter = logging.Formatter('%(asctime)s - %(levellevel)s - %(message)s')
-action_handler.setFormatter(action_formatter)
-
-# Ajout des gestionnaires au logger
-logger = logging.getLogger()
-logger.addHandler(info_handler)
-logger.addHandler(error_handler)
-logger.addHandler(action_handler)
+# Configuration du logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def load_repos(file_path):
     """Charge la configuration des dépôts depuis un fichier JSON."""
@@ -69,10 +42,6 @@ def update_repo(repo_info):
         repo.git.checkout(branch)
         repo.remotes.origin.pull()
 
-        logging.info(f"Repo {repo_info['name']} updated on branch {branch}")
-        logging.getLogger().handlers[2].setLevel(logging.INFO)  # Set action log level
-        logging.info(f"Action: Updated repo {repo_info['name']} on branch {branch}")
-
         # Exécuter la commande spécifiée après le pull, si présente
         if 'runCmd' in repo_info and repo_info['runCmd'].strip():
             cmd = repo_info['runCmd']
@@ -81,9 +50,6 @@ def update_repo(repo_info):
                 result = subprocess.run(cmd, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 logging.info(f"Command output: {result.stdout.decode()}")
                 logging.error(f"Command error output: {result.stderr.decode()}")
-                logging.getLogger().handlers[2].setLevel(logging.INFO)  # Set action log level
-                logging.info(f"Action: Command output for repo {repo_info['name']}: {result.stdout.decode()}")
-                logging.info(f"Action: Command error output for repo {repo_info['name']}: {result.stderr.decode()}")
             except subprocess.CalledProcessError as e:
                 logging.error(f"Error running command for repo {repo_info['name']}: {e}")
 
