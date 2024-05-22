@@ -10,7 +10,7 @@ import subprocess
 # Création des répertoires de logs si nécessaires
 os.makedirs('/gitsync/data', exist_ok=True)
 
-# Configuration des gestionnaires de logs
+# Configuration des gestionnaires de logs avec timestamps
 logging.basicConfig(level=logging.INFO)
 
 # Gestionnaire de log info
@@ -22,13 +22,13 @@ info_handler.setFormatter(info_formatter)
 # Gestionnaire de log error
 error_handler = logging.FileHandler('/gitsync/data/error.log')
 error_handler.setLevel(logging.ERROR)
-error_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+error_formatter = logging.Formatter('%(asctime)s - %(levellevel)s - %(message)s')
 error_handler.setFormatter(error_formatter)
 
 # Gestionnaire de log action
 action_handler = logging.FileHandler('/gitsync/data/action.log')
 action_handler.setLevel(logging.INFO)
-action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+action_formatter = logging.Formatter('%(asctime)s - %(levellevel)s - %(message)s')
 action_handler.setFormatter(action_formatter)
 
 # Ajout des gestionnaires au logger

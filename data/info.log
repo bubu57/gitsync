@@ -1,0 +1,456 @@
+2024-05-22 07:18:06,049 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:06,407 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:06,407 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:07,410 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:07,784 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:07,784 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:08,790 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:09,168 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:09,168 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:10,174 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:10,535 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:10,536 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:11,538 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:11,894 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:11,895 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:12,897 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:13,245 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:13,245 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:14,249 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:14,605 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:14,605 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:15,608 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:15,951 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:15,952 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:16,956 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:17,308 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:17,309 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:18,312 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:18,701 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:18,701 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:19,704 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:20,069 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:20,070 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:21,073 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:21,428 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:21,428 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:22,431 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:22,790 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:22,791 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:23,793 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:24,166 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:24,167 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:25,169 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:25,530 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:25,531 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:26,535 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:26,883 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:26,884 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:27,887 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:28,275 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:28,276 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:29,278 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:29,683 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:29,683 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:30,686 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:31,027 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:31,028 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:32,031 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:32,408 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:32,408 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:33,412 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:33,766 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:33,767 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:34,770 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:35,145 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:35,146 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:36,150 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:36,490 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:36,490 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:37,493 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:37,852 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:37,853 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:38,856 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:39,358 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:39,359 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:40,362 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:40,734 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:40,735 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:41,738 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:42,095 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:42,097 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:43,101 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:43,442 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:43,443 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:44,447 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:44,811 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:44,811 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:45,816 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:46,178 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:46,179 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:47,183 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:47,543 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:47,544 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:48,548 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:48,935 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:48,936 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:49,938 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:50,295 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:50,295 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:51,298 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:51,707 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:51,708 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:52,711 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:53,077 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:53,078 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:54,082 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:54,434 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:54,434 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:55,437 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:55,775 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:55,776 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:56,779 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:57,135 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:57,135 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:58,138 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:58,493 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:58,493 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:18:59,497 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:18:59,842 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:18:59,842 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:00,845 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:01,207 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:01,207 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:02,211 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:02,580 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:02,581 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:03,584 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:04,029 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:04,029 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:05,032 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:05,424 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:05,424 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:06,428 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:06,808 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:06,808 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:07,811 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:08,164 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:08,164 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:09,167 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:09,544 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:09,544 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:10,547 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:10,925 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:10,928 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:11,931 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:12,296 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:12,296 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:13,299 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:13,690 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:13,690 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:14,694 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:15,038 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:15,039 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:16,043 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:16,425 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:16,426 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:17,428 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:17,774 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:17,774 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:18,778 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:19,127 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:19,127 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:20,131 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:20,477 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:20,478 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:21,482 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:21,846 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:21,847 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:22,850 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:23,212 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:23,213 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:24,215 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:24,561 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:24,561 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:25,564 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:25,932 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:25,933 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:26,937 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:27,307 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:27,308 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:28,312 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:28,700 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:28,701 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:29,705 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:30,077 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:30,078 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:31,082 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:31,432 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:31,433 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:32,436 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:32,787 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:32,787 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:33,791 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:41,287 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:41,287 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:42,292 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:42,639 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:42,640 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:43,644 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:43,997 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:43,997 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:45,000 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:45,353 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:45,354 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:46,359 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:46,750 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:46,750 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:47,753 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:48,094 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:48,095 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:49,098 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:49,459 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:49,460 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:50,465 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:50,827 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:50,828 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:51,830 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:52,202 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:52,204 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:53,209 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:53,600 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:53,600 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:54,604 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:55,020 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:55,021 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:56,023 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:56,563 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:56,564 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:57,568 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:58,070 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:58,071 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:19:59,074 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:19:59,448 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:19:59,448 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:00,451 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:00,801 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:00,802 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:01,807 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:02,175 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:02,177 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:03,181 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:03,534 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:03,535 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:04,538 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:04,963 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:04,964 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:05,968 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:06,333 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:06,333 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:07,336 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:07,766 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:07,767 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:08,771 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:09,139 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:09,140 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:10,143 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:10,502 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:10,503 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:11,507 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:11,881 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:11,882 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:12,885 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:13,272 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:13,273 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:14,276 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:14,635 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:14,636 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:15,639 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:15,994 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:15,994 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:16,997 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:17,531 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:17,532 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:18,535 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:18,881 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:18,882 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:19,885 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:20,270 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:20,270 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:21,273 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:21,624 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:21,624 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:22,627 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:22,988 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:22,988 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:23,991 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:24,351 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:24,351 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:25,354 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:25,769 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:25,769 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:26,772 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:27,137 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:27,138 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:28,141 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:28,506 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:28,506 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:29,509 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:29,859 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:29,859 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:30,862 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:31,216 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:31,216 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:32,219 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:32,606 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:32,607 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:33,609 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:33,973 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:33,974 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:34,978 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:35,326 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:35,327 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:36,330 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:36,709 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:36,711 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:37,714 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:38,075 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:38,076 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:39,078 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:39,448 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:39,449 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:40,451 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:40,802 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:40,802 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:41,806 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:42,169 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:42,170 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:43,173 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:43,528 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:43,528 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:44,531 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:44,870 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:44,871 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:45,874 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:46,227 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:46,227 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:47,230 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:47,592 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:47,592 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:48,595 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:48,955 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:48,955 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:49,957 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:50,310 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:50,310 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:51,312 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:51,685 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:51,686 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:52,689 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:53,081 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:53,082 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:54,085 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:54,443 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:54,444 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:55,447 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:55,813 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:55,813 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:56,815 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:57,188 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:57,188 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:58,191 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:58,551 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:58,552 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:20:59,557 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:20:59,915 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:20:59,916 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:00,919 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:01,294 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:01,294 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:02,297 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:02,662 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:02,662 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:03,667 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:04,056 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:04,056 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:05,059 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:05,409 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:05,410 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:06,412 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:06,788 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:06,789 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:07,793 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:08,169 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:08,169 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:09,172 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:09,580 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:09,581 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:10,584 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:10,937 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:10,938 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:11,942 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:12,286 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:12,287 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:13,291 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:13,655 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:13,656 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:14,659 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:15,020 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:15,021 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:16,025 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:16,382 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:16,383 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:17,387 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:17,789 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:17,789 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:18,792 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:19,163 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:19,163 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:20,167 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:20,523 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:20,523 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:21,526 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:21,881 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:21,882 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:22,885 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:23,255 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:23,256 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:24,261 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:24,618 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:24,618 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:25,621 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:26,001 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:26,001 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:27,004 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:27,361 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:27,362 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:28,365 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:28,730 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:28,731 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:29,734 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:30,090 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:30,091 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:31,093 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:31,458 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:31,458 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:32,461 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:32,822 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:32,823 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:33,827 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:34,171 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:34,172 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:35,174 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:35,525 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:35,526 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:36,528 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:36,876 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:36,876 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:37,879 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:38,220 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:38,221 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:39,225 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:39,594 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:39,594 - INFO - kubernetes-learn - Parameters: 0
+2024-05-22 07:21:40,597 - INFO - Checking new push for repo GESTION-EXPO on branch SPRINT-1
+2024-05-22 07:21:40,948 - INFO - GESTION-EXPO - Parameters: 1
+2024-05-22 07:21:40,948 - INFO - kubernetes-learn - Parameters: 0
