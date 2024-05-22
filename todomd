@@ -3,3 +3,5 @@ readme
 scan system to find all github repo and suggest to add
 notification system 
 status of gitsync.py
+docker log in file
+format docker log, /dev/null log and describe
