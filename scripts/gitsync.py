@@ -192,7 +192,7 @@ def main():
 
         save_repos(file_path, repos_data)
 
-        time.sleep(1)
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()
