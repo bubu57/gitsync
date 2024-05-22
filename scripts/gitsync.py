@@ -48,10 +48,21 @@ def save_repos(file_path, data):
         json.dump(data, file, indent=4)
 
 def load_token(token_file_path):
-    """Charge le token GitHub depuis un fichier JSON."""
-    with open(token_file_path, 'r') as file:
-        token_data = json.load(file)
-        return token_data['token']
+    """Charge le token GitHub depuis un fichier JSON. Boucle jusqu'à ce qu'un token soit chargé."""
+    while True:
+        try:
+            with open(token_file_path, 'r') as file:
+                token_data = json.load(file)
+                if 'token' in token_data:
+                    logging.info("Token loaded successfully.")
+                    return token_data['token']
+                else:
+                    logging.error("Token not found in file.")
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            logging.error(f"Error loading token: {e}")
+        
+        logging.info("Retrying to load token in 10 seconds...")
+        time.sleep(5)
 
 def update_repo(repo_info):
     """Met à jour le dépôt local avec les dernières modifications du dépôt distant."""
