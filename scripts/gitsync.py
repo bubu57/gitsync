@@ -61,7 +61,7 @@ def load_token(token_file_path):
         except (json.JSONDecodeError, FileNotFoundError) as e:
             logging.error(f"Error loading token: {e}")
         
-        logging.info("Retrying to load token in 10 seconds...")
+        logging.info("Retrying to load token in 5 seconds...")
         time.sleep(5)
 
 def update_repo(repo_info):

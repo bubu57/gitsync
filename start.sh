@@ -7,7 +7,7 @@ fi
 
 # Vérifie la présence du fichier token.json
 if [[ ! -f "data/token.json" ]]; then
-    echo echo '{"token":""}' > data/token.json
+    echo '{"token":""}' > data/token.json
 fi
 
 # Vérifie la présence du fichier repos.json
