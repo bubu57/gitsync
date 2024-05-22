@@ -9,7 +9,7 @@ services:
       - "9002:7000"
     volumes:
       - ./:/gitsync 
-    command: sh -c "cd /gitsync/web/frontend && npm install && npm run build && cd /gitsync/web/backend && npm install && npm start"
+    command: sh -c "cd /gitsync/scripts && chmod +x webapp_setup.sh && ./webapp_setup.sh"
 
   gitsync:
     image: ubuntu:22.04
