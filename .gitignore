@@ -2,4 +2,6 @@ node_modules
 repos.json
 action.log
 token.json
+info.log
+error.log
 myenv
