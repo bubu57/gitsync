@@ -160,7 +160,8 @@ const Home = () => {
           lastCommitSha: '',
           UInt: '',
           UlastPush: '',
-          UpatCom: ''
+          UpatCom: '',
+          runCmd: ''
         });
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
