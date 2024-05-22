@@ -21,7 +21,8 @@ const Home = () => {
     lastCommitSha: '',
     UInt: '',
     UlastPush: '',
-    UpatCom: ''
+    UpatCom: '',
+    runCmd: ''
   });
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
@@ -52,8 +53,8 @@ const Home = () => {
 
   useEffect(() => {
     if (selectedRepo) {
-      const { branch, UInt, UlastPush, UpatCom } = selectedRepo;
-      setUpdatedParams({ branch, UInt, UlastPush, UpatCom });
+      const { branch, UInt, UlastPush, UpatCom, runCmd } = selectedRepo;
+      setUpdatedParams({ branch, UInt, UlastPush, UpatCom, runCmd });
     }
   }, [selectedRepo]);
 
@@ -257,6 +258,16 @@ const Home = () => {
                             onChange={(event) => handleInputChange(event, 'UpatCom')} 
                           />
                         </div>
+
+                        <div className="input-group">
+                          <label htmlFor="runCmd-input">run command after pull :</label>
+                          <input 
+                            type="text" 
+                            id="runCmd-input"
+                            value={updatedParams.runCmd} 
+                            onChange={(event) => handleInputChange(event, 'runCmd')} 
+                          />
+                        </div>
                         <button onClick={handleUpdateParams}>Enregistrer les paramètres</button>
                       </div>
                     )}
@@ -312,6 +323,12 @@ const Home = () => {
                 placeholder="Pull avec pattern dans le dernier commit"
                 value={newRepo.UpatCom}
                 onChange={(e) => setNewRepo({ ...newRepo, UpatCom: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="run command after pull"
+                value={newRepo.runCmd}
+                onChange={(e) => setNewRepo({ ...newRepo, runCmd: e.target.value })}
               />
               <button onClick={handleAddRepo}>Ajouter</button>
             </div>
