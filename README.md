@@ -25,7 +25,6 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
 
 - Docker and Docker Compose installed on your system.
 - GitHub access token with appropriate permissions.
-- Python 3.8+ and Node.js 20.11.1 (for development purposes).
 
 ## Setup
 
