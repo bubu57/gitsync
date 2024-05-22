@@ -1,8 +1,8 @@
 run cmd when pull {cm:2024-05-22}
-readme
+readme {cm:2024-05-22}
 scan system to find all github repo and suggest to add
 notification system 
 status of gitsync.py
 docker log in file
-format docker log, /dev/null log and describe
-attendre arrive token au lieu de exit
+format docker log, /dev/null log and describe {cm:2024-05-22}
+attendre arrive token au lieu de exit {cm:2024-05-22}
