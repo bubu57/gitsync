@@ -5,3 +5,4 @@ notification system
 status of gitsync.py
 docker log in file
 format docker log, /dev/null log and describe
+attendre arrive token au lieu de exit
