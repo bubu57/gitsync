@@ -163,6 +163,17 @@ app.post('/api/addrepo', (req, res) => {
 
       res.json({ message: 'Dépôt ajouté avec succès' });
     });
+
+    exec(`git config --system --add safe.directory '*'`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erreur lors de l'exécution de git pull : ${error}`);
+        return res.status(500).json({ error: `Erreur lors de l'exécution de git pull : ${stderr}` });
+      }
+  
+      res.json({ message: stdout });
+    });
+
+
   });
 });
 
