@@ -17,3 +17,4 @@ services:
     volumes:
       - ./:/gitsync
       - /:/user_sys
+    entrypoint: sh -c "chown -R $(id -u):$(id -g) /gitsync && python3 /gitsync/scripts/gitsync.py"
