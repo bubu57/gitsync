@@ -10,8 +10,6 @@ RUN apt install python3 -y
 RUN apt install pip -y
 RUN apt install git -y
 
-RUN chmod -R 777 /
-
 RUN pip3 install -r /gitsync/scripts/requirements.txt
 
 CMD ["python3", "/gitsync/scripts/gitsync.py"]
