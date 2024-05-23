@@ -5,8 +5,8 @@ cd ../../
 
 rm -fr ../tmp/*
 
-cp -fr web/backend ../tmp 
-cp -fr web/frontend/build ../tmp
+cp -fr web/backend ../tmp/web/backend 
+cp -fr web/frontend/build ../tmp/web/frontend
 cp -fr scripts ../tmp
 cp -fr docker-compose.yml ../tmp
 cp -fr dockerfile.engine ../tmp

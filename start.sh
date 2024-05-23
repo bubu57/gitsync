@@ -29,4 +29,4 @@ fi
 docker build -f dockerfile.web -t gitsync_web .
 docker build -f dockerfile.engine -t gitsync_engine .
 
-# docker-compose up -d
+docker-compose up -d
