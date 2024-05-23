@@ -30,3 +30,5 @@ if ! command -v docker-compose &> /dev/null; then
     echo "Erreur : Docker Compose n'est pas installé."
     exit 1
 fi
+
+# docker build -f dockerfile.web -t gitsync_web .
