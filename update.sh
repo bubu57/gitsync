@@ -5,7 +5,10 @@ cd ../../
 
 rm -fr ../tmp/*
 
-cp -fr web/backend ../tmp/web/backend 
+mkdir -p ../tmp/web/
+mkdir -p ../tmp/web/frontend
+
+cp -fr web/backend ../tmp/web/ 
 cp -fr web/frontend/build ../tmp/web/frontend
 cp -fr scripts ../tmp
 cp -fr docker-compose.yml ../tmp
