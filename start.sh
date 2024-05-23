@@ -15,11 +15,6 @@ if [[ ! -f "data/repos.json" ]]; then
     echo '{"repos":[]}' > data/repos.json
 fi
 
-# Vérifie la présence du fichier repos.json
-if [[ ! -f "data/user.json" ]]; then
-    echo '{"repos":[]}' > data/repos.json
-fi
-
 # Vérifie la présence de Docker et Docker Compose
 if ! command -v docker &> /dev/null; then
     echo "Erreur : Docker n'est pas installé."
@@ -31,4 +26,7 @@ if ! command -v docker-compose &> /dev/null; then
     exit 1
 fi
 
-# docker build -f dockerfile.web -t gitsync_web .
+docker build -f dockerfile.web -t gitsync_web .
+docker build -f dockerfile.engine -t gitsync_engine .
+
+docker-compose up -d
