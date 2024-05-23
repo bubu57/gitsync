@@ -22,7 +22,8 @@ const Home = () => {
     UInt: '',
     UlastPush: '',
     UpatCom: '',
-    runCmd: ''
+    runCmd: '', 
+    ntfy: ''
   });
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
@@ -53,8 +54,8 @@ const Home = () => {
 
   useEffect(() => {
     if (selectedRepo) {
-      const { branch, UInt, UlastPush, UpatCom, runCmd } = selectedRepo;
-      setUpdatedParams({ branch, UInt, UlastPush, UpatCom, runCmd });
+      const { branch, UInt, UlastPush, UpatCom, runCmd, ntfy } = selectedRepo;
+      setUpdatedParams({ branch, UInt, UlastPush, UpatCom, runCmd, ntfy });
     }
   }, [selectedRepo]);
 
@@ -162,7 +163,8 @@ const Home = () => {
           UInt: '',
           UlastPush: '',
           UpatCom: '',
-          runCmd: ''
+          runCmd: '',
+          ntfy: ''
         });
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
@@ -225,7 +227,8 @@ const Home = () => {
                             type="text" 
                             id="Branch-input"
                             value={updatedParams.branch} 
-                            onChange={(event) => handleInputChange(event, 'branch')} 
+                            onChange={(event) => handleInputChange(event, 'branch')}
+                            required
                           />
                         </div>
             
@@ -268,6 +271,16 @@ const Home = () => {
                             onChange={(event) => handleInputChange(event, 'runCmd')} 
                           />
                         </div>
+
+                        <div className="input-group">
+                          <label htmlFor="runCmd-input">ntfy topic if you want to be alerted of a repo update</label>
+                          <input 
+                            type="text" 
+                            id="ntfy-input"
+                            value={updatedParams.ntfy} 
+                            onChange={(event) => handleInputChange(event, 'ntfy')}
+                          />
+                        </div>
                         <button onClick={handleUpdateParams}>Enregistrer les paramètres</button>
                       </div>
                     )}
@@ -287,24 +300,28 @@ const Home = () => {
                 placeholder="Propriétaire"
                 value={newRepo.owner}
                 onChange={(e) => setNewRepo({ ...newRepo, owner: e.target.value })}
+                required
               />
               <input
                 type="text"
                 placeholder="Nom"
                 value={newRepo.name}
                 onChange={(e) => setNewRepo({ ...newRepo, name: e.target.value })}
+                required
               />
               <input
                 type="text"
                 placeholder="Chemin"
                 value={newRepo.path}
                 onChange={(e) => setNewRepo({ ...newRepo, path: e.target.value })}
+                required
               />
               <input
                 type="text"
                 placeholder="Branche"
                 value={newRepo.branch}
                 onChange={(e) => setNewRepo({ ...newRepo, branch: e.target.value })}
+                required
               />
               <input
                 type="text"

@@ -2,20 +2,18 @@ version: '3.8'
 
 services:
   web:
-    image: node:20.11.1
+    image: gitsync_web
     container_name: web
     restart: always
     ports:
       - "9002:7000"
     volumes:
-      - ./:/gitsync 
-    command: sh -c "cd /gitsync/scripts && chmod +x webapp_setup.sh && ./webapp_setup.sh"
+      - ./:/gitsync
 
-  gitsync:
-    image: ubuntu:22.04
-    container_name: gitsync
+  engine:
+    image: gitsync_engine
+    container_name: engine
     restart: always
     volumes:
       - ./:/gitsync
       - /:/user_sys
-    command: sh -c "cd /gitsync/scripts && chmod +x ubuntu_setup.sh && ./ubuntu_setup.sh"
