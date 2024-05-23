@@ -1,4 +1,4 @@
-cd web/frontend 
+cd web/frontend
 npm run build
 
 cd ../../
@@ -13,6 +13,10 @@ cp -fr dockerfile.engine ../tmp
 cp -fr dockerfile.web ../tmp
 cp -fr README.md ../tmp
 cp -fr start.sh ../tmp
+
+git add * 
+git commit -m "update"
+git push
 
 git checkout main
 
