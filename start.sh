@@ -20,9 +20,13 @@ if ! command -v docker &> /dev/null; then
     echo "Erreur : Docker n'est pas installé."
     exit 1
 fi
+
 if ! command -v docker-compose &> /dev/null; then
     echo "Erreur : Docker Compose n'est pas installé."
     exit 1
 fi
 
-docker-compose up
+docker build -f dockerfile.web -t gitsync_web .
+docker build -f dockerfile.engine -t gitsync_engine .
+
+docker-compose up -d

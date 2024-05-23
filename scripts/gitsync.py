@@ -16,19 +16,19 @@ logging.basicConfig(level=logging.INFO)
 # Gestionnaire de log info
 info_handler = logging.FileHandler('/gitsync/data/info.log')
 info_handler.setLevel(logging.INFO)
-info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # Correction ici
 info_handler.setFormatter(info_formatter)
 
 # Gestionnaire de log error
 error_handler = logging.FileHandler('/gitsync/data/error.log')
 error_handler.setLevel(logging.ERROR)
-error_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+error_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # Correction ici
 error_handler.setFormatter(error_formatter)
 
 # Gestionnaire de log action
 action_handler = logging.FileHandler('/gitsync/data/action.log')
 action_handler.setLevel(logging.INFO)
-action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # Correction ici
 action_handler.setFormatter(action_formatter)
 
 # Ajout des gestionnaires au logger
@@ -65,6 +65,21 @@ def load_token(token_file_path):
         logging.info("Retrying to load token in 5 seconds...")
         time.sleep(5)
 
+def send_ntfy_notification(topic, title, message):
+    """Envoie une notification via ntfy."""
+    url = f"https://ntfy.sh/{topic}"
+    data = {
+        "title": title,
+        "message": message,
+        "priority": 5
+    }
+    try:
+        response = requests.post(url, json=data)
+        response.raise_for_status()
+        logging.info(f"Notification sent successfully to topic {topic}.")
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error sending notification: {e}")
+
 def update_repo(repo_info):
     """Met à jour le dépôt local avec les dernières modifications du dépôt distant."""
     repo_path = "/user_sys/" + repo_info['path']
@@ -98,6 +113,13 @@ def update_repo(repo_info):
                 logging.info(f"Action: Command error output for repo {repo_info['name']}: {result.stderr.decode()}")
             except subprocess.CalledProcessError as e:
                 logging.error(f"Error running command for repo {repo_info['name']}: {e}")
+
+        # Envoi de la notification ntfy
+        if 'ntfy' in repo_info and repo_info['ntfy'].strip():
+            topic = repo_info['ntfy']
+            title = f"Repo {repo_info['name']} updated"
+            message = f"Repo: {repo_info['name']}\nBranch: {branch}\nDate: {time.strftime('%Y-%m-%d %H:%M:%S')}\nLast Commit: {remote_commit.hexsha}"
+            send_ntfy_notification(topic, title, message)
 
 def check_new_push(repo_info):
     """Vérifie s'il y a un nouveau push dans le dépôt distant."""
