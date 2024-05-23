@@ -20,7 +20,7 @@ git push
 
 git checkout main
 
-cp -fr ../tmp/ .
+cp -fr ../tmp/* .
 
 git add * 
 git commit -m "update"
