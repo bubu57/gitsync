@@ -17,4 +17,3 @@ services:
     volumes:
       - ./:/gitsync
       - /:/user_sys
-    command: sh -c "chown -R 777 /user_sys"
