@@ -3,11 +3,11 @@ FROM node:20.11.1
 WORKDIR /gitsync
 COPY . .
 
-WORKDIR /gitsync/web/backend
-RUN npm install
-
 WORKDIR /gitsync/web/frontend
 RUN npm install
 RUN npm run build
+
+WORKDIR /gitsync/web/backend
+RUN npm install
 
 CMD ["npm", "start"]
