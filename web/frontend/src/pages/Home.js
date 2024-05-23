@@ -188,7 +188,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h2>Liste des Dépôts s</h2>
+      <h2>Liste des Dépôts</h2>
       {token ? (
         <>
           <ul>
