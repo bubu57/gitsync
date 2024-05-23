@@ -17,4 +17,4 @@ services:
     volumes:
       - ./:/gitsync
       - /:/user_sys
-    command: sh -c "chmown -R /user_sys"
+    command: sh -c "chown -R /user_sys"
