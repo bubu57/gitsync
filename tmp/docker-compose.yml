@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    image: gitsync_web
+    container_name: web
+    restart: always
+    ports:
+      - "9002:7000"
+    volumes:
+      - ./data:/gitsync/data
+
+  engine:
+    image: gitsync_engine
+    container_name: engine
+    restart: always
+    volumes:
+      - ./:/gitsync
+      - /:/user_sys
