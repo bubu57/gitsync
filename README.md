@@ -1,7 +1,5 @@
 # GitSync
 
-IN DEVELOPMENT !
-
 GitSync is a comprehensive tool designed to automate the synchronization of multiple Git repositories. It provides a robust solution for periodically updating repositories based on various triggers, such as new commits, specific commit patterns, or regular intervals. GitSync also includes a web interface for managing repositories, updating configuration parameters, and viewing repository details.
 
 ## Features
@@ -42,8 +40,7 @@ cd gitsync
 Run the following command to start the containers:
 
 ```bash
-chmod +x start.sh
-./start.sh
+docker-compose up
 ```
 
 This will start the `web` service (React frontend and Node.js backend) and the `gitsync` service (Python script for syncing repositories).
