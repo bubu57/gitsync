@@ -83,7 +83,7 @@ def send_ntfy_notification(topic, title, message):
 def add_safe_directories(repos):
     """Ajoute les répertoires des dépôts à la configuration Git safe.directory."""
     for repo_info in repos:
-        repo_path = "/user_sys/" + repo_info['path']
+        repo_path = "/user_sys" + repo_info['path']
         try:
             subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', repo_path], check=True)
             logging.info(f"Added {repo_path} to safe.directory")
