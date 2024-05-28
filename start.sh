@@ -25,8 +25,13 @@ if ! command -v docker-compose &> /dev/null; then
     echo "Erreur : Docker Compose n'est pas installé."
     exit 1
 fi
-
+echo "web image building..."
 docker build -f dockerfile.web -t gitsync_web .
+echo "engine image building..."
 docker build -f dockerfile.engine -t gitsync_engine .
 
+echo "starting compose..."
 docker-compose up -d
+
+echo "Done !"
+echo "Access to : http://localhost:9002"
