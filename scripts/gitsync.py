@@ -16,19 +16,19 @@ logging.basicConfig(level=logging.INFO)
 # Gestionnaire de log info
 info_handler = logging.FileHandler('/gitsync/data/info.log')
 info_handler.setLevel(logging.INFO)
-info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # Correction ici
+info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 info_handler.setFormatter(info_formatter)
 
 # Gestionnaire de log error
 error_handler = logging.FileHandler('/gitsync/data/error.log')
 error_handler.setLevel(logging.ERROR)
-error_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # Correction ici
+error_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 error_handler.setFormatter(error_formatter)
 
 # Gestionnaire de log action
 action_handler = logging.FileHandler('/gitsync/data/action.log')
 action_handler.setLevel(logging.INFO)
-action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # Correction ici
+action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 action_handler.setFormatter(action_formatter)
 
 # Ajout des gestionnaires au logger
@@ -79,6 +79,16 @@ def send_ntfy_notification(topic, title, message):
         logging.info(f"Notification sent successfully to topic {topic}.")
     except requests.exceptions.RequestException as e:
         logging.error(f"Error sending notification: {e}")
+
+def add_safe_directories(repos):
+    """Ajoute les répertoires des dépôts à la configuration Git safe.directory."""
+    for repo_info in repos:
+        repo_path = "/user_sys/" + repo_info['path']
+        try:
+            subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', repo_path], check=True)
+            logging.info(f"Added {repo_path} to safe.directory")
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Error adding {repo_path} to safe.directory: {e}")
 
 def update_repo(repo_info):
     """Met à jour le dépôt local avec les dernières modifications du dépôt distant."""
@@ -180,6 +190,9 @@ def main():
     while True:
         repos_data = load_repos(file_path)
         repos = repos_data['repos']
+
+        # Ajouter les répertoires des dépôts à safe.directory
+        add_safe_directories(repos)
 
         for repo_info in repos:
             parameters_count = 0
