@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import GitHub from 'github-api';
 import axios from 'axios';
+import Chart from 'chart.js/auto';
 import './Home.css'; // Import du CSS
 
 const Home = () => {
@@ -23,7 +24,8 @@ const Home = () => {
     UlastPush: '',
     UpatCom: '',
     runCmd: '', 
-    ntfy: ''
+    ntfy: '',
+    pull: ''
   });
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
@@ -58,6 +60,35 @@ const Home = () => {
       setUpdatedParams({ branch, UInt, UlastPush, UpatCom, runCmd, ntfy });
     }
   }, [selectedRepo]);
+
+  useEffect(() => {
+    if (repos.length === 0) return;
+
+    const ctx = document.getElementById('bar-chart');
+
+    const label = repos.map(repo => repo.name);
+    const pulls = repos.map(repo => repo.pull);
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: label,
+        datasets: [{
+          label: 'Nombre de pulls',
+          data: pulls,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }, [repos]);
 
   const handleRepoClick = (repo) => {
     if (selectedRepo && selectedRepo.name === repo.name) {
@@ -164,7 +195,8 @@ const Home = () => {
           UlastPush: '',
           UpatCom: '',
           runCmd: '',
-          ntfy: ''
+          ntfy: '',
+          pull: ''
         });
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
@@ -177,7 +209,8 @@ const Home = () => {
   const handleDeleteRepo = (repoName) => {
     axios.post('/api/delrepo', { name: repoName })
       .then(response => {
-        setRepos(repos.filter(repo => repo.name !== repoName));
+        const updatedRepos = repos.filter(repo => repo.name !== repoName);
+        setRepos(updatedRepos);
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
       })
@@ -366,6 +399,8 @@ const Home = () => {
               <button onClick={handleCreateAccessToken}>Créer un nouveau token</button>
             </div>
           )}
+          <h2>Statistiques</h2>
+          <canvas class='historique-canvas' id="bar-chart" width="800" height="400"></canvas>
         </>
       ) : (
         <>

@@ -131,6 +131,20 @@ def update_repo(repo_info):
             message = f"Repo: {repo_info['name']}\nBranch: {branch}\nDate: {time.strftime('%Y-%m-%d %H:%M:%S')}\nLast Commit: {remote_commit.hexsha}"
             send_ntfy_notification(topic, title, message)
 
+        # Incrémenter la valeur de pull dans repos.json
+        try:
+            repos_data = load_repos(file_path)
+            for repo in repos_data['repos']:
+                if repo['name'] == repo_info['name']:
+                    if 'pull' in repo:
+                        repo['pull'] += 1
+                    else:
+                        repo['pull'] = 1
+            save_repos(file_path, repos_data)
+            logging.info(f"Incremented pull count for repo {repo_info['name']}")
+        except Exception as e:
+            logging.error(f"Error incrementing pull count for repo {repo_info['name']}: {e}")
+
 def check_new_push(repo_info):
     """Vérifie s'il y a un nouveau push dans le dépôt distant."""
     repo_path = "/user_sys/" + repo_info['path']
