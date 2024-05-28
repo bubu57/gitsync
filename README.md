@@ -64,27 +64,27 @@ and replace 9002 to your port, ex:
 
 ### Web Interface
 
-0. **Put your acces token**:
+1. **Put your acces token**:
    - click "Create new token"
    - configure your token with the appropriate permissions (min: repo full, user full)
    - copy your token and paste it in the box below
    - click "Save"
 
-1. **View Repositories**:
+2. **View Repositories**:
    - See a list of all configured repositories.
    - Click on a repository to view its details and branches.
 
-2. **Update Repository Parameters**:
+3. **Update Repository Parameters**:
    - Modify branch, update interval, update on new push, update on commit pattern, and run command.
    - Save changes to apply the new configuration.
 
-3. **Add New Repository**:
+4. **Add New Repository**:
    - Use the "Add New Repository" form to configure a new repository.
 
-4. **Delete Repository**:
+5. **Delete Repository**:
    - Remove a repository from the configuration.
 
-5. **Update GitHub Token**:
+6. **Update GitHub Token**:
    - Change the GitHub access token if needed.
 
 ### Logging
