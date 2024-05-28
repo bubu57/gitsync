@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { exec } = require('child_process');
+const simpleGit = require('simple-git');
 
 const app = express();
 const PORT = parseInt(process.env.PORT) || process.argv[3] || 7000;
@@ -13,6 +14,64 @@ app.use(bodyParser.json());
 
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
+
+
+const simpleGit = require('simple-git');
+
+app.get('/api/scanrepos', (req, res) => {
+  const directoryPath = '/user_sys';
+  const git = simpleGit();
+
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du répertoire :', err);
+      res.status(500).json({ error: 'Erreur lors de la lecture du répertoire' });
+      return;
+    }
+
+    const repos = [];
+
+    const checkIfRepo = (index) => {
+      if (index === files.length) {
+        res.json({ repos });
+        return;
+      }
+
+      const filePath = path.join(directoryPath, files[index]);
+
+      fs.stat(filePath, (err, stats) => {
+        if (err) {
+          console.error('Erreur lors de la lecture des stats du fichier :', err);
+          checkIfRepo(index + 1);
+          return;
+        }
+
+        if (stats.isDirectory()) {
+          git.cwd(filePath).checkIsRepo((err, isRepo) => {
+            if (isRepo) {
+              git.cwd(filePath).getRemotes(true, (err, remotes) => {
+                if (remotes.length > 0) {
+                  repos.push({
+                    name: path.basename(filePath),
+                    path: filePath,
+                    remoteUrl: remotes[0].refs.fetch,
+                  });
+                }
+                checkIfRepo(index + 1);
+              });
+            } else {
+              checkIfRepo(index + 1);
+            }
+          });
+        } else {
+          checkIfRepo(index + 1);
+        }
+      });
+    };
+
+    checkIfRepo(0);
+  });
+});
 
 app.get('/api/repos', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {

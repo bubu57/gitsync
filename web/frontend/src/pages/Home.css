@@ -80,8 +80,20 @@ input[type="text"], select {
 }
 
 .alert {
-  color: #238636; /* Green alert color */
-  margin-top: 20px;
+  position: fixed;
+  background-color: #161b22;
+  color: #ffffff;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(27, 31, 35, 0.12), 0 8px 24px rgba(27, 31, 35, 0.12);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.alert.show {
+  opacity: 1;
 }
 
 .input-group {
@@ -153,4 +165,51 @@ input[type="text"], select {
   input[type="text"], select {
     width: 100%;
   }
+}
+
+
+.section-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section {
+  flex: 1;
+  margin-right: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.section:last-child {
+  margin-right: 0;
+}
+
+.add-repo-form input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: calc(100% - 10px);
+}
+
+button {
+  margin: 10px 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  cursor: pointer;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+li.selected {
+  background-color: #f0f0f0;
 }

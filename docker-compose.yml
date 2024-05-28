@@ -9,6 +9,7 @@ services:
       - "9002:7000"
     volumes:
       - ./data:/gitsync/data
+      - /:/user_sys
 
   engine:
     image: gitsync_engine
