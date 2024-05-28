@@ -15,6 +15,7 @@ const Home = () => {
   const [updatedParams, setUpdatedParams] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   let [alertmessage, setalertmessage] = useState('');
+  const [nbrepos, setNbrepos] = useState(0);
   const [newRepo, setNewRepo] = useState({
     owner: '',
     name: '',
@@ -48,6 +49,7 @@ const Home = () => {
       })
         .then(response => {
           setRepos(response.data.repos);
+          setNbrepos(response.data.repos.length);
         })
         .catch(error => {
           console.error('Error fetching repositories:', error);
@@ -233,7 +235,7 @@ const Home = () => {
   return (
     <div className="home-container">
       {showAlert && <p className="alert">{alertmessage}</p>}
-      <h2>Repository</h2>
+      <h2>Repository {nbrepos}</h2>
       {token ? (
         <>
           <ul>
