@@ -49,7 +49,7 @@ const Home = () => {
           setRepos(response.data.repos);
         })
         .catch(error => {
-          console.error('Erreur lors de la récupération des dépôts :', error);
+          console.error('Error fetching repositories:', error);
         });
     }
   }, [token]);
@@ -73,7 +73,7 @@ const Home = () => {
       data: {
         labels: label,
         datasets: [{
-          label: 'Nombre de pulls',
+          label: 'Number of Pulls',
           data: pulls,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -118,7 +118,7 @@ const Home = () => {
         lastCommitSha: lastCommit.data.commit.sha
       });
     } catch (error) {
-      console.error('Erreur lors de la récupération des détails du dépôt :', error);
+      console.error('Error fetching repository details:', error);
     }
   };
 
@@ -131,7 +131,7 @@ const Home = () => {
       setSelectedBranch(branches.data[0].name); 
       fetchRepoDetails(repoOwner, repoName, branches.data[0].name); 
     } catch (error) {
-      console.error('Erreur lors de la récupération des branches :', error);
+      console.error('Error fetching branches:', error);
     }
   };
 
@@ -158,7 +158,7 @@ const Home = () => {
         setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
-        console.error('Erreur lors de l\'enregistrement du token :', error);
+        console.error('Error saving token:', error);
       });
   };
 
@@ -172,7 +172,7 @@ const Home = () => {
         setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
-        console.error('Erreur lors de la mise à jour des paramètres du dépôt :', error);
+        console.error('Error updating repository parameters:', error);
       });
   };
 
@@ -202,7 +202,7 @@ const Home = () => {
         setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
-        console.error('Erreur lors de l\'ajout du dépôt :', error);
+        console.error('Error adding repository:', error);
       });
   };
 
@@ -215,13 +215,13 @@ const Home = () => {
         setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
-        console.error('Erreur lors de la suppression du dépôt :', error);
+        console.error('Error deleting repository:', error);
       });
   };
 
   return (
     <div className="home-container">
-      <h2>Liste des Dépôts</h2>
+      <h2>Repository</h2>
       {token ? (
         <>
           <ul>
@@ -230,11 +230,11 @@ const Home = () => {
                 <a href="#!" onClick={() => handleRepoClick(repo)}>
                   {repo.name}
                 </a>
-                <button onClick={() => handleDeleteRepo(repo.name)}>Supprimer</button>
+                <button onClick={() => handleDeleteRepo(repo.name)}>Delete</button>
                 {selectedRepo && selectedRepo.name === repo.name && (
                   <div className="repo-details slideIn">
                     <div>
-                      <label htmlFor="branch-select">Sélectionnez une branche :</label>
+                      <label htmlFor="branch-select">Select a branch:</label>
                       <select
                         id="branch-select"
                         value={selectedBranch}
@@ -246,76 +246,76 @@ const Home = () => {
                       </select>
                     </div>
                     {repoDetails && (
-                      <div>
-                        <h3>Détails du Dépôt: {repoDetails.name}</h3>
-                        <p><b>Propriétaire:</b> {repoDetails.owner}</p>
-                        <p><b>URL:</b> <a href={repoDetails.url}>{repoDetails.url}</a></p>
-                        <p><b>Dernier commit:</b> {repoDetails.lastCommitMessage}</p>
-                        <p><b>Commit par:</b> {repoDetails.lastCommitAuthor}</p>
-                        <p><b>Date du dernier commit:</b> {repoDetails.lastCommitDate}</p>
-                        <h3>Paramètres</h3>
-                        <div className="input-group">
-                          <label htmlFor="UInt-input">Branch a mettre a jour</label>
-                          <input 
-                            type="text" 
-                            id="Branch-input"
-                            value={updatedParams.branch} 
-                            onChange={(event) => handleInputChange(event, 'branch')}
-                            required
-                          />
-                        </div>
-            
-                        <div className="input-group">
-                          <label htmlFor="UInt-input">Pull par interval :</label>
-                          <input 
-                            type="text" 
-                            id="UInt-input"
-                            value={updatedParams.UInt} 
-                            onChange={(event) => handleInputChange(event, 'UInt')} 
-                          />
-                        </div>
-
-                        <div className="input-group">
-                          <label htmlFor="UlastPush-input">Pull lors du dernier push (true or empty) :</label>
-                          <input
-                            type="text" 
-                            id="UlastPush-input"
-                            value={updatedParams.UlastPush} 
-                            onChange={(event) => handleInputChange(event, 'UlastPush')} 
-                          />
-                        </div>
-
-                        <div className="input-group">
-                          <label htmlFor="UpatCom-input">Pull avec pattern dans le dernier commit :</label>
-                          <input 
-                            type="text" 
-                            id="UpatCom-input"
-                            value={updatedParams.UpatCom} 
-                            onChange={(event) => handleInputChange(event, 'UpatCom')} 
-                          />
-                        </div>
-
-                        <div className="input-group">
-                          <label htmlFor="runCmd-input">run command after pull :</label>
-                          <input 
-                            type="text" 
-                            id="runCmd-input"
-                            value={updatedParams.runCmd} 
-                            onChange={(event) => handleInputChange(event, 'runCmd')} 
-                          />
-                        </div>
-
-                        <div className="input-group">
-                          <label htmlFor="runCmd-input">ntfy topic if you want to be alerted of a repo update</label>
-                          <input 
-                            type="text" 
-                            id="ntfy-input"
-                            value={updatedParams.ntfy} 
-                            onChange={(event) => handleInputChange(event, 'ntfy')}
-                          />
-                        </div>
-                        <button onClick={handleUpdateParams}>Enregistrer les paramètres</button>
+                    <div>
+                      <h3>Repository Details: {repoDetails.name}</h3>
+                      <p><b>Owner:</b> {repoDetails.owner}</p>
+                      <p><b>URL:</b> <a href={repoDetails.url}>{repoDetails.url}</a></p>
+                      <p><b>Last commit:</b> {repoDetails.lastCommitMessage}</p>
+                      <p><b>Commit by:</b> {repoDetails.lastCommitAuthor}</p>
+                      <p><b>Date of last commit:</b> {repoDetails.lastCommitDate}</p>
+                      <h3>Parameters</h3>
+                      <div className="input-group">
+                        <label htmlFor="UInt-input">Branch to be updated</label>
+                        <input 
+                          type="text" 
+                          id="Branch-input"
+                          value={updatedParams.branch} 
+                          onChange={(event) => handleInputChange(event, 'branch')}
+                          required
+                        />
                       </div>
+          
+                      <div className="input-group">
+                        <label htmlFor="UInt-input">Pull per interval:</label>
+                        <input 
+                          type="text" 
+                          id="UInt-input"
+                          value={updatedParams.UInt} 
+                          onChange={(event) => handleInputChange(event, 'UInt')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="UlastPush-input">Pull on last push (true or empty):</label>
+                        <input
+                          type="text" 
+                          id="UlastPush-input"
+                          value={updatedParams.UlastPush} 
+                          onChange={(event) => handleInputChange(event, 'UlastPush')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="UpatCom-input">Pull with pattern in last commit:</label>
+                        <input 
+                          type="text" 
+                          id="UpatCom-input"
+                          value={updatedParams.UpatCom} 
+                          onChange={(event) => handleInputChange(event, 'UpatCom')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="runCmd-input">Run command after pull:</label>
+                        <input 
+                          type="text" 
+                          id="runCmd-input"
+                          value={updatedParams.runCmd} 
+                          onChange={(event) => handleInputChange(event, 'runCmd')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="runCmd-input">Notification topic if you want to be alerted of a repo update</label>
+                        <input 
+                          type="text" 
+                          id="ntfy-input"
+                          value={updatedParams.ntfy} 
+                          onChange={(event) => handleInputChange(event, 'ntfy')}
+                        />
+                      </div>
+                      <button onClick={handleUpdateParams}>Save Parameters</button>
+                    </div>
                     )}
                   </div>
                 )}
@@ -323,80 +323,80 @@ const Home = () => {
             ))}
           </ul>
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
-            {showAddRepo ? 'Masquer le formulaire d\'ajout de dépôt' : 'Ajouter un nouveau dépôt'}
+            {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
           </button>
           {showAddRepo && (
             <div className="add-repo-form slideIn">
-              <h2>Ajouter un nouveau dépôt</h2>
+              <h2>Add a New Repository</h2>
               <input
                 type="text"
-                placeholder="Propriétaire"
+                placeholder="Owner"
                 value={newRepo.owner}
                 onChange={(e) => setNewRepo({ ...newRepo, owner: e.target.value })}
                 required
               />
               <input
                 type="text"
-                placeholder="Nom"
+                placeholder="Name"
                 value={newRepo.name}
                 onChange={(e) => setNewRepo({ ...newRepo, name: e.target.value })}
                 required
               />
               <input
                 type="text"
-                placeholder="Chemin"
+                placeholder="Path"
                 value={newRepo.path}
                 onChange={(e) => setNewRepo({ ...newRepo, path: e.target.value })}
                 required
               />
               <input
                 type="text"
-                placeholder="Branche"
+                placeholder="Branch"
                 value={newRepo.branch}
                 onChange={(e) => setNewRepo({ ...newRepo, branch: e.target.value })}
                 required
               />
               <input
                 type="text"
-                placeholder="Pull par interval"
+                placeholder="Pull per interval"
                 value={newRepo.UInt}
                 onChange={(e) => setNewRepo({ ...newRepo, UInt: e.target.value })}
               />
               <input
                 type="text"
-                placeholder="Pull lors du dernier push (true or empty)"
+                placeholder="Pull on last push (true or empty)"
                 value={newRepo.UlastPush}
                 onChange={(e) => setNewRepo({ ...newRepo, UlastPush: e.target.value })}
               />
               <input
                 type="text"
-                placeholder="Pull avec pattern dans le dernier commit"
+                placeholder="Pull with pattern in last commit"
                 value={newRepo.UpatCom}
                 onChange={(e) => setNewRepo({ ...newRepo, UpatCom: e.target.value })}
               />
               <input
                 type="text"
-                placeholder="run command after pull"
+                placeholder="Run command after pull"
                 value={newRepo.runCmd}
                 onChange={(e) => setNewRepo({ ...newRepo, runCmd: e.target.value })}
               />
-              <button onClick={handleAddRepo}>Ajouter</button>
+              <button onClick={handleAddRepo}>Add</button>
             </div>
           )}
           <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>
-            {showTokenSection ? 'Masquer le formulaire de token' : 'Changer le token d\'accès'}
+            {showTokenSection ? 'Hide Token Form' : 'Change Access Token'}
           </button>
           {showTokenSection && (
             <div className="token-form slideIn">
-              <h2>Changer le token d'accès</h2>
+              <h2>Change Access Token</h2>
               <input
                 type="text"
                 placeholder="Nouveau token"
                 value={newToken}
                 onChange={handleTokenInputChange}
               />
-              <button onClick={handleSaveToken}>Enregistrer le token</button>
-              <button onClick={handleCreateAccessToken}>Créer un nouveau token</button>
+              <button onClick={handleSaveToken}>Save Token</button>
+              <button onClick={handleCreateAccessToken}>Create new Token</button>
             </div>
           )}
           <h2>Statistiques</h2>
@@ -404,7 +404,7 @@ const Home = () => {
         </>
       ) : (
         <>
-          <h2>Changer le token d'accès</h2>
+          <h2>Change Access Token</h2>
           <div className="token-form">
             <input
               type="text"
@@ -412,12 +412,12 @@ const Home = () => {
               value={newToken}
               onChange={handleTokenInputChange}
             />
-            <button onClick={handleSaveToken}>Enregistrer le token</button>
-            <button onClick={handleCreateAccessToken}>Créer un nouveau token</button>
+              <button onClick={handleSaveToken}>Save Token</button>
+              <button onClick={handleCreateAccessToken}>Create new Token</button>
           </div>
         </>
       )}
-      {showAlert && <p className="alert">Opération réussie !</p>}
+      {showAlert && <p className="alert">Operation successful!</p>}
     </div>
   );
 };

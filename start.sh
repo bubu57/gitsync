@@ -1,37 +1,72 @@
 #!/bin/bash
 
-# Vérifie si le dossier 'data' existe
+# Function to display a loading animation
+function display_loading_animation {
+    local sp='/-\|'
+    printf ' '
+    while true; do
+        printf '\b%s' "$sp"
+        sp=${sp#?}${sp%???}
+        sleep 0.1
+    done
+}
+
+# Function to stop the loading animation
+function stop_loading_animation {
+    kill "$1" 2>/dev/null
+    wait "$1" 2>/dev/null
+}
+
+# Startup animation
+echo "Welcome! Launching GitSync..."
+
+# Check if the 'data' directory exists
 if [[ ! -d "data" ]]; then
     mkdir data
 fi
 
-# Vérifie la présence du fichier token.json
+# Check the presence of the token.json file
 if [[ ! -f "data/token.json" ]]; then
     echo '{"token":""}' > data/token.json
 fi
 
-# Vérifie la présence du fichier repos.json
+# Check the presence of the repos.json file
 if [[ ! -f "data/repos.json" ]]; then
     echo '{"repos":[]}' > data/repos.json
 fi
 
-# Vérifie la présence de Docker et Docker Compose
+# Check for the presence of Docker and Docker Compose
 if ! command -v docker &> /dev/null; then
-    echo "Erreur : Docker n'est pas installé."
+    echo "Error: Docker is not installed."
     exit 1
 fi
 
 if ! command -v docker-compose &> /dev/null; then
-    echo "Erreur : Docker Compose n'est pas installé."
+    echo "Error: Docker Compose is not installed."
     exit 1
 fi
-echo "web image building..."
-docker build -f dockerfile.web -t gitsync_web .
-echo "engine image building..."
-docker build -f dockerfile.engine -t gitsync_engine .
 
-echo "starting compose..."
-docker-compose up -d
+# Building the image for the web service with animation
+printf "Building image for the web service... "
+display_loading_animation &
+animation_pid=$!
+docker build -f dockerfile.web -t gitsync_web . > /dev/null
+stop_loading_animation "$animation_pid"
+printf "Done!\n"
 
-echo "Done !"
-echo "Access to : http://localhost:9002"
+# Building the image for the engine with animation
+printf "Building image for the engine... "
+display_loading_animation &
+animation_pid=$!
+docker build -f dockerfile.engine -t gitsync_engine . > /dev/null
+stop_loading_animation "$animation_pid"
+printf "Done!\n"
+
+# Starting services with animation
+echo "Starting services..."
+docker-compose up -d > /dev/null
+echo "Services started successfully!"
+
+# End message with access link
+echo "GitSync is ready to be used."
+echo "Access at: http://localhost:9002"
