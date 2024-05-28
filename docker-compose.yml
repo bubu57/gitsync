@@ -4,6 +4,7 @@ services:
   web:
     image: gitsync_web
     container_name: web
+    user: "${USER_ID}:${GROUP_ID}"
     restart: always
     ports:
       - "9002:7000"
