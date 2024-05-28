@@ -1,3 +1,0 @@
-Gitpython
-threaded
-requests

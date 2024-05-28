@@ -106,6 +106,10 @@ def update_repo(repo_info):
         repo.git.checkout(branch)
         repo.remotes.origin.pull()
 
+        # Incrémentation de la valeur de pull
+        if 'pull' in repo_info:
+            repo_info['pull'] = str(int(repo_info['pull']) + 1)
+
         logging.info(f"Repo {repo_info['name']} updated on branch {branch}")
         logging.getLogger().handlers[2].setLevel(logging.INFO)  # Set action log level
         logging.info(f"Action: Updated repo {repo_info['name']} on branch {branch}")
@@ -131,19 +135,6 @@ def update_repo(repo_info):
             message = f"Repo: {repo_info['name']}\nBranch: {branch}\nDate: {time.strftime('%Y-%m-%d %H:%M:%S')}\nLast Commit: {remote_commit.hexsha}"
             send_ntfy_notification(topic, title, message)
 
-        # Incrémenter la valeur de pull dans repos.json
-        try:
-            repos_data = load_repos(file_path)
-            for repo in repos_data['repos']:
-                if repo['name'] == repo_info['name']:
-                    if 'pull' in repo:
-                        repo['pull'] += 1
-                    else:
-                        repo['pull'] = 1
-            save_repos(file_path, repos_data)
-            logging.info(f"Incremented pull count for repo {repo_info['name']}")
-        except Exception as e:
-            logging.error(f"Error incrementing pull count for repo {repo_info['name']}: {e}")
 
 def check_new_push(repo_info):
     """Vérifie s'il y a un nouveau push dans le dépôt distant."""
