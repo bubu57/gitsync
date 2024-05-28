@@ -3,10 +3,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { exec } = require('child_process');
-const simpleGit = require('simple-git');
 
 const app = express();
-const PORT = parseInt(process.env.PORT) || process.argv[3] || 7000;
+const PORT = parseInt(process.env.PORT) || process.argv[3] || 9002;
 
 app.use(express.json());
 app.use(express.static('../frontend/build'));

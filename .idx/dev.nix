@@ -31,7 +31,8 @@
         web = {
           # command = ["npm" "start" "--prefix" "web/backend" "--" "--port" "$PORT"];
           # command = ["docker-compose" "up"];
-          command = ["sh" "-c" "git checkout dev && echo $PORT && docker-compose up"];
+          # command = ["sh" "-c" "git checkout dev && echo $PORT && docker-compose up"];
+          command = ["sh" "-c" "cd web/backend && node index.js"];
           manager = "web";
         };
       };

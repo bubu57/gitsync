@@ -14,7 +14,6 @@ const Home = () => {
   const [newToken, setNewToken] = useState('');
   const [updatedParams, setUpdatedParams] = useState({});
   const [showAlert, setShowAlert] = useState(false);
-  const [nbrepos, setNbrepos] = useState(0);
   let [alertmessage, setalertmessage] = useState('');
   const [newRepo, setNewRepo] = useState({
     owner: '',
@@ -31,7 +30,6 @@ const Home = () => {
   });
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
-  const [scannedRepos, setScannedRepos] = useState([]); // État pour stocker les dépôts scannés
 
   useEffect(() => {
     axios.get('/api/token')
@@ -50,7 +48,6 @@ const Home = () => {
       })
         .then(response => {
           setRepos(response.data.repos);
-          setNbrepos(response.data.repos.length);
         })
         .catch(error => {
           console.error('Error fetching repositories:', error);
@@ -159,7 +156,7 @@ const Home = () => {
         setToken(newToken);
         setNewToken('');
         setalertmessage('Operation successful')
-        setShowAlert(true);
+        setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
@@ -192,12 +189,11 @@ const Home = () => {
       setalertmessage('Please fill in the first 4 fields')
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
-      return; 
+      return;
     }
-  
-    axios.post('/api/repos', newRepo)
+    axios.post('/api/addrepo', newRepo)
       .then(response => {
-        setRepos([...repos, response.data]); 
+        setRepos([...repos, newRepo]);
         setNewRepo({
           owner: '',
           name: '',
@@ -211,149 +207,228 @@ const Home = () => {
           ntfy: '',
           pull: ''
         });
-        setShowAddRepo(false); 
         setalertmessage('Operation successful')
         setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000);
+        setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
         console.error('Error adding repository:', error);
       });
   };
 
-  const handleScanRepos = () => {
-    axios.get('/api/scanrepos')
+  const handleDeleteRepo = (repoName) => {
+    axios.post('/api/delrepo', { name: repoName })
       .then(response => {
-        setScannedRepos(response.data.repos);
+        const updatedRepos = repos.filter(repo => repo.name !== repoName);
+        setRepos(updatedRepos);
+        setalertmessage('Operation successful')
+        setShowAlert(true); 
+        setTimeout(() => setShowAlert(false), 3000); 
       })
       .catch(error => {
-        console.error('Error scanning repositories:', error);
+        console.error('Error deleting repository:', error);
       });
   };
 
-  const handleScannedRepoClick = (repo) => {
-    setNewRepo({
-      owner: repo.remoteUrl.split('/')[3], 
-      name: repo.name,
-      path: repo.path,
-      branch: 'main',
-      lastCommitSha: '',
-      UInt: '',
-      UlastPush: '',
-      UpatCom: '',
-      runCmd: '',
-      ntfy: '',
-      pull: ''
-    });
-    setShowAddRepo(true);
-  };
-
   return (
-    <div>
-      <h2>GitHub Repository Management</h2>
-      {showAlert && <div className="alert">{alertmessage}</div>}
-      <div className="section-container">
-        <div className="section">
-          <h3>GitHub Token</h3>
-          <p>Token: {token}</p>
-          <button onClick={() => setShowTokenSection(!showTokenSection)}>
-            {showTokenSection ? 'Hide Token Section' : 'Update Token'}
-          </button>
-          {showTokenSection && (
-            <div>
-              <p>Click <button onClick={handleCreateAccessToken}>here</button> to create a new token.</p>
-              <input type="text" value={newToken} onChange={handleTokenInputChange} placeholder="Enter new token" />
-              <button onClick={handleSaveToken}>Save Token</button>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="section-container">
-        <div className="section">
-          <h3>Repositories ({nbrepos})</h3>
-          <button onClick={() => setShowAddRepo(!showAddRepo)}>{showAddRepo ? 'Cancel' : 'Add Repository'}</button>
-          <button onClick={handleScanRepos}>Scan Repositories</button>
-          {showAddRepo && (
-            <div className="add-repo-form">
-              <input type="text" value={newRepo.owner} onChange={e => setNewRepo({ ...newRepo, owner: e.target.value })} placeholder="Owner" />
-              <input type="text" value={newRepo.name} onChange={e => setNewRepo({ ...newRepo, name: e.target.value })} placeholder="Repository Name" />
-              <input type="text" value={newRepo.path} onChange={e => setNewRepo({ ...newRepo, path: e.target.value })} placeholder="Repository Path" />
-              <input type="text" value={newRepo.branch} onChange={e => setNewRepo({ ...newRepo, branch: e.target.value })} placeholder="Branch" />
-              <input type="text" value={newRepo.lastCommitSha} onChange={e => setNewRepo({ ...newRepo, lastCommitSha: e.target.value })} placeholder="Last Commit SHA" />
-              <input type="text" value={newRepo.UInt} onChange={e => setNewRepo({ ...newRepo, UInt: e.target.value })} placeholder="Last Commit Date" />
-              <input type="text" value={newRepo.UlastPush} onChange={e => setNewRepo({ ...newRepo, UlastPush: e.target.value })} placeholder="Push Date" />
-              <input type="text" value={newRepo.UpatCom} onChange={e => setNewRepo({ ...newRepo, UpatCom: e.target.value })} placeholder="Commit Date" />
-              <input type="text" value={newRepo.runCmd} onChange={e => setNewRepo({ ...newRepo, runCmd: e.target.value })} placeholder="Run Command" />
-              <input type="text" value={newRepo.ntfy} onChange={e => setNewRepo({ ...newRepo, ntfy: e.target.value })} placeholder="Notification Command" />
-              <input type="text" value={newRepo.pull} onChange={e => setNewRepo({ ...newRepo, pull: e.target.value })} placeholder="Number of Pulls" />
-              <button onClick={handleAddRepo}>Add Repository</button>
-            </div>
-          )}
+    <div className="home-container">
+      {showAlert && <p className="alert">{alertmessage}</p>}
+      <h2>Repository</h2>
+      {token ? (
+        <>
           <ul>
-            {repos.map(repo => (
-              <li
-                key={repo.name}
-                className={selectedRepo && selectedRepo.name === repo.name ? 'selected' : ''}
-                onClick={() => handleRepoClick(repo)}
-              >
-                {repo.name}
+            {repos.map((repo, index) => (
+              <li key={index} className="fadeIn">
+                <a href="#!" onClick={() => handleRepoClick(repo)}>
+                  {repo.name}
+                </a>
+                <button onClick={() => handleDeleteRepo(repo.name)}>Delete</button>
+                {selectedRepo && selectedRepo.name === repo.name && (
+                  <div className="repo-details slideIn">
+                    <div>
+                      <label htmlFor="branch-select">Select a branch:</label>
+                      <select
+                        id="branch-select"
+                        value={selectedBranch}
+                        onChange={handleBranchChange}
+                      >
+                        {branches.map((branchl, index) => (
+                          <option key={index} value={branchl.name}>{branchl.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {repoDetails && (
+                    <div>
+                      <h3>Repository Details: {repoDetails.name}</h3>
+                      <p><b>Owner:</b> {repoDetails.owner}</p>
+                      <p><b>URL:</b> <a href={repoDetails.url}>{repoDetails.url}</a></p>
+                      <p><b>Last commit:</b> {repoDetails.lastCommitMessage}</p>
+                      <p><b>Commit by:</b> {repoDetails.lastCommitAuthor}</p>
+                      <p><b>Date of last commit:</b> {repoDetails.lastCommitDate}</p>
+                      <h3>Parameters</h3>
+                      <div className="input-group">
+                        <label htmlFor="UInt-input">Branch to be updated</label>
+                        <input 
+                          type="text" 
+                          id="Branch-input"
+                          value={updatedParams.branch} 
+                          onChange={(event) => handleInputChange(event, 'branch')}
+                          required
+                        />
+                      </div>
+          
+                      <div className="input-group">
+                        <label htmlFor="UInt-input">Pull per interval:</label>
+                        <input 
+                          type="text" 
+                          id="UInt-input"
+                          value={updatedParams.UInt} 
+                          onChange={(event) => handleInputChange(event, 'UInt')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="UlastPush-input">Pull on last push (true or empty):</label>
+                        <input
+                          type="text" 
+                          id="UlastPush-input"
+                          value={updatedParams.UlastPush} 
+                          onChange={(event) => handleInputChange(event, 'UlastPush')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="UpatCom-input">Pull with pattern in last commit:</label>
+                        <input 
+                          type="text" 
+                          id="UpatCom-input"
+                          value={updatedParams.UpatCom} 
+                          onChange={(event) => handleInputChange(event, 'UpatCom')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="runCmd-input">Run command after pull:</label>
+                        <input 
+                          type="text" 
+                          id="runCmd-input"
+                          value={updatedParams.runCmd} 
+                          onChange={(event) => handleInputChange(event, 'runCmd')} 
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <label htmlFor="runCmd-input">Notification topic if you want to be alerted of a repo update</label>
+                        <input 
+                          type="text" 
+                          id="ntfy-input"
+                          value={updatedParams.ntfy} 
+                          onChange={(event) => handleInputChange(event, 'ntfy')}
+                        />
+                      </div>
+                      <button onClick={handleUpdateParams}>Save Parameters</button>
+                    </div>
+                    )}
+                  </div>
+                )}
               </li>
             ))}
           </ul>
-          {scannedRepos.length > 0 && (
-            <div>
-              <h4>Scanned Repositories</h4>
-              <ul>
-                {scannedRepos.map(repo => (
-                  <li key={repo.path} onClick={() => handleScannedRepoClick(repo)}>
-                    {repo.name} - {repo.path}
-                  </li>
-                ))}
-              </ul>
+          <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
+            {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
+          </button>
+          {showAddRepo && (
+            <div className="add-repo-form slideIn">
+              <h2>Add a New Repository</h2>
+              <input
+                type="text"
+                placeholder="Owner"
+                value={newRepo.owner}
+                onChange={(e) => setNewRepo({ ...newRepo, owner: e.target.value })}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Name"
+                value={newRepo.name}
+                onChange={(e) => setNewRepo({ ...newRepo, name: e.target.value })}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Path"
+                value={newRepo.path}
+                onChange={(e) => setNewRepo({ ...newRepo, path: e.target.value })}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Branch"
+                value={newRepo.branch}
+                onChange={(e) => setNewRepo({ ...newRepo, branch: e.target.value })}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Pull per interval"
+                value={newRepo.UInt}
+                onChange={(e) => setNewRepo({ ...newRepo, UInt: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Pull on last push (true or empty)"
+                value={newRepo.UlastPush}
+                onChange={(e) => setNewRepo({ ...newRepo, UlastPush: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Pull with pattern in last commit"
+                value={newRepo.UpatCom}
+                onChange={(e) => setNewRepo({ ...newRepo, UpatCom: e.target.value })}
+              />
+              <input
+                type="text"
+                placeholder="Run command after pull"
+                value={newRepo.runCmd}
+                onChange={(e) => setNewRepo({ ...newRepo, runCmd: e.target.value })}
+              />
+              <button onClick={handleAddRepo}>Add</button>
             </div>
           )}
-        </div>
-        <div className="section">
-          <h3>Repository Details</h3>
-          {repoDetails && (
-            <div>
-              <p><strong>Name:</strong> {repoDetails.name}</p>
-              <p><strong>Owner:</strong> {repoDetails.owner}</p>
-              <p><strong>URL:</strong> <a href={repoDetails.url} target="_blank" rel="noopener noreferrer">{repoDetails.url}</a></p>
-              <p><strong>Last Commit:</strong> {repoDetails.lastCommitMessage}</p>
-              <p><strong>Author:</strong> {repoDetails.lastCommitAuthor}</p>
-              <p><strong>Date:</strong> {repoDetails.lastCommitDate}</p>
-              <p><strong>SHA:</strong> {repoDetails.lastCommitSha}</p>
+          <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>
+            {showTokenSection ? 'Hide Token Form' : 'Change Access Token'}
+          </button>
+          {showTokenSection && (
+            <div className="token-form slideIn">
+              <h2>Change Access Token</h2>
+              <input
+                type="text"
+                placeholder="Nouveau token"
+                value={newToken}
+                onChange={handleTokenInputChange}
+              />
+              <button onClick={handleSaveToken}>Save Token</button>
+              <button onClick={handleCreateAccessToken}>Create new Token</button>
             </div>
           )}
-          {selectedRepo && (
-            <div>
-              <h4>Branches</h4>
-              <select value={selectedBranch} onChange={handleBranchChange}>
-                {branches.map(branch => (
-                  <option key={branch.name} value={branch.name}>{branch.name}</option>
-                ))}
-              </select>
-            </div>
-          )}
-          {selectedRepo && (
-            <div className="update-params">
-              <h4>Update Parameters</h4>
-              <input type="text" value={updatedParams.branch} onChange={e => handleInputChange(e, 'branch')} placeholder="Branch" />
-              <input type="text" value={updatedParams.UInt} onChange={e => handleInputChange(e, 'UInt')} placeholder="Last Commit Date" />
-              <input type="text" value={updatedParams.UlastPush} onChange={e => handleInputChange(e, 'UlastPush')} placeholder="Push Date" />
-              <input type="text" value={updatedParams.UpatCom} onChange={e => handleInputChange(e, 'UpatCom')} placeholder="Commit Date" />
-              <input type="text" value={updatedParams.runCmd} onChange={e => handleInputChange(e, 'runCmd')} placeholder="Run Command" />
-              <input type="text" value={updatedParams.ntfy} onChange={e => handleInputChange(e, 'ntfy')} placeholder="Notification Command" />
-              <button onClick={handleUpdateParams}>Update Parameters</button>
-            </div>
-          )}
-        </div>
-        <div className="section">
-          <h3>Pulls</h3>
-          <canvas id="bar-chart"></canvas>
-        </div>
-      </div>
+          <h2>Statistiques</h2>
+          <canvas class='historique-canvas' id="bar-chart" width="800" height="400"></canvas>
+        </>
+      ) : (
+        <>
+          <h2>Change Access Token</h2>
+          <div className="token-form">
+            <input
+              type="text"
+              placeholder="Nouveau token"
+              value={newToken}
+              onChange={handleTokenInputChange}
+            />
+              <button onClick={handleSaveToken}>Save Token</button>
+              <button onClick={handleCreateAccessToken}>Create new Token</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
