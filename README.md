@@ -50,9 +50,25 @@ This will start the `web` service (React frontend and Node.js backend) and the `
 
 Open your browser and go to `http://localhost:9002` to access the GitSync web interface.
 
+### Chang web port
+edit docker-compose.yml
+```
+nano docker-compose.yml
+```
+and replace 9002 to your port, ex:
+```
+- "8080:7000"
+```
+
 ## Usage
 
 ### Web Interface
+
+0. **Put your acces token**:
+   - click "Create new token"
+   - configure your token with the appropriate permissions (min: repo full, user full)
+   - copy your token and paste it in the box below
+   - click "Save"
 
 1. **View Repositories**:
    - See a list of all configured repositories.
