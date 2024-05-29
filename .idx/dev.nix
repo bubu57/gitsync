@@ -5,7 +5,7 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_20
-    pkgs.python310
+    pkgs.python38
     pkgs.docker
     pkgs.docker-compose
   ];

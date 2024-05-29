@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import GitHub from 'github-api';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
@@ -31,6 +31,14 @@ const Home = () => {
   });
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
+
+  const [scanning, setScanning] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [foundRepos, setFoundRepos] = useState([]);
+  const [selectedRepos, setSelectedRepos] = useState([]);
+
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
 
   useEffect(() => {
     axios.get('/api/token')
@@ -67,6 +75,11 @@ const Home = () => {
   useEffect(() => {
     if (repos.length === 0) return;
 
+    // Destroy previous chart instance if it exists
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
     const ctx = document.getElementById('bar-chart');
 
     const label = repos.map(repo => repo.name);
@@ -91,6 +104,11 @@ const Home = () => {
         }
       }
     });
+    return () => {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
+    };
   }, [repos]);
 
   const handleRepoClick = (repo) => {
@@ -193,6 +211,7 @@ const Home = () => {
       setTimeout(() => setShowAlert(false), 3000);
       return;
     }
+    console.log(newRepo)
     axios.post('/api/addrepo', newRepo)
       .then(response => {
         setRepos([...repos, newRepo]);
@@ -231,6 +250,70 @@ const Home = () => {
         console.error('Error deleting repository:', error);
       });
   };
+
+  
+
+
+
+  const handleScan = async () => {
+    setScanning(true);
+    setProgress(0);
+    
+    try {
+      const response = await axios.post('/api/scanRepos', { path: '/home/user' }, {
+        onDownloadProgress: (progressEvent) => {
+          if (progressEvent.lengthComputable) {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setProgress(percentCompleted);
+          }
+        }
+      });
+      setFoundRepos(response.data.repos);
+    } catch (error) {
+      console.error('Erreur lors du scan des dépôts :', error);
+    } finally {
+      setScanning(false);
+    }
+  };
+
+  const handleRepoSelect = (repo) => {
+    setSelectedRepos(prevSelected => {
+      if (prevSelected.includes(repo)) {
+        return prevSelected.filter(r => r !== repo);
+      } else {
+        return [...prevSelected, repo];
+      }
+    });
+  };
+
+  const handleAddSelectedRepos = async () => {
+    for (const repo of selectedRepos) {
+      const newRepo = {
+        owner: repo.owner,
+        name: repo.name,
+        path: repo.path,
+        branch: repo.branch,
+        lastCommitSha: '',
+        UInt: '',
+        UlastPush: '',
+        UpatCom: '',
+        runCmd: '',
+        ntfy: '',
+        pull: ''
+      };
+  
+      try {
+        await axios.post('/api/addrepo', newRepo);
+        setRepos(prevRepos => [...prevRepos, newRepo]);
+        setalertmessage('Operation successful');
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
+      } catch (error) {
+        console.error('Error adding repository:', error);
+      }
+    }
+  };
+
 
   return (
     <div className="home-container">
@@ -336,6 +419,35 @@ const Home = () => {
               </li>
             ))}
           </ul>
+
+
+          <button onClick={handleScan} disabled={scanning}>
+            {scanning ? 'Scanning...' : 'Scanner les dépôts GitHub'}
+          </button>
+          {scanning && <div>Progress: {progress}%</div>}
+          <ul>
+            {foundRepos.map((repo, index) => (
+              <li key={index}>
+                <label>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedRepos.includes(repo)}
+                    onChange={() => handleRepoSelect(repo)}
+                  />
+                  {repo.name} - {repo.owner} - {repo.path} - {repo.branch}
+                </label>
+              </li>
+            ))}
+          </ul>
+          {selectedRepos.length > 0 && <button onClick={handleAddSelectedRepos}>Ajouter les dépôts sélectionnés</button>}
+
+
+
+          <ul>
+            {repos.map((repo, index) => (
+              <li key={index}>{repo.name}</li>
+            ))}
+          </ul>
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
             {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
           </button>
@@ -414,7 +526,9 @@ const Home = () => {
             </div>
           )}
           <h2>Statistiques</h2>
-          <canvas class='historique-canvas' id="bar-chart" width="800" height="400"></canvas>
+          {repos.length > 0 ? (
+            <canvas class='historique-canvas' id="bar-chart" width="800" height="400"></canvas>)
+          : 'Loading...'}
         </>
       ) : (
         <>

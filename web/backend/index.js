@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { exec } = require('child_process');
+const simpleGit = require('simple-git');
 
 const app = express();
 const PORT = parseInt(process.env.PORT) || process.argv[3] || 9002;
@@ -13,6 +14,48 @@ app.use(bodyParser.json());
 
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
+
+app.post('/api/scanRepos', async (req, res) => {
+    const rootDir = req.body.path || '/user_sys'; // Default root directory to scan
+    const repos = [];
+
+    const scanDirectory = async (dir) => {
+        const files = fs.readdirSync(dir);
+        for (const file of files) {
+            const filePath = path.join(dir, file);
+            if (fs.statSync(filePath).isDirectory()) {
+                if (fs.existsSync(path.join(filePath, '.git'))) {
+                    const git = simpleGit(filePath);
+                    const remotes = await git.getRemotes(true);
+                    const originRemote = remotes.find(remote => remote.name === 'origin');
+                    if (originRemote) {
+                        const repoUrl = new URL(originRemote.refs.fetch);
+                        const [owner, name] = repoUrl.pathname.split('/').slice(-2);
+                        repos.push({
+                            owner: owner,
+                            name: name.replace('.git', ''),
+                            path: filePath,
+                            branch: (await git.branchLocal()).current
+                        });
+                    }
+                } else {
+                    await scanDirectory(filePath);
+                }
+            }
+        }
+    };
+
+    try {
+        console.log(`Scanning directory: ${rootDir}`);
+        await scanDirectory(rootDir);
+        console.log(`Found repositories: ${JSON.stringify(repos)}`);
+        res.json({ repos });
+    } catch (error) {
+        console.error('Error during scanning:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 app.get('/api/repos', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
@@ -164,10 +207,9 @@ app.post('/api/addrepo', (req, res) => {
       res.json({ message: 'Dépôt ajouté avec succès' });
     });
 
-    exec(`git config --system --add safe.directory '${newRepo.path}'`, (error, stdout, stderr) => {
+    exec(`git config --global --add safe.directory '${newRepo.path}'`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Erreur lors de l'exécution de git pull : ${error}`);
-        return res.status(500).json({ error: `Erreur lors de l'exécution de git pull : ${stderr}` });
       }
     });
   });
