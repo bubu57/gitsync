@@ -5,7 +5,10 @@ import logging
 import requests
 from threading import Thread
 from git import Repo
-import subprocess
+import subprocess 
+
+# path de la racine
+path_racine = ""
 
 # Création des répertoires de logs si nécessaires
 os.makedirs('/gitsync/data', exist_ok=True)
@@ -83,7 +86,7 @@ def send_ntfy_notification(topic, title, message):
 def add_safe_directories(repos):
     """Ajoute les répertoires des dépôts à la configuration Git safe.directory."""
     for repo_info in repos:
-        repo_path = "/user_sys" + repo_info['path']
+        repo_path = path_racine + repo_info['path']
         try:
             subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', repo_path], check=True)
             logging.info(f"Added {repo_path} to safe.directory")
@@ -92,7 +95,7 @@ def add_safe_directories(repos):
 
 def update_repo(repo_info):
     """Met à jour le dépôt local avec les dernières modifications du dépôt distant."""
-    repo_path = "/user_sys/" + repo_info['path']
+    repo_path = path_racine + repo_info['path']
     branch = repo_info['branch']
     repo = Repo(repo_path)
     
@@ -138,7 +141,7 @@ def update_repo(repo_info):
 
 def check_new_push(repo_info):
     """Vérifie s'il y a un nouveau push dans le dépôt distant."""
-    repo_path = "/user_sys/" + repo_info['path']
+    repo_path = path_racine + repo_info['path']
     branch = repo_info['branch']
     repo = Repo(repo_path)
     
@@ -151,7 +154,7 @@ def check_new_push(repo_info):
 
 def check_commit_pattern(repo_info, pattern):
     """Vérifie si le dernier commit contient un certain pattern dans le message."""
-    repo_path = "/user_sys/" + repo_info['path']
+    repo_path = path_racine + repo_info['path']
     branch = repo_info['branch']
     repo = Repo(repo_path)
     
@@ -224,7 +227,7 @@ def main():
             if repo_info.get('UpatCom'):
                 parameters_count += 1
                 pattern = repo_info['UpatCom']
-                latest_commit_sha = Repo("/user_sys/" + repo_info['path']).commit(repo_info['branch']).hexsha
+                latest_commit_sha = Repo(path_racine + repo_info['path']).commit(repo_info['branch']).hexsha
                 latest_api_commit_sha = get_latest_commit_sha(repo_info['owner'], repo_info['name'], repo_info['branch'], token)
                 if latest_api_commit_sha and latest_commit_sha != latest_api_commit_sha:
                     if check_commit_pattern(repo_info, pattern):
@@ -235,7 +238,7 @@ def main():
 
             # Mettre à jour le dernier SHA de commit si nécessaire
             if update_needed:
-                repo = Repo("/user_sys/" + repo_info['path'])
+                repo = Repo(path_racine + repo_info['path'])
                 latest_commit_sha = repo.commit(repo_info['branch']).hexsha
                 if repo_info['lastCommitSha'] != latest_commit_sha:
                     repo_info['lastCommitSha'] = latest_commit_sha
