@@ -36,9 +36,7 @@ const Home = () => {
   const [progress, setProgress] = useState(0);
   const [foundRepos, setFoundRepos] = useState([]);
   const [selectedRepos, setSelectedRepos] = useState([]);
-
-  const chartRef = useRef(null);
-  const chartInstanceRef = useRef(null);
+  const [ShowScannRepo, setShowScannRepo] = useState(false);
 
   useEffect(() => {
     axios.get('/api/token')
@@ -72,44 +70,6 @@ const Home = () => {
     }
   }, [selectedRepo]);
 
-  useEffect(() => {
-    if (repos.length === 0) return;
-
-    // Destroy previous chart instance if it exists
-    if (chartInstanceRef.current) {
-      chartInstanceRef.current.destroy();
-    }
-
-    const ctx = document.getElementById('bar-chart');
-
-    const label = repos.map(repo => repo.name);
-    const pulls = repos.map(repo => repo.pull);
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: label,
-        datasets: [{
-          label: 'Number of Pulls',
-          data: pulls,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-    return () => {
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
-      }
-    };
-  }, [repos]);
 
   const handleRepoClick = (repo) => {
     if (selectedRepo && selectedRepo.name === repo.name) {
@@ -256,6 +216,7 @@ const Home = () => {
 
 
   const handleScan = async () => {
+    setShowScannRepo(!ShowScannRepo)
     setScanning(true);
     setProgress(0);
     
@@ -422,32 +383,31 @@ const Home = () => {
 
 
           <button onClick={handleScan} disabled={scanning}>
-            {scanning ? 'Scanning...' : 'Scanner les dépôts GitHub'}
+            {ShowScannRepo ? 'Close scann' : 'Scanner les dépôts GitHub'}
           </button>
-          {scanning && <div>Progress: {progress}%</div>}
-          <ul>
-            {foundRepos.map((repo, index) => (
-              <li key={index}>
-                <label>
-                  <input 
-                    type="checkbox" 
-                    checked={selectedRepos.includes(repo)}
-                    onChange={() => handleRepoSelect(repo)}
-                  />
-                  {repo.name} - {repo.owner} - {repo.path} - {repo.branch}
-                </label>
-              </li>
-            ))}
-          </ul>
-          {selectedRepos.length > 0 && <button onClick={handleAddSelectedRepos}>Ajouter les dépôts sélectionnés</button>}
+          {ShowScannRepo && (
+            <div>
+              {scanning && <div>Progress: {progress}%</div>}
+              <ul>
+                {foundRepos.map((repo, index) => (
+                  <li key={index}>
+                    <label>
+                      <input 
+                        type="checkbox" 
+                        checked={selectedRepos.includes(repo)}
+                        onChange={() => handleRepoSelect(repo)}
+                      />
+                      {repo.name} - {repo.owner} - {repo.path} - {repo.branch}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+              {selectedRepos.length > 0 && <button onClick={handleAddSelectedRepos}>Ajouter les dépôts sélectionnés</button>}
+              <p><br/></p>
+            </div>
+          )}
 
 
-
-          <ul>
-            {repos.map((repo, index) => (
-              <li key={index}>{repo.name}</li>
-            ))}
-          </ul>
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
             {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
           </button>
@@ -526,9 +486,6 @@ const Home = () => {
             </div>
           )}
           <h2>Statistiques</h2>
-          {repos.length > 0 ? (
-            <canvas class='historique-canvas' id="bar-chart" width="800" height="400"></canvas>)
-          : 'Loading...'}
         </>
       ) : (
         <>
