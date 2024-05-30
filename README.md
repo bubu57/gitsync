@@ -37,7 +37,7 @@ git clone https://github.com/yourusername/gitsync.git
 cd gitsync
 ```
 
-### Step 3: Start the Docker Containers
+### Step 3: Start gitsync
 
 Run the following command to start the containers:
 
