@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import GitHub from 'github-api';
 import axios from 'axios';
-import Chart from 'chart.js/auto';
+import RepoChart from './RepoChart';
 import './Home.css'; // Import du CSS
 
 const Home = () => {
@@ -486,6 +486,7 @@ const Home = () => {
             </div>
           )}
           <h2>Statistiques</h2>
+          <RepoChart repos={repos} />
         </>
       ) : (
         <>
