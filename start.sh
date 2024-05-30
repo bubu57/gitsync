@@ -64,7 +64,7 @@ printf "Done!\n"
 
 # Starting services with animation
 echo "Starting services..."
-# docker-compose up -d > /dev/null
+docker-compose up -d > /dev/null
 echo "Services started successfully!"
 
 # End message with access link
