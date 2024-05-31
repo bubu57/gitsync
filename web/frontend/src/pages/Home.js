@@ -4,6 +4,7 @@ import axios from 'axios';
 import RepoChart from './RepoChart';
 import AddRepoForm from './AddRepoForm';
 import TokenForm  from './TokenForm';
+import RepoDetails from './RepoDetails';
 import './Home.css';
 
 const Home = () => {
@@ -133,7 +134,7 @@ const Home = () => {
       .then(response => {
         setSelectedRepo(updatedRepo);
         fetchBranches(updatedRepo.owner, updatedRepo.name);
-        setalertmessage('Operation successful')
+        setalertmessage('Operation successful');
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
       })
@@ -264,77 +265,15 @@ const Home = () => {
                         ))}
                       </select>
                     </div>
-                    {repoDetails && (
-                    <div>
-                      <h3>Repository Details: {repoDetails.name}</h3>
-                      <p><b>Owner:</b> {repoDetails.owner}</p>
-                      <p><b>URL:</b> <a href={repoDetails.url}>{repoDetails.url}</a></p>
-                      <p><b>Last commit:</b> {repoDetails.lastCommitMessage}</p>
-                      <p><b>Commit by:</b> {repoDetails.lastCommitAuthor}</p>
-                      <p><b>Date of last commit:</b> {repoDetails.lastCommitDate}</p>
-                      <h3>Parameters</h3>
-                      <div className="input-group">
-                        <label htmlFor="UInt-input">Branch to be updated</label>
-                        <input 
-                          type="text" 
-                          id="Branch-input"
-                          value={updatedParams.branch} 
-                          onChange={(event) => handleInputChange(event, 'branch')}
-                          required
-                        />
-                      </div>
-          
-                      <div className="input-group">
-                        <label htmlFor="UInt-input">Pull per interval:</label>
-                        <input 
-                          type="text" 
-                          id="UInt-input"
-                          value={updatedParams.UInt} 
-                          onChange={(event) => handleInputChange(event, 'UInt')} 
-                        />
-                      </div>
-
-                      <div className="input-group">
-                        <label htmlFor="UlastPush-input">Pull on last push (true or empty):</label>
-                        <input
-                          type="text" 
-                          id="UlastPush-input"
-                          value={updatedParams.UlastPush} 
-                          onChange={(event) => handleInputChange(event, 'UlastPush')} 
-                        />
-                      </div>
-
-                      <div className="input-group">
-                        <label htmlFor="UpatCom-input">Pull with pattern in last commit:</label>
-                        <input 
-                          type="text" 
-                          id="UpatCom-input"
-                          value={updatedParams.UpatCom} 
-                          onChange={(event) => handleInputChange(event, 'UpatCom')} 
-                        />
-                      </div>
-
-                      <div className="input-group">
-                        <label htmlFor="runCmd-input">Run command after pull:</label>
-                        <input 
-                          type="text" 
-                          id="runCmd-input"
-                          value={updatedParams.runCmd} 
-                          onChange={(event) => handleInputChange(event, 'runCmd')} 
-                        />
-                      </div>
-
-                      <div className="input-group">
-                        <label htmlFor="runCmd-input">Notification topic if you want to be alerted of a repo update</label>
-                        <input 
-                          type="text" 
-                          id="ntfy-input"
-                          value={updatedParams.ntfy} 
-                          onChange={(event) => handleInputChange(event, 'ntfy')}
-                        />
-                      </div>
-                      <button onClick={handleUpdateParams}>Save Parameters</button>
-                    </div>
+                    {repoDetails && ( 
+                      <RepoDetails
+                        repoDetails={repoDetails}
+                        selectedBranch={selectedBranch}
+                        updatedParams={updatedParams}
+                        onBranchChange={handleBranchChange}
+                        onInputChange={handleInputChange}
+                        onUpdateParams={handleUpdateParams}
+                      />
                     )}
                   </div>
                 )}
