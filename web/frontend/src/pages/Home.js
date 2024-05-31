@@ -2,7 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import GitHub from 'github-api';
 import axios from 'axios';
 import RepoChart from './RepoChart';
-import './Home.css'; // Import du CSS
+import AddRepoForm from './AddRepoForm';
+import TokenForm  from './TokenForm';
+import './Home.css';
 
 const Home = () => {
   const [repos, setRepos] = useState([]);
@@ -11,24 +13,10 @@ const Home = () => {
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState('');
   const [token, setToken] = useState('');
-  const [newToken, setNewToken] = useState('');
   const [updatedParams, setUpdatedParams] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   let [alertmessage, setalertmessage] = useState('');
   const [nbrepos, setNbrepos] = useState(0);
-  const [newRepo, setNewRepo] = useState({
-    owner: '',
-    name: '',
-    path: '',
-    branch: '',
-    lastCommitSha: '',
-    UInt: '',
-    UlastPush: '',
-    UpatCom: '',
-    runCmd: '', 
-    ntfy: '',
-    pull: ''
-  });
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
 
@@ -122,20 +110,15 @@ const Home = () => {
     fetchRepoDetails(selectedRepo.owner, selectedRepo.name, branch);
   };
 
-  const handleCreateAccessToken = () => {
+  const handleCreateToken  = () => {
     window.location.href = 'https://github.com/settings/tokens/new';
   };
 
-  const handleTokenInputChange = (event) => {
-    setNewToken(event.target.value);
-  };
-
-  const handleSaveToken = () => {
+  const handleSaveToken = (newToken) => {
     axios.post('/api/ntoken', { token: newToken })
       .then(response => {
         setToken(newToken);
-        setNewToken('');
-        setalertmessage('Operation successful')
+        setalertmessage('Operation successful');
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
       })
@@ -164,31 +147,11 @@ const Home = () => {
     setUpdatedParams(prevParams => ({ ...prevParams, [parameter]: value }));
   };
 
-  const handleAddRepo = () => {
-    if (!newRepo.owner || !newRepo.name || !newRepo.path || !newRepo.branch) {
-      setalertmessage('Please fill in the first 4 fields')
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
-      return;
-    }
-    console.log(newRepo)
+  const handleAddRepo = (newRepo) => {
     axios.post('/api/addrepo', newRepo)
       .then(response => {
         setRepos([...repos, newRepo]);
-        setNewRepo({
-          owner: '',
-          name: '',
-          path: '',
-          branch: '',
-          lastCommitSha: '',
-          UInt: '',
-          UlastPush: '',
-          UpatCom: '',
-          runCmd: '',
-          ntfy: '',
-          pull: ''
-        });
-        setalertmessage('Operation successful')
+        setalertmessage('Operation successful');
         setShowAlert(true); 
         setTimeout(() => setShowAlert(false), 3000); 
       })
@@ -210,8 +173,6 @@ const Home = () => {
         console.error('Error deleting repository:', error);
       });
   };
-
-  
 
 
 
@@ -411,96 +372,21 @@ const Home = () => {
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
             {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
           </button>
-          {showAddRepo && (
-            <div className="add-repo-form slideIn">
-              <h2>Add a New Repository</h2>
-              <input
-                type="text"
-                placeholder="Owner"
-                value={newRepo.owner}
-                onChange={(e) => setNewRepo({ ...newRepo, owner: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Name"
-                value={newRepo.name}
-                onChange={(e) => setNewRepo({ ...newRepo, name: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Path"
-                value={newRepo.path}
-                onChange={(e) => setNewRepo({ ...newRepo, path: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Branch"
-                value={newRepo.branch}
-                onChange={(e) => setNewRepo({ ...newRepo, branch: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Pull per interval"
-                value={newRepo.UInt}
-                onChange={(e) => setNewRepo({ ...newRepo, UInt: e.target.value })}
-              />
-              <input
-                type="text"
-                placeholder="Pull on last push (true or empty)"
-                value={newRepo.UlastPush}
-                onChange={(e) => setNewRepo({ ...newRepo, UlastPush: e.target.value })}
-              />
-              <input
-                type="text"
-                placeholder="Pull with pattern in last commit"
-                value={newRepo.UpatCom}
-                onChange={(e) => setNewRepo({ ...newRepo, UpatCom: e.target.value })}
-              />
-              <input
-                type="text"
-                placeholder="Run command after pull"
-                value={newRepo.runCmd}
-                onChange={(e) => setNewRepo({ ...newRepo, runCmd: e.target.value })}
-              />
-              <button onClick={handleAddRepo}>Add</button>
-            </div>
-          )}
+          {showAddRepo && <AddRepoForm onAddRepo={handleAddRepo} />}
+
+
           <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>
             {showTokenSection ? 'Hide Token Form' : 'Change Access Token'}
           </button>
-          {showTokenSection && (
-            <div className="token-form slideIn">
-              <h2>Change Access Token</h2>
-              <input
-                type="text"
-                placeholder="Nouveau token"
-                value={newToken}
-                onChange={handleTokenInputChange}
-              />
-              <button onClick={handleSaveToken}>Save Token</button>
-              <button onClick={handleCreateAccessToken}>Create new Token</button>
-            </div>
-          )}
+          {showTokenSection && <TokenForm onSaveToken={handleSaveToken} onCreateToken={handleCreateToken} />}
+
+
           <h2>Statistiques</h2>
           <RepoChart repos={repos} />
         </>
       ) : (
         <>
-          <h2>Change Access Token</h2>
-          <div className="token-form">
-            <input
-              type="text"
-              placeholder="Nouveau token"
-              value={newToken}
-              onChange={handleTokenInputChange}
-            />
-              <button onClick={handleSaveToken}>Save Token</button>
-              <button onClick={handleCreateAccessToken}>Create new Token</button>
-          </div>
+          <TokenForm onSaveToken={handleSaveToken} onCreateToken={handleCreateToken} />
         </>
       )}
     </div>
