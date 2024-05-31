@@ -1,8 +1,105 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import GitHub from 'github-api';
 
-const RepoDetails = ({ repoDetails, selectedBranch, updatedParams, onBranchChange, onInputChange, onUpdateParams }) => {
+const RepoDetails = ({ token, selectedRepo  }) => {
+
+  const [repoDetails, setRepoDetails] = useState(null);
+  const [updatedParams, setUpdatedParams] = useState({});
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [branches, setBranches] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  let [alertmessage, setalertmessage] = useState('');
+
+  useEffect(() => {
+    if (selectedRepo) {
+      fetchBranches(selectedRepo.owner, selectedRepo.name);
+    }
+  }, [selectedRepo]);
+
+  useEffect(() => {
+    if (selectedRepo && selectedBranch) {
+      fetchRepoDetails(selectedRepo.owner, selectedRepo.name, selectedBranch);
+    }
+  }, [selectedBranch, selectedRepo]);
+
+  async function fetchBranches(repoOwner, repoName) {
+    try {
+      const gh = new GitHub({ token: token });
+      const repo = gh.getRepo(repoOwner, repoName);
+      const branches = await repo.listBranches();
+      setBranches(branches.data);
+      setSelectedBranch(branches.data[0].name); 
+    } catch (error) {
+      console.error('Error fetching branches:', error);
+    }
+  }
+
+  const handleUpdateParams = () => {
+    const updatedRepo = { ...selectedRepo, ...updatedParams };
+    axios.post('/api/updateRepoParams', updatedRepo)
+      .then(response => {
+        fetchBranches(updatedRepo.owner, updatedRepo.name);
+        setalertmessage('Operation successful');
+        setShowAlert(true); 
+        setTimeout(() => setShowAlert(false), 3000); 
+      })
+      .catch(error => {
+        console.error('Error updating repository parameters:', error);
+      });
+  };
+
+  const onInputChange = (event, parameter) => {
+    const value = event.target.value;
+    setUpdatedParams(prevParams => ({ ...prevParams, [parameter]: value }));
+  };
+
+  useEffect(() => {
+    if (selectedRepo) {
+      const { branch, UInt, UlastPush, UpatCom, runCmd, ntfy } = selectedRepo;
+      setUpdatedParams({ branch, UInt, UlastPush, UpatCom, runCmd, ntfy });
+    }
+  }, [selectedRepo]);
+
+  const fetchRepoDetails = async (repoOwner, repoName, branch) => {
+    try {
+      const gh = new GitHub({ token: token });
+      const repo = gh.getRepo(repoOwner, repoName);
+      const repodata = await repo.getDetails();
+      const lastCommit = await repo.getBranch(branch);
+      setRepoDetails({
+        name: repodata.data.name,
+        owner: repodata.data.owner.login,
+        url: repodata.data.html_url,
+        lastCommitMessage: lastCommit.data.commit.commit.message,
+        lastCommitAuthor: lastCommit.data.commit.author.login,
+        lastCommitDate: new Date(lastCommit.data.commit.commit.author.date).toLocaleString(),
+        lastCommitSha: lastCommit.data.commit.sha
+      });
+    } catch (error) {
+      console.error('Error fetching repository details:', error);
+    }
+  };
+
+  const handleBranchChange = (event) => {
+    const branch = event.target.value;
+    setSelectedBranch(branch);
+  };
+
   return (
     <div className="repo-details slideIn">
+      <div>
+        <label htmlFor="branch-select">Select a branch:</label>
+        <select
+          id="branch-select"
+          value={selectedBranch}
+          onChange={handleBranchChange}
+        >
+          {branches.map((branchl, index) => (
+            <option key={index} value={branchl.name}>{branchl.name}</option>
+          ))}
+        </select>
+      </div>
       {repoDetails && (
         <div>
           <h3>Repository Details: {repoDetails.name}</h3>
@@ -13,7 +110,7 @@ const RepoDetails = ({ repoDetails, selectedBranch, updatedParams, onBranchChang
           <p><b>Date of last commit:</b> {repoDetails.lastCommitDate}</p>
           <h3>Parameters</h3>
           <div className="input-group">
-            <label htmlFor="UInt-input">Branch to be updated</label>
+            <label htmlFor="Branch-input">Branch to be updated</label>
             <input 
               type="text" 
               id="Branch-input"
@@ -72,7 +169,8 @@ const RepoDetails = ({ repoDetails, selectedBranch, updatedParams, onBranchChang
               onChange={(event) => onInputChange(event, 'ntfy')}
             />
           </div>
-          <button onClick={onUpdateParams}>Save Parameters</button>
+          <button onClick={handleUpdateParams}>Save Parameters</button>
+          {showAlert && <p className="alert">{alertmessage}</p>}
         </div>
       )}
     </div>

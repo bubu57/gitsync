@@ -10,11 +10,7 @@ import './Home.css';
 const Home = () => {
   const [repos, setRepos] = useState([]);
   const [selectedRepo, setSelectedRepo] = useState(null);
-  const [repoDetails, setRepoDetails] = useState(null);
-  const [branches, setBranches] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState('');
   const [token, setToken] = useState('');
-  const [updatedParams, setUpdatedParams] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   let [alertmessage, setalertmessage] = useState('');
   const [nbrepos, setNbrepos] = useState(0);
@@ -52,63 +48,9 @@ const Home = () => {
     }
   }, [token]);
 
-  useEffect(() => {
-    if (selectedRepo) {
-      const { branch, UInt, UlastPush, UpatCom, runCmd, ntfy } = selectedRepo;
-      setUpdatedParams({ branch, UInt, UlastPush, UpatCom, runCmd, ntfy });
-    }
-  }, [selectedRepo]);
-
 
   const handleRepoClick = (repo) => {
-    if (selectedRepo && selectedRepo.name === repo.name) {
-      setSelectedRepo(null); 
-      setRepoDetails(null); 
-      setBranches([]); 
-      setSelectedBranch(''); 
-    } else {
-      setSelectedRepo(repo);
-      fetchBranches(repo.owner, repo.name);
-    }
-  };
-
-  const fetchRepoDetails = async (repoOwner, repoName, branch) => {
-    try {
-      const gh = new GitHub({ token: token }); 
-      const repo = gh.getRepo(repoOwner, repoName);
-      const repodata = await repo.getDetails();
-      const lastCommit = await repo.getBranch(branch);
-      setRepoDetails({
-        name: repodata.data.name,
-        owner: repodata.data.owner.login,
-        url: repodata.data.html_url,
-        lastCommitMessage: lastCommit.data.commit.commit.message,
-        lastCommitAuthor: lastCommit.data.commit.author.login,
-        lastCommitDate: new Date(lastCommit.data.commit.commit.author.date).toLocaleString(),
-        lastCommitSha: lastCommit.data.commit.sha
-      });
-    } catch (error) {
-      console.error('Error fetching repository details:', error);
-    }
-  };
-
-  const fetchBranches = async (repoOwner, repoName) => {
-    try {
-      const gh = new GitHub({ token: token }); 
-      const repo = gh.getRepo(repoOwner, repoName);
-      const branches = await repo.listBranches();
-      setBranches(branches.data);
-      setSelectedBranch(branches.data[0].name); 
-      fetchRepoDetails(repoOwner, repoName, branches.data[0].name); 
-    } catch (error) {
-      console.error('Error fetching branches:', error);
-    }
-  };
-
-  const handleBranchChange = (event) => {
-    const branch = event.target.value;
-    setSelectedBranch(branch);
-    fetchRepoDetails(selectedRepo.owner, selectedRepo.name, branch);
+    setSelectedRepo(selectedRepo === repo ? null : repo);
   };
 
   const handleCreateToken  = () => {
@@ -128,25 +70,6 @@ const Home = () => {
       });
   };
 
-  const handleUpdateParams = () => {
-    const updatedRepo = { ...selectedRepo, ...updatedParams };
-    axios.post('/api/updateRepoParams', updatedRepo)
-      .then(response => {
-        setSelectedRepo(updatedRepo);
-        fetchBranches(updatedRepo.owner, updatedRepo.name);
-        setalertmessage('Operation successful');
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000); 
-      })
-      .catch(error => {
-        console.error('Error updating repository parameters:', error);
-      });
-  };
-
-  const handleInputChange = (event, parameter) => {
-    const value = event.target.value;
-    setUpdatedParams(prevParams => ({ ...prevParams, [parameter]: value }));
-  };
 
   const handleAddRepo = (newRepo) => {
     axios.post('/api/addrepo', newRepo)
@@ -251,30 +174,9 @@ const Home = () => {
                   {repo.name}
                 </a>
                 <button onClick={() => handleDeleteRepo(repo.name)}>Delete</button>
-                {selectedRepo && selectedRepo.name === repo.name && (
-                  <div className="repo-details slideIn">
-                    <div>
-                      <label htmlFor="branch-select">Select a branch:</label>
-                      <select
-                        id="branch-select"
-                        value={selectedBranch}
-                        onChange={handleBranchChange}
-                      >
-                        {branches.map((branchl, index) => (
-                          <option key={index} value={branchl.name}>{branchl.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    {repoDetails && ( 
-                      <RepoDetails
-                        repoDetails={repoDetails}
-                        selectedBranch={selectedBranch}
-                        updatedParams={updatedParams}
-                        onBranchChange={handleBranchChange}
-                        onInputChange={handleInputChange}
-                        onUpdateParams={handleUpdateParams}
-                      />
-                    )}
+                {selectedRepo === repo && (
+                  <div>
+                    <RepoDetails token={token} selectedRepo={selectedRepo} />
                   </div>
                 )}
               </li>
