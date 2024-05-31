@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import GitHub from 'github-api';
 import axios from 'axios';
 import RepoChart from './RepoChart';
 import AddRepoForm from './AddRepoForm';
@@ -51,23 +50,6 @@ const Home = () => {
 
   const handleRepoClick = (repo) => {
     setSelectedRepo(selectedRepo === repo ? null : repo);
-  };
-
-  const handleCreateToken  = () => {
-    window.location.href = 'https://github.com/settings/tokens/new';
-  };
-
-  const handleSaveToken = (newToken) => {
-    axios.post('/api/ntoken', { token: newToken })
-      .then(response => {
-        setToken(newToken);
-        setalertmessage('Operation successful');
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000); 
-      })
-      .catch(error => {
-        console.error('Error saving token:', error);
-      });
   };
 
 
@@ -163,8 +145,8 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {showAlert && <p className="alert">{alertmessage}</p>}
       <h2>Repository {nbrepos}</h2>
+      {showAlert && <p className="alert">{alertmessage}</p>}
       {token ? (
         <>
           <ul>
@@ -219,7 +201,7 @@ const Home = () => {
           <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>
             {showTokenSection ? 'Hide Token Form' : 'Change Access Token'}
           </button>
-          {showTokenSection && <TokenForm onSaveToken={handleSaveToken} onCreateToken={handleCreateToken} />}
+          {showTokenSection && <TokenForm />}
 
 
           <h2>Statistiques</h2>
@@ -227,7 +209,7 @@ const Home = () => {
         </>
       ) : (
         <>
-          <TokenForm onSaveToken={handleSaveToken} onCreateToken={handleCreateToken} />
+          <TokenForm />
         </>
       )}
     </div>

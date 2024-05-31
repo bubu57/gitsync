@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
 const AddRepoForm = ({ onAddRepo }) => {
+
+  const [showAlert, setShowAlert] = useState(false);
+  let [alertmessage, setalertmessage] = useState('');
+
   const [newRepo, setNewRepo] = useState({
     owner: '',
     name: '',
@@ -21,7 +25,9 @@ const AddRepoForm = ({ onAddRepo }) => {
 
   const handleAddRepo = () => {
     if (!newRepo.owner || !newRepo.name || !newRepo.path || !newRepo.branch) {
-      alert('Please fill in the first 4 fields');
+      setalertmessage('Please fill in the first 4 fields')
+      setShowAlert(true); 
+      setTimeout(() => setShowAlert(false), 3000); 
       return;
     }
     onAddRepo(newRepo);
@@ -37,6 +43,9 @@ const AddRepoForm = ({ onAddRepo }) => {
       ntfy: '',
       pull: ''
     });
+    setalertmessage('Operation successful')
+    setShowAlert(true); 
+    setTimeout(() => setShowAlert(false), 3000); 
   };
 
   return (
@@ -95,6 +104,7 @@ const AddRepoForm = ({ onAddRepo }) => {
         onChange={(e) => handleInputChange(e, 'runCmd')}
       />
       <button onClick={handleAddRepo}>Add</button>
+      {showAlert && <p className="alert">{alertmessage}</p>}
     </div>
   );
 };
