@@ -17,7 +17,7 @@ const AddRepoForm = ( {  getrepo } ) => {
     UpatCom: '',
     runCmd: '',
     ntfy: '',
-    pull: ''
+    pull: '0'
   });
 
   const handleInputChange = (event, parameter) => {

@@ -4,6 +4,7 @@ import RepoChart from './RepoChart';
 import AddRepoForm from './AddRepoForm';
 import TokenForm  from './TokenForm';
 import RepoDetails from './RepoDetails';
+import RepoScann from './RepoScann';
 import './Home.css';
 
 const Home = () => {
@@ -15,11 +16,6 @@ const Home = () => {
   const [nbrepos, setNbrepos] = useState(0);
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
-
-  const [scanning, setScanning] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [foundRepos, setFoundRepos] = useState([]);
-  const [selectedRepos, setSelectedRepos] = useState([]);
   const [ShowScannRepo, setShowScannRepo] = useState(false);
 
   const getrepo = async () => {
@@ -71,68 +67,6 @@ const Home = () => {
   };
 
 
-
-  const handleScan = async () => {
-    setShowScannRepo(!ShowScannRepo)
-    setScanning(true);
-    setProgress(0);
-    
-    try {
-      const response = await axios.post('/api/scanRepos', { path: '/home/user' }, {
-        onDownloadProgress: (progressEvent) => {
-          if (progressEvent.lengthComputable) {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setProgress(percentCompleted);
-          }
-        }
-      });
-      setFoundRepos(response.data.repos);
-    } catch (error) {
-      console.error('Erreur lors du scan des dépôts :', error);
-    } finally {
-      setScanning(false);
-    }
-  };
-
-  const handleRepoSelect = (repo) => {
-    setSelectedRepos(prevSelected => {
-      if (prevSelected.includes(repo)) {
-        return prevSelected.filter(r => r !== repo);
-      } else {
-        return [...prevSelected, repo];
-      }
-    });
-  };
-
-  const handleAddSelectedRepos = async () => {
-    for (const repo of selectedRepos) {
-      const newRepo = {
-        owner: repo.owner,
-        name: repo.name,
-        path: repo.path,
-        branch: repo.branch,
-        lastCommitSha: '',
-        UInt: '',
-        UlastPush: '',
-        UpatCom: '',
-        runCmd: '',
-        ntfy: '',
-        pull: ''
-      };
-  
-      try {
-        await axios.post('/api/addrepo', newRepo);
-        setRepos(prevRepos => [...prevRepos, newRepo]);
-        setalertmessage('Operation successful');
-        setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 3000);
-      } catch (error) {
-        console.error('Error adding repository:', error);
-      }
-    }
-  };
-
-
   return (
     <div className="home-container">
       <h2>Repository {nbrepos}</h2>
@@ -156,30 +90,10 @@ const Home = () => {
           </ul>
 
 
-          <button onClick={handleScan} disabled={scanning}>
+          <button className="toggle-button" onClick={() => setShowScannRepo(!ShowScannRepo)}>
             {ShowScannRepo ? 'Close scann' : 'Scanner les dépôts GitHub'}
           </button>
-          {ShowScannRepo && (
-            <div>
-              {scanning && <div>Progress: {progress}%</div>}
-              <ul>
-                {foundRepos.map((repo, index) => (
-                  <li key={index}>
-                    <label>
-                      <input 
-                        type="checkbox" 
-                        checked={selectedRepos.includes(repo)}
-                        onChange={() => handleRepoSelect(repo)}
-                      />
-                      {repo.name} - {repo.owner} - {repo.path} - {repo.branch}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-              {selectedRepos.length > 0 && <button onClick={handleAddSelectedRepos}>Ajouter les dépôts sélectionnés</button>}
-              <p><br/></p>
-            </div>
-          )}
+          {ShowScannRepo && <RepoScann getrepo={getrepo} />}
 
 
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
