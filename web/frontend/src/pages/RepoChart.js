@@ -54,8 +54,12 @@ const RepoChart = ({ repos }) => {
 
   }, [repos]);
 
-  <p>{chartStatus}</p>
-  return <canvas ref={chartRef}></canvas>;
+  return (
+    <div>
+      <p>{chartStatus}</p>
+      <canvas ref={chartRef}></canvas>
+    </div>
+  )
 };
 
 export default RepoChart;
