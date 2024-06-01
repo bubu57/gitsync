@@ -264,7 +264,12 @@ app.post('/api/updateRepoParams', async (req, res) => {
 });
 
 app.post('/api/addrepo', (req, res) => {
-  const newRepo = req.body;
+  let newRepo = req.body;
+
+  // Check and remove '/user_sys' prefix from the path if it exists
+  if (newRepo.path.startsWith('/user_sys')) {
+    newRepo.path = newRepo.path.replace('/user_sys', '');
+  }
 
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -288,7 +293,7 @@ app.post('/api/addrepo', (req, res) => {
 
     exec(`git config --global --add safe.directory '${newRepo.path}'`, (error, stdout, stderr) => {
       if (error) {
-        console.error(`Erreur lors de l'exécution de git pull : ${error}`);
+        console.error(`Erreur lors de l'exécution de git config : ${error}`);
       }
     });
   });
