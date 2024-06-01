@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
-const RepoChart = ({ repos }) => {
+const RepoChart = ({ repos, onAlert }) => {
   const chartRef = useRef(null);
   let [chartStatus, setChartStatus] = useState('');
 

@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AddRepoForm = ( {  getrepo } ) => {
-
-  const [showAlert, setShowAlert] = useState(false);
-  let [alertmessage, setalertmessage] = useState('');
+const AddRepoForm = ( {  getrepo, onAlert} ) => {
   const [repos, setRepos] = useState([]);
-
   const [newRepo, setNewRepo] = useState({
     owner: '',
     name: '',
@@ -27,9 +23,7 @@ const AddRepoForm = ( {  getrepo } ) => {
 
   const handleAddRepo = () => {
     if (!newRepo.owner || !newRepo.name || !newRepo.path || !newRepo.branch) {
-      setalertmessage('Please fill in the first 4 fields')
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      onAlert('Please fill in all fields', 'error');
       return;
     }
     axios.post('/api/addrepo', newRepo)
@@ -49,11 +43,10 @@ const AddRepoForm = ( {  getrepo } ) => {
           pull: ''
         });
         getrepo();
-        setalertmessage('Operation successful')
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000);
+        onAlert('Repository added successfully', 'success');
       })
       .catch(error => {
+        onAlert('Error adding repository', 'error');
         console.error('Error adding repository:', error);
       });
   };
@@ -114,7 +107,6 @@ const AddRepoForm = ( {  getrepo } ) => {
         onChange={(e) => handleInputChange(e, 'runCmd')}
       />
       <button onClick={handleAddRepo}>Add</button>
-      {showAlert && <p className="alert">{alertmessage}</p>}
     </div>
   );
 };

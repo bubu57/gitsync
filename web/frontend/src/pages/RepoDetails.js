@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GitHub from 'github-api';
 
-const RepoDetails = ({ token, selectedRepo  }) => {
+const RepoDetails = ({ token, selectedRepo, onAlert }) => {
 
   const [repoDetails, setRepoDetails] = useState(null);
   const [updatedParams, setUpdatedParams] = useState({});
   const [selectedBranch, setSelectedBranch] = useState('');
   const [branches, setBranches] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
-  let [alertmessage, setalertmessage] = useState('');
 
   useEffect(() => {
     if (selectedRepo) {
@@ -31,6 +29,7 @@ const RepoDetails = ({ token, selectedRepo  }) => {
       setBranches(branches.data);
       setSelectedBranch(branches.data[0].name); 
     } catch (error) {
+      onAlert('Error fetching branches', 'error');
       console.error('Error fetching branches:', error);
     }
   }
@@ -40,11 +39,10 @@ const RepoDetails = ({ token, selectedRepo  }) => {
     axios.post('/api/updateRepoParams', updatedRepo)
       .then(response => {
         fetchBranches(updatedRepo.owner, updatedRepo.name);
-        setalertmessage('Operation successful');
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000); 
+        onAlert('Repository parameters updated successfully', 'success');
       })
       .catch(error => {
+        onAlert('Error updating repository parameters', 'error');
         console.error('Error updating repository parameters:', error);
       });
   };
@@ -77,6 +75,7 @@ const RepoDetails = ({ token, selectedRepo  }) => {
         lastCommitSha: lastCommit.data.commit.sha
       });
     } catch (error) {
+      onAlert('Error fetching repository details', 'error');
       console.error('Error fetching repository details:', error);
     }
   };
@@ -170,7 +169,6 @@ const RepoDetails = ({ token, selectedRepo  }) => {
             />
           </div>
           <button onClick={handleUpdateParams}>Save Parameters</button>
-          {showAlert && <p className="alert">{alertmessage}</p>}
         </div>
       )}
     </div>

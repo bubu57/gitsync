@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const TokenForm = ({ onSaveToken, onCreateToken }) => {
+const TokenForm = ({ onAlert }) => {
   const [newToken, setNewToken] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
-  let [alertmessage, setalertmessage] = useState('');
 
   const handleTokenInputChange = (event) => {
     setNewToken(event.target.value);
@@ -13,12 +11,11 @@ const TokenForm = ({ onSaveToken, onCreateToken }) => {
   const handleSaveToken = () => {
     axios.post('/api/ntoken', { token: newToken })
       .then(response => {
-        setalertmessage('Operation successful');
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 1000);
+        onAlert('Token saved successfully', 'success');
         window.location.reload();
       })
       .catch(error => {
+        onAlert('Error saving token', 'error');
         console.error('Error saving token:', error);
       });
   };
@@ -38,7 +35,6 @@ const TokenForm = ({ onSaveToken, onCreateToken }) => {
       />
       <button onClick={handleSaveToken}>Save Token</button>
       <button onClick={handleCreateToken}>Create New Token</button>
-      {showAlert && <p className="alert">{alertmessage}</p>}
     </div>
   );
 };

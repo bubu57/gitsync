@@ -12,11 +12,19 @@ const Home = () => {
   const [selectedRepo, setSelectedRepo] = useState(null);
   const [token, setToken] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-  let [alertmessage, setalertmessage] = useState('');
+  const [alertmessage, setalertmessage] = useState('');
+  const [alertType, setAlertType] = useState('');
   const [nbrepos, setNbrepos] = useState(0);
   const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
   const [ShowScannRepo, setShowScannRepo] = useState(false);
+
+  function alert (message, type) {
+    setalertmessage(message);
+    setAlertType(type); 
+    setShowAlert(true); 
+    setTimeout(() => setShowAlert(false), 3000);
+  }
 
   const getrepo = async () => {
     if (token) {
@@ -28,6 +36,7 @@ const Home = () => {
           setNbrepos(response.data.repos.length);
         })
         .catch(error => {
+          alert('Error fetching repositories', 'error');
           console.error('Error fetching repositories:', error);
         });
     }
@@ -39,6 +48,7 @@ const Home = () => {
         setToken(response.data.token);
       })
       .catch(error => {
+        alert('Erreur lors de la récupération du token', 'error');
         console.error('Erreur lors de la récupération du token :', error);
       });
   }, []);
@@ -56,12 +66,11 @@ const Home = () => {
       .then(response => {
         const updatedRepos = repos.filter(repo => repo.name !== repoName);
         setRepos(updatedRepos);
-        setalertmessage('Operation successful')
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 1000);
+        alert('Repo deleted successfully', 'success');
         getrepo();
       })
       .catch(error => {
+        alert('Error deleting repository', 'error');
         console.error('Error deleting repository:', error);
       });
   };
@@ -70,7 +79,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <h2>Repository {nbrepos}</h2>
-      {showAlert && <p className="alert">{alertmessage}</p>}
+      {showAlert && <p className={`alert ${alertType}`}>{alertmessage}</p>}
       {token ? (
         <>
           <ul>
@@ -82,7 +91,7 @@ const Home = () => {
                 <button onClick={() => handleDeleteRepo(repo.name)}>Delete</button>
                 {selectedRepo === repo && (
                   <div>
-                    <RepoDetails token={token} selectedRepo={selectedRepo} />
+                    <RepoDetails token={token} selectedRepo={selectedRepo} onAlert={alert} />
                   </div>
                 )}
               </li>
@@ -93,27 +102,27 @@ const Home = () => {
           <button className="toggle-button" onClick={() => setShowScannRepo(!ShowScannRepo)}>
             {ShowScannRepo ? 'Close scann' : 'Scanner les dépôts GitHub'}
           </button>
-          {ShowScannRepo && <RepoScann getrepo={getrepo} />}
+          {ShowScannRepo && <RepoScann getrepo={getrepo} onAlert={alert} />}
 
 
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
             {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
           </button>
-          {showAddRepo && <AddRepoForm getrepo={getrepo} />}
+          {showAddRepo && <AddRepoForm getrepo={getrepo} onAlert={alert} />}
 
 
           <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>
             {showTokenSection ? 'Hide Token Form' : 'Change Access Token'}
           </button>
-          {showTokenSection && <TokenForm />}
+          {showTokenSection && <TokenForm onAlert={alert} />}
 
 
           <h2>Statistiques</h2>
-          <RepoChart repos={repos} />
+          <RepoChart repos={repos} onAlert={alert} />
         </>
       ) : (
         <>
-          <TokenForm />
+          <TokenForm onAlert={alert} />
         </>
       )}
     </div>

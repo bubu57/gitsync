@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const RepoScann = ({ getrepo }) => {
+const RepoScann = ({ getrepo, onAlert }) => {
     const [progress, setProgress] = useState(0);
     const [foundRepos, setFoundRepos] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
@@ -18,11 +18,12 @@ const RepoScann = ({ getrepo }) => {
     const handleSavePath = () => {
         axios.post('/api/setconfig', { scannpath: newPath })
             .then(response => {
-                console.log('Path saved successfully:', response.data);
+                onAlert('Path saved successfully', 'success');
                 setPath(newPath); // Update the path state immediately
                 fetchScann(newPath); // Pass the new path to the fetchScann function
             })
             .catch(error => {
+                onAlert('Error saving path', 'error');
                 console.error('Error saving path:', error);
             });
     };
@@ -36,6 +37,7 @@ const RepoScann = ({ getrepo }) => {
                 }
             })
             .catch(error => {
+                onAlert('Error retrieving path', 'error');
                 console.error('Error retrieving path:', error);
             });
     }, []);
@@ -55,6 +57,7 @@ const RepoScann = ({ getrepo }) => {
             });
             setFoundRepos(response.data.repos);
         } catch (error) {
+            onAlert('Error scanning repositories', 'error');
             console.error('Error scanning repositories:', error);
         } finally {
             setScanning(false);
@@ -90,10 +93,9 @@ const RepoScann = ({ getrepo }) => {
             try {
                 await axios.post('/api/addrepo', newRepo);
                 getrepo();
-                setAlertMessage('Operation successful');
-                setShowAlert(true);
-                setTimeout(() => setShowAlert(false), 3000);
+                onAlert('Repository added successfully', 'success');
             } catch (error) {
+                onAlert('Error adding repository', 'error');
                 console.error('Error adding repository:', error);
             }
         }
@@ -119,7 +121,6 @@ const RepoScann = ({ getrepo }) => {
                         ))}
                     </ul>
                     {selectedRepos.length > 0 && <button onClick={handleAddSelectedRepos}>Add selected repositories</button>}
-                    {showAlert && <p className="alert">{alertMessage}</p>}
                     <p><br /></p>
                     <p>Change scann path</p>
                     <input
