@@ -4,4 +4,5 @@ action.log
 token.json
 info.log
 error.log
+config.json
 myenv
