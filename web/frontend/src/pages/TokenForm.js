@@ -15,7 +15,7 @@ const TokenForm = ({ onSaveToken, onCreateToken }) => {
       .then(response => {
         setalertmessage('Operation successful');
         setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 500);
+        setTimeout(() => setShowAlert(false), 1000);
         window.location.reload();
       })
       .catch(error => {

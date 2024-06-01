@@ -22,17 +22,7 @@ const Home = () => {
   const [selectedRepos, setSelectedRepos] = useState([]);
   const [ShowScannRepo, setShowScannRepo] = useState(false);
 
-  useEffect(() => {
-    axios.get('/api/token')
-      .then(response => {
-        setToken(response.data.token);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération du token :', error);
-      });
-  }, []);
-
-  useEffect(() => {
+  const getrepo = async () => {
     if (token) {
       axios.get('/api/repos', {
         headers: { Authorization: `Bearer ${token}` }
@@ -45,25 +35,24 @@ const Home = () => {
           console.error('Error fetching repositories:', error);
         });
     }
-  }, [token]);
+  }
 
+  useEffect(() => {
+    axios.get('/api/token')
+      .then(response => {
+        setToken(response.data.token);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération du token :', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getrepo();
+  }, [token]);
 
   const handleRepoClick = (repo) => {
     setSelectedRepo(selectedRepo === repo ? null : repo);
-  };
-
-
-  const handleAddRepo = (newRepo) => {
-    axios.post('/api/addrepo', newRepo)
-      .then(response => {
-        setRepos([...repos, newRepo]);
-        setalertmessage('Operation successful');
-        setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000); 
-      })
-      .catch(error => {
-        console.error('Error adding repository:', error);
-      });
   };
 
   const handleDeleteRepo = (repoName) => {
@@ -73,7 +62,8 @@ const Home = () => {
         setRepos(updatedRepos);
         setalertmessage('Operation successful')
         setShowAlert(true); 
-        setTimeout(() => setShowAlert(false), 3000); 
+        setTimeout(() => setShowAlert(false), 1000);
+        getrepo();
       })
       .catch(error => {
         console.error('Error deleting repository:', error);
@@ -195,7 +185,7 @@ const Home = () => {
           <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
             {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
           </button>
-          {showAddRepo && <AddRepoForm onAddRepo={handleAddRepo} />}
+          {showAddRepo && <AddRepoForm getrepo={getrepo} />}
 
 
           <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>

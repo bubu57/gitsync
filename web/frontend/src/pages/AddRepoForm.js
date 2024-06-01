@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const AddRepoForm = ({ onAddRepo }) => {
+const AddRepoForm = ( {  getrepo } ) => {
 
   const [showAlert, setShowAlert] = useState(false);
   let [alertmessage, setalertmessage] = useState('');
+  const [repos, setRepos] = useState([]);
 
   const [newRepo, setNewRepo] = useState({
     owner: '',
@@ -26,26 +28,34 @@ const AddRepoForm = ({ onAddRepo }) => {
   const handleAddRepo = () => {
     if (!newRepo.owner || !newRepo.name || !newRepo.path || !newRepo.branch) {
       setalertmessage('Please fill in the first 4 fields')
-      setShowAlert(true); 
-      setTimeout(() => setShowAlert(false), 3000); 
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
       return;
     }
-    onAddRepo(newRepo);
-    setNewRepo({
-      owner: '',
-      name: '',
-      path: '',
-      branch: '',
-      UInt: '',
-      UlastPush: '',
-      UpatCom: '',
-      runCmd: '',
-      ntfy: '',
-      pull: ''
-    });
-    setalertmessage('Operation successful')
-    setShowAlert(true); 
-    setTimeout(() => setShowAlert(false), 3000); 
+    axios.post('/api/addrepo', newRepo)
+      .then(response => {
+        setRepos([...repos, newRepo]);
+        setNewRepo({
+          owner: '',
+          name: '',
+          path: '',
+          branch: '',
+          lastCommitSha: '',
+          UInt: '',
+          UlastPush: '',
+          UpatCom: '',
+          runCmd: '',
+          ntfy: '',
+          pull: ''
+        });
+        getrepo();
+        setalertmessage('Operation successful')
+        setShowAlert(true); 
+        setTimeout(() => setShowAlert(false), 3000);
+      })
+      .catch(error => {
+        console.error('Error adding repository:', error);
+      });
   };
 
   return (
