@@ -12,6 +12,8 @@ app.use(express.json());
 app.use(express.static('../frontend/build'));
 app.use(bodyParser.json());
 
+const devpath = "/user_sys"
+
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
 const configFilePath = path.join(__dirname, '../../data/config.json');
@@ -51,7 +53,7 @@ app.post('/api/setconfig', (req, res) => {
 });
 
 app.post('/api/scanRepos', async (req, res) => {
-  const rootDir = '/user_sys' + req.body.path;
+  const rootDir = devpath + req.body.path;
   const repos = [];
 
   const scanDirectory = async (dir) => {
