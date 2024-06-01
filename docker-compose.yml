@@ -6,7 +6,7 @@ services:
     container_name: web
     restart: always
     ports:
-      - "9002:7000"
+      - "9002:9002"
     volumes:
       - ./data:/gitsync/data
       - /:/user_sys

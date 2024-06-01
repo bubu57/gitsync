@@ -18,6 +18,11 @@ if [[ ! -f "data/repos.json" ]]; then
     echo '{"repos":[]}' > data/repos.json
 fi
 
+# Check the presence of the repos.json file
+if [[ ! -f "data/config.json" ]]; then
+    echo '{"scannpath":[]}' > data/config.json
+fi
+
 # Check for the presence of Docker and Docker Compose
 if ! command -v docker &> /dev/null; then
     echo "Error: Docker is not installed."
@@ -41,7 +46,7 @@ printf "Done!\n"
 
 # Starting services with animation
 echo "Starting services..."
-docker-compose up -d > /dev/null
+docker-compose up
 echo "Services started successfully!"
 
 # End message with access link

@@ -4,10 +4,8 @@ import axios from 'axios';
 const RepoScann = ({ getrepo, onAlert }) => {
     const [progress, setProgress] = useState(0);
     const [foundRepos, setFoundRepos] = useState([]);
-    const [showAlert, setShowAlert] = useState(false);
     const [scanning, setScanning] = useState(false);
     const [selectedRepos, setSelectedRepos] = useState([]);
-    const [alertMessage, setAlertMessage] = useState('');
     const [path, setPath] = useState('');
     const [newPath, setNewPath] = useState('');
 

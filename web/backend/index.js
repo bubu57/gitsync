@@ -41,44 +41,68 @@ app.post('/api/setconfig', (req, res) => {
 });
 
 app.post('/api/scanRepos', async (req, res) => {
-    const rootDir = req.body.path; // Default root directory to scan
-    const repos = [];
 
-    const scanDirectory = async (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-            const filePath = path.join(dir, file);
-            if (fs.statSync(filePath).isDirectory()) {
-                if (fs.existsSync(path.join(filePath, '.git'))) {
-                    const git = simpleGit(filePath);
-                    const remotes = await git.getRemotes(true);
-                    const originRemote = remotes.find(remote => remote.name === 'origin');
-                    if (originRemote) {
-                        const repoUrl = new URL(originRemote.refs.fetch);
-                        const [owner, name] = repoUrl.pathname.split('/').slice(-2);
-                        repos.push({
-                            owner: owner,
-                            name: name.replace('.git', ''),
-                            path: filePath,
-                            branch: (await git.branchLocal()).current
-                        });
-                    }
-                } else {
-                    await scanDirectory(filePath);
-                }
-            }
-        }
-    };
-
-    try {
-        console.log(`Scanning directory: ${rootDir}`);
-        await scanDirectory(rootDir);
-        console.log(`Found repositories: ${JSON.stringify(repos)}`);
-        res.json({ repos });
-    } catch (error) {
-        console.error('Error during scanning:', error);
-        res.status(500).json({ error: error.message });
+  exec(`cd / && git config --global --add safe.directory '*' `, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Erreur lors de l'exécution de git pull : ${error}`);
     }
+  });
+
+  const rootDir = '/user_sys' + req.body.path;
+  const repos = [];
+
+  const scanDirectory = async (dir) => {
+
+      const files = fs.readdirSync(dir);
+      for (const file of files) {
+          const filePath = path.join(dir, file);
+          if (fs.statSync(filePath).isDirectory()) {
+              if (fs.existsSync(path.join(filePath, '.git'))) {
+                  const git = simpleGit(filePath);
+                  const remotes = await git.getRemotes(true);
+                  const originRemote = remotes.find(remote => remote.name === 'origin');
+                  if (originRemote) {
+                      let repoUrl;
+                      try {
+                          repoUrl = new URL(originRemote.refs.fetch);
+                      } catch (err) {
+                          // Handle SSH URL
+                          const sshMatch = originRemote.refs.fetch.match(/git@([^:]+):(.+)\/(.+)\.git/);
+                          if (sshMatch) {
+                              repoUrl = {
+                                  host: sshMatch[1],
+                                  owner: sshMatch[2],
+                                  name: sshMatch[3]
+                              };
+                          } else {
+                              throw new Error('Invalid URL format');
+                          }
+                      }
+                      const owner = repoUrl.owner || repoUrl.pathname.split('/')[1];
+                      const name = repoUrl.name || repoUrl.pathname.split('/')[2].replace('.git', '');
+                      repos.push({
+                          owner: owner,
+                          name: name,
+                          path: filePath,
+                          branch: (await git.branchLocal()).current
+                      });
+                  }
+              } else {
+                  await scanDirectory(filePath);
+              }
+          }
+      }
+  };
+
+  try {
+    console.log(`Scanning directory: ${rootDir}`);
+    await scanDirectory(rootDir);
+    console.log(`Found repositories: ${JSON.stringify(repos)}`);
+    res.json({ repos });
+  } catch (error) {
+    console.error('Error during scanning:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 
