@@ -14,9 +14,34 @@ app.use(bodyParser.json());
 
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
+const configFilePath = path.join(__dirname, '../../data/config.json');
+
+app.get('/api/getconfig', (req, res) => {
+  fs.readFile(configFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier config.json :', err);
+      res.status(500).json({ error: 'Erreur lors de la lecture du fichier config.json' });
+      return;
+    }
+    const configData = JSON.parse(data);
+    res.json(configData);
+  });
+});
+
+app.post('/api/setconfig', (req, res) => {
+  const { scannpath } = req.body;
+  fs.writeFile(configFilePath, JSON.stringify({ scannpath }), (err) => {
+    if (err) {
+      console.error('Erreur lors de l\'enregistrement du config :', err);
+      res.status(500).json({ error: 'Erreur lors de l\'enregistrement du config' });
+      return;
+    }
+    res.json({ message: 'Token enregistré avec succès' });
+  });
+});
 
 app.post('/api/scanRepos', async (req, res) => {
-    const rootDir = req.body.path || '/user_sys'; // Default root directory to scan
+    const rootDir = req.body.path; // Default root directory to scan
     const repos = [];
 
     const scanDirectory = async (dir) => {
