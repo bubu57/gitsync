@@ -12,4 +12,8 @@ RUN apt install git -y
 
 RUN pip3 install -r /gitsync/scripts/requirements.txt
 
+RUN adduser --disabled-password --gecos '' appuser
+RUN chown -R appuser:appuser /gitsync
+USER appuser
+
 CMD ["python3", "/gitsync/scripts/gitsync.py"]

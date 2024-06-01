@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import RepoChart from './RepoChart';
-import AddRepoForm from './AddRepoForm';
 import TokenForm  from './TokenForm';
 import RepoDetails from './RepoDetails';
 import RepoScann from './RepoScann';
@@ -15,7 +14,6 @@ const Home = () => {
   const [alertmessage, setalertmessage] = useState('');
   const [alertType, setAlertType] = useState('');
   const [nbrepos, setNbrepos] = useState(0);
-  const [showAddRepo, setShowAddRepo] = useState(false);
   const [showTokenSection, setShowTokenSection] = useState(false);
   const [ShowScannRepo, setShowScannRepo] = useState(false);
 
@@ -103,12 +101,6 @@ const Home = () => {
             {ShowScannRepo ? 'Close scann' : 'Scanner les dépôts GitHub'}
           </button>
           {ShowScannRepo && <RepoScann getrepo={getrepo} onAlert={alert} />}
-
-
-          <button className="toggle-button" onClick={() => setShowAddRepo(!showAddRepo)}>
-            {showAddRepo ? 'Hide Repository Addition Form' : 'Add a New Repository'}
-          </button>
-          {showAddRepo && <AddRepoForm getrepo={getrepo} onAlert={alert} />}
 
 
           <button className="toggle-button" onClick={() => setShowTokenSection(!showTokenSection)}>

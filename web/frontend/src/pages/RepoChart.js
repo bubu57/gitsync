@@ -38,6 +38,7 @@ const RepoChart = ({ repos, onAlert }) => {
             }]
           },
           options: {
+            animation: false,
             scales: {
               y: {
                 beginAtZero: true

@@ -11,25 +11,25 @@ import subprocess
 path_racine = ""
 
 # Création des répertoires de logs si nécessaires
-os.makedirs('/gitsync/data', exist_ok=True)
+os.makedirs('../data', exist_ok=True)
 
 # Configuration des gestionnaires de logs
 logging.basicConfig(level=logging.INFO)
 
 # Gestionnaire de log info
-info_handler = logging.FileHandler('/gitsync/data/info.log')
+info_handler = logging.FileHandler('../data/info.log')
 info_handler.setLevel(logging.INFO)
 info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 info_handler.setFormatter(info_formatter)
 
 # Gestionnaire de log error
-error_handler = logging.FileHandler('/gitsync/data/error.log')
+error_handler = logging.FileHandler('../data/error.log')
 error_handler.setLevel(logging.ERROR)
 error_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 error_handler.setFormatter(error_formatter)
 
 # Gestionnaire de log action
-action_handler = logging.FileHandler('/gitsync/data/action.log')
+action_handler = logging.FileHandler('../data/action.log')
 action_handler.setLevel(logging.INFO)
 action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 action_handler.setFormatter(action_formatter)
@@ -190,8 +190,8 @@ def handle_uint_updates(repo_info):
 
 def main():
     """Fonction principale qui orchestre la mise à jour des dépôts."""
-    file_path = '/gitsync/data/repos.json'
-    token_file_path = '/gitsync/data/token.json'
+    file_path = '../data/repos.json'
+    token_file_path = '../data/token.json'
     token = load_token(token_file_path)
     interval_threads = []
 

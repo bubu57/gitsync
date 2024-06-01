@@ -16,6 +16,16 @@ const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
 const configFilePath = path.join(__dirname, '../../data/config.json');
 
+function safedir() {
+  exec(`cd / && git config --global --add safe.directory '*' `, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Erreur lors de l'exécution de git pull : ${error}`);
+    }
+  });
+}
+
+setInterval(safedir, 1000);
+
 app.get('/api/getconfig', (req, res) => {
   fs.readFile(configFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -41,70 +51,90 @@ app.post('/api/setconfig', (req, res) => {
 });
 
 app.post('/api/scanRepos', async (req, res) => {
-
-  exec(`cd / && git config --global --add safe.directory '*' `, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Erreur lors de l'exécution de git pull : ${error}`);
-    }
-  });
-
   const rootDir = '/user_sys' + req.body.path;
   const repos = [];
 
   const scanDirectory = async (dir) => {
+    let files;
+    try {
+        files = fs.readdirSync(dir);
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            // Skip directory if it does not exist
+            console.warn(`Warning: Directory not found ${dir}`);
+            return;
+        }
+        throw err; // Rethrow if it's not a "not found" error
+    }
 
-      const files = fs.readdirSync(dir);
-      for (const file of files) {
-          const filePath = path.join(dir, file);
-          if (fs.statSync(filePath).isDirectory()) {
-              if (fs.existsSync(path.join(filePath, '.git'))) {
-                  const git = simpleGit(filePath);
-                  const remotes = await git.getRemotes(true);
-                  const originRemote = remotes.find(remote => remote.name === 'origin');
-                  if (originRemote) {
-                      let repoUrl;
-                      try {
-                          repoUrl = new URL(originRemote.refs.fetch);
-                      } catch (err) {
-                          // Handle SSH URL
-                          const sshMatch = originRemote.refs.fetch.match(/git@([^:]+):(.+)\/(.+)\.git/);
-                          if (sshMatch) {
-                              repoUrl = {
-                                  host: sshMatch[1],
-                                  owner: sshMatch[2],
-                                  name: sshMatch[3]
-                              };
-                          } else {
-                              throw new Error('Invalid URL format');
-                          }
-                      }
-                      const owner = repoUrl.owner || repoUrl.pathname.split('/')[1];
-                      const name = repoUrl.name || repoUrl.pathname.split('/')[2].replace('.git', '');
-                      repos.push({
-                          owner: owner,
-                          name: name,
-                          path: filePath,
-                          branch: (await git.branchLocal()).current
-                      });
-                  }
-              } else {
-                  await scanDirectory(filePath);
-              }
-          }
-      }
-  };
+    for (const file of files) {
+        const filePath = path.join(dir, file);
+        let fileStat;
+        try {
+            fileStat = fs.statSync(filePath);
+        } catch (err) {
+            if (err.code === 'ENOENT') {
+                // Skip file if it does not exist
+                console.warn(`Warning: File not found ${filePath}`);
+                continue;
+            }
+            throw err; // Rethrow if it's not a "not found" error
+        }
 
+        if (fileStat.isDirectory()) {
+            if (fs.existsSync(path.join(filePath, '.git'))) {
+                const git = simpleGit(filePath);
+                let remotes;
+                try {
+                    remotes = await git.getRemotes(true);
+                } catch (error) {
+                    console.error(`Error getting remotes for ${filePath}:`, error);
+                    continue;
+                }
+                const originRemote = remotes.find(remote => remote.name === 'origin');
+                if (originRemote) {
+                    let repoUrl;
+                    try {
+                        repoUrl = new URL(originRemote.refs.fetch);
+                    } catch (err) {
+                        // Handle SSH URL
+                        const sshMatch = originRemote.refs.fetch.match(/git@([^:]+):(.+)\/(.+)\.git/);
+                        if (sshMatch) {
+                            repoUrl = {
+                                host: sshMatch[1],
+                                owner: sshMatch[2],
+                                name: sshMatch[3]
+                            };
+                        } else {
+                            console.error(`Invalid URL format for ${originRemote.refs.fetch}`);
+                            continue;
+                        }
+                    }
+                    const owner = repoUrl.owner || repoUrl.pathname.split('/')[1];
+                    const name = repoUrl.name || repoUrl.pathname.split('/')[2].replace('.git', '');
+                    repos.push({
+                        owner: owner,
+                        name: name,
+                        path: filePath,
+                        branch: (await git.branchLocal()).current
+                    });
+                }
+            } else {
+                await scanDirectory(filePath);
+            }
+        }
+    }
+};
   try {
-    console.log(`Scanning directory: ${rootDir}`);
-    await scanDirectory(rootDir);
-    console.log(`Found repositories: ${JSON.stringify(repos)}`);
-    res.json({ repos });
+      console.log(`Scanning directory: ${rootDir}`);
+      await scanDirectory(rootDir);
+      console.log(`Found repositories: ${JSON.stringify(repos)}`);
+      res.json({ repos });
   } catch (error) {
-    console.error('Error during scanning:', error);
-    res.status(500).json({ error: error.message });
+      console.error('Error during scanning:', error);
+      res.status(500).json({ error: error.message });
   }
 });
-
 
 app.get('/api/repos', (req, res) => {
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
