@@ -102,6 +102,10 @@ and replace first 9002 to your port, ex:
 
 These logs provide detailed information about the synchronization process, including any errors that occur.
 
+### Source code
+
+See the source code of the GitSync project on dev branch.
+
 ## Contact
 
 For any questions or issues, please open an issue on the [GitHub repository](https://github.com/bubu57/gitsync) or send mail to hugo.bunelier54@gmail.com.
