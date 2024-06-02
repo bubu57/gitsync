@@ -68,6 +68,9 @@ app.post('/api/scanRepos', async (req, res) => {
   }
 
   const isRepoExisting = (path) => {
+    if (path.startsWith('/gitsync_user_systeme_data')) {
+      path = path.replace('/gitsync_user_systeme_data', '');
+    }
     return existingRepos.some(repo => repo.path === path);
   };
 
@@ -84,7 +87,7 @@ app.post('/api/scanRepos', async (req, res) => {
     }
 
     for (const file of files) {
-      const filePath = path.join(dir, file);
+      let filePath = path.join(dir, file);
       let fileStat;
       try {
         fileStat = fs.statSync(filePath);
@@ -132,6 +135,9 @@ app.post('/api/scanRepos', async (req, res) => {
             }
             const owner = repoUrl.owner || repoUrl.pathname.split('/')[1];
             const name = repoUrl.name || repoUrl.pathname.split('/')[2].replace('.git', '');
+            if (filePath.startsWith('/gitsync_user_systeme_data')) {
+              filePath = filePath.replace('/gitsync_user_systeme_data', ''); // This line now works
+            }
             repos.push({
               owner: owner,
               name: name,
@@ -289,8 +295,8 @@ app.post('/api/addrepo', (req, res) => {
   let newRepo = req.body;
 
   // Check and remove '/user_sys' prefix from the path if it exists
-  if (newRepo.path.startsWith('/user_sys')) {
-    newRepo.path = newRepo.path.replace('/user_sys', '');
+  if (newRepo.path.startsWith('/gitsync_user_systeme_data')) {
+    newRepo.path = newRepo.path.replace('/gitsync_user_systeme_data', '');
   }
 
   fs.readFile(reposFilePath, 'utf8', (err, data) => {

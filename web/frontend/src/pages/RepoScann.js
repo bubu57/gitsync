@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const RepoScann = ({ getrepo, onAlert }) => {
-    const [progress, setProgress] = useState(0);
     const [foundRepos, setFoundRepos] = useState([]);
     const [scanning, setScanning] = useState(false);
     const [selectedRepos, setSelectedRepos] = useState([]);
     const [path, setPath] = useState('');
     const [newPath, setNewPath] = useState('');
+    const [showChangePath, setShowChangePath] = useState(false);
 
     const handlePathInputChange = (event) => {
         setNewPath(event.target.value);
@@ -26,18 +26,22 @@ const RepoScann = ({ getrepo, onAlert }) => {
             });
     };
 
-    useEffect(() => {
+    const start_scann = () => {
         axios.get('/api/getconfig')
             .then(response => {
                 setPath(response.data.scannpath);
                 if (response.data.scannpath) {
-                    fetchScann(response.data.scannpath); // Use the response path
+                    fetchScann(response.data.scannpath);
                 }
             })
             .catch(error => {
                 onAlert('Error retrieving path', 'error');
                 console.error('Error retrieving path:', error);
             });
+    }
+
+    useEffect(() => {
+        start_scann();
     }, []);
 
     const fetchScann = async (scanPath) => {
@@ -103,7 +107,26 @@ const RepoScann = ({ getrepo, onAlert }) => {
         <div>
             {path ? (
                 <>
-                    {scanning && <div>Progress: {progress}%</div>}
+                    {scanning && <div>Scaning...</div>}
+                    <a><p onClick={start_scann()}>Refresh scann</p></a>
+
+                    <a><p onClick={() => setShowChangePath(!showChangePath)}>
+                        {showChangePath ? 'Close' : 'Change scann path'}
+                    </p></a>
+                    {showChangePath &&
+                        <div>
+                            <p>Change scann path</p>
+                            <input
+                                type="text"
+                                placeholder="ex: /home/user"
+                                value={newPath}
+                                onChange={handlePathInputChange}
+                            />
+                            <button onClick={handleSavePath}>Save Path</button>
+                            <p><br /></p>
+                        </div>
+                    }
+
                     <ul>
                         {foundRepos.map((repo, index) => (
                             <li key={index}>
@@ -119,15 +142,6 @@ const RepoScann = ({ getrepo, onAlert }) => {
                         ))}
                     </ul>
                     {selectedRepos.length > 0 && <button onClick={handleAddSelectedRepos}>Add selected repositories</button>}
-                    <p><br /></p>
-                    <p>Change scann path</p>
-                    <input
-                        type="text"
-                        placeholder="ex: /home/user"
-                        value={newPath}
-                        onChange={handlePathInputChange}
-                    />
-                    <button onClick={handleSavePath}>Save Path</button>
                     <p><br /></p>
                 </>
             ) : (

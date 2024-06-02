@@ -28,12 +28,14 @@ for cmd in docker docker-compose python3 pip3; do
 done
 
 # Install GitSync engine dependencies
-echo -n "Installing GitSync engine dependencies... "
+echo -n "Installing GitSync engine dependencies..."
+echo " "
 pip3 install -r scripts/requirements.txt > /dev/null
 echo "Done!"
 
 # Build the Docker image for the web service
 echo -n "Building Docker image for the web service... "
+echo " "
 docker build -f dockerfile.web -t gitsync_web . > /dev/null
 echo "Done!"
 
