@@ -129,13 +129,17 @@ input[type="text"], select {
 }
 
 .txt-button {
-  background-color: #161b22; /* Green button */
+  background-color: #161b22;
   color: white;
   border: none;
   padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
   margin-left: 10px;
+}
+
+.txt-button:hover {
+  background-color: #161b22;
 }
 
 

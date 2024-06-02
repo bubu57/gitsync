@@ -104,8 +104,8 @@ const RepoScann = ({ getrepo, onAlert }) => {
             {path ? (
                 <>
                     {scanning && <div>Scaning...</div>}
+                    <p><br /></p>
                     <button className='txt-button' onClick={handleStartScann}>Refresh scann</button>
-
                     <button className='txt-button' onClick={() => setShowChangePath(!showChangePath)}>
                         {showChangePath ? 'Close' : 'Change scann path'}
                     </button>

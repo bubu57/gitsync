@@ -9,15 +9,14 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
   - Update repositories when new commits are pushed.
   - Update repositories based on specific commit message patterns.
   - Run custom commands after updating repositories.
-  - Scann your system to find repositories.
 
 - **Web Interface**: 
   - View and manage repositories.
   - Change repository parameters.
-  - Add new repositories.
+  - Add new repositories by scann.
   - Delete repositories.
   - Update GitHub access tokens.
-  - Ingormation of Repositories. 
+  - Information of Repositories. 
 
 - **Logging**: 
   - Detailed logging of update actions.
@@ -29,6 +28,8 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
 - GitHub access token with appropriate permissions.
 - Debian or Ubuntu operating system.
 - Git installed on your system.
+- python3
+- pip3
 
 ## Setup
 
@@ -59,9 +60,10 @@ edit docker-compose.yml
 ```
 nano docker-compose.yml
 ```
-and replace 9002 to your port, ex:
+and replace first 9002 to your port, ex:
 ```
-- "8080:7000"
+- "your_new_port:don't_chnage_this_port"
+- "8080:9002"
 ```
 
 ## Usage
@@ -99,7 +101,6 @@ and replace 9002 to your port, ex:
 
 These logs provide detailed information about the synchronization process, including any errors that occur.
 
-
 ## Contact
 
-For any questions or issues, please open an issue on the [GitHub repository](https://github.com/bubu57/gitsync).
+For any questions or issues, please open an issue on the [GitHub repository](https://github.com/bubu57/gitsync) or send mail to hugo.bunelier54@gmail.com.
