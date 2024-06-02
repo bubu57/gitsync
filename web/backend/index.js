@@ -358,4 +358,3 @@ app.get('/*', (_, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port: ${PORT}`);
 });
-
