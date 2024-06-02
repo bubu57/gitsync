@@ -101,7 +101,6 @@ app.post('/api/scanRepos', async (req, res) => {
 
       if (fileStat.isDirectory()) {
         if (fs.existsSync(path.join(filePath, '.git'))) {
-          // Skip the repo if it already exists in repos.json
           if (isRepoExisting(filePath)) {
             console.log(`Skipping existing repository: ${filePath}`);
             continue;

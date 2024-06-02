@@ -12,7 +12,6 @@ cp -fr web/backend ../tmp/web/
 cp -fr web/frontend/build ../tmp/web/frontend
 cp -fr scripts ../tmp
 cp -fr docker-compose.yml ../tmp
-cp -fr dockerfile.engine ../tmp
 cp -fr dockerfile.web ../tmp
 cp -fr README.md ../tmp
 cp -fr start.sh ../tmp
