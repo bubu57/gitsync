@@ -16,7 +16,8 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
   - Add new repositories by scann.
   - Delete repositories.
   - Update GitHub access tokens.
-  - Information of Repositories. 
+  - Information of Repositories.
+  - Scan your system to find new repositories.
 
 - **Logging**: 
   - Detailed logging of update actions.
@@ -85,7 +86,7 @@ and replace first 9002 to your port, ex:
    - Save changes to apply the new configuration.
 
 4. **Add New Repository**:
-   - Use the "Add New Repository" form to configure a new repository.
+   - Use the "Scan repo" to add a new repository.
 
 5. **Delete Repository**:
    - Remove a repository from the configuration.
