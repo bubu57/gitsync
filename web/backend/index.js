@@ -12,48 +12,154 @@ app.use(express.json());
 app.use(express.static('../frontend/build'));
 app.use(bodyParser.json());
 
+const devpath = "/gitsync_user_systeme_data"
+
 const reposFilePath = path.join(__dirname, '../../data/repos.json');
 const tokenFilePath = path.join(__dirname, '../../data/token.json');
+const configFilePath = path.join(__dirname, '../../data/config.json');
+
+function safedir() {
+  exec(`cd / && git config --global --add safe.directory '*' `, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Erreur lors de l'exécution de git pull : ${error}`);
+    }
+  });
+}
+
+setInterval(safedir, 1000);
+
+app.get('/api/getconfig', (req, res) => {
+  fs.readFile(configFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erreur lors de la lecture du fichier config.json :', err);
+      res.status(500).json({ error: 'Erreur lors de la lecture du fichier config.json' });
+      return;
+    }
+    const configData = JSON.parse(data);
+    res.json(configData);
+  });
+});
+
+app.post('/api/setconfig', (req, res) => {
+  const { scannpath } = req.body;
+  fs.writeFile(configFilePath, JSON.stringify({ scannpath }), (err) => {
+    if (err) {
+      console.error('Erreur lors de l\'enregistrement du config :', err);
+      res.status(500).json({ error: 'Erreur lors de l\'enregistrement du config' });
+      return;
+    }
+    res.json({ message: 'Token enregistré avec succès' });
+  });
+});
 
 app.post('/api/scanRepos', async (req, res) => {
-    const rootDir = req.body.path || '/user_sys'; // Default root directory to scan
-    const repos = [];
+  const rootDir = devpath + req.body.path;
+  const repos = [];
 
-    const scanDirectory = async (dir) => {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-            const filePath = path.join(dir, file);
-            if (fs.statSync(filePath).isDirectory()) {
-                if (fs.existsSync(path.join(filePath, '.git'))) {
-                    const git = simpleGit(filePath);
-                    const remotes = await git.getRemotes(true);
-                    const originRemote = remotes.find(remote => remote.name === 'origin');
-                    if (originRemote) {
-                        const repoUrl = new URL(originRemote.refs.fetch);
-                        const [owner, name] = repoUrl.pathname.split('/').slice(-2);
-                        repos.push({
-                            owner: owner,
-                            name: name.replace('.git', ''),
-                            path: filePath,
-                            branch: (await git.branchLocal()).current
-                        });
-                    }
-                } else {
-                    await scanDirectory(filePath);
-                }
-            }
-        }
-    };
+  // Read the existing repositories from repos.json
+  let existingRepos = [];
+  try {
+    const data = fs.readFileSync(reposFilePath, 'utf8');
+    existingRepos = JSON.parse(data).repos;
+  } catch (err) {
+    console.error('Erreur lors de la lecture du fichier repos.json :', err);
+    res.status(500).json({ error: 'Erreur lors de la lecture du fichier repos.json' });
+    return;
+  }
 
-    try {
-        console.log(`Scanning directory: ${rootDir}`);
-        await scanDirectory(rootDir);
-        console.log(`Found repositories: ${JSON.stringify(repos)}`);
-        res.json({ repos });
-    } catch (error) {
-        console.error('Error during scanning:', error);
-        res.status(500).json({ error: error.message });
+  const isRepoExisting = (path) => {
+    if (path.startsWith('/gitsync_user_systeme_data')) {
+      path = path.replace('/gitsync_user_systeme_data', '');
     }
+    return existingRepos.some(repo => repo.path === path);
+  };
+
+  const scanDirectory = async (dir) => {
+    let files;
+    try {
+      files = fs.readdirSync(dir);
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        console.warn(`Warning: Directory not found ${dir}`);
+        return;
+      }
+      throw err;
+    }
+
+    for (const file of files) {
+      let filePath = path.join(dir, file);
+      let fileStat;
+      try {
+        fileStat = fs.statSync(filePath);
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          console.warn(`Warning: File not found ${filePath}`);
+          continue;
+        }
+        throw err;
+      }
+
+      if (fileStat.isDirectory()) {
+        if (fs.existsSync(path.join(filePath, '.git'))) {
+          if (isRepoExisting(filePath)) {
+            console.log(`Skipping existing repository: ${filePath}`);
+            continue;
+          }
+
+          const git = simpleGit(filePath);
+          let remotes;
+          try {
+            remotes = await git.getRemotes(true);
+          } catch (error) {
+            console.error(`Error getting remotes for ${filePath}:`, error);
+            continue;
+          }
+          const originRemote = remotes.find(remote => remote.name === 'origin');
+          if (originRemote) {
+            let repoUrl;
+            try {
+              repoUrl = new URL(originRemote.refs.fetch);
+            } catch (err) {
+              const sshMatch = originRemote.refs.fetch.match(/git@([^:]+):(.+)\/(.+)\.git/);
+              if (sshMatch) {
+                repoUrl = {
+                  host: sshMatch[1],
+                  owner: sshMatch[2],
+                  name: sshMatch[3]
+                };
+              } else {
+                console.error(`Invalid URL format for ${originRemote.refs.fetch}`);
+                continue;
+              }
+            }
+            const owner = repoUrl.owner || repoUrl.pathname.split('/')[1];
+            const name = repoUrl.name || repoUrl.pathname.split('/')[2].replace('.git', '');
+            if (filePath.startsWith('/gitsync_user_systeme_data')) {
+              filePath = filePath.replace('/gitsync_user_systeme_data', ''); // This line now works
+            }
+            repos.push({
+              owner: owner,
+              name: name,
+              path: filePath,
+              branch: (await git.branchLocal()).current
+            });
+          }
+        } else {
+          await scanDirectory(filePath);
+        }
+      }
+    }
+  };
+
+  try {
+    console.log(`Scanning directory: ${rootDir}`);
+    await scanDirectory(rootDir);
+    console.log(`Found repositories: ${JSON.stringify(repos)}`);
+    res.json({ repos });
+  } catch (error) {
+    console.error('Error during scanning:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 
@@ -185,7 +291,12 @@ app.post('/api/updateRepoParams', async (req, res) => {
 });
 
 app.post('/api/addrepo', (req, res) => {
-  const newRepo = req.body;
+  let newRepo = req.body;
+
+  // Check and remove '/user_sys' prefix from the path if it exists
+  if (newRepo.path.startsWith('/gitsync_user_systeme_data')) {
+    newRepo.path = newRepo.path.replace('/gitsync_user_systeme_data', '');
+  }
 
   fs.readFile(reposFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -209,7 +320,7 @@ app.post('/api/addrepo', (req, res) => {
 
     exec(`git config --global --add safe.directory '${newRepo.path}'`, (error, stdout, stderr) => {
       if (error) {
-        console.error(`Erreur lors de l'exécution de git pull : ${error}`);
+        console.error(`Erreur lors de l'exécution de git config : ${error}`);
       }
     });
   });
@@ -247,4 +358,3 @@ app.get('/*', (_, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur le port: ${PORT}`);
 });
-

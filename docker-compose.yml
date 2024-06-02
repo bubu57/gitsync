@@ -6,15 +6,7 @@ services:
     container_name: web
     restart: always
     ports:
-      - "9002:7000"
+      - "9002:9002"
     volumes:
       - ./data:/gitsync/data
-      - /:/user_sys
-
-  engine:
-    image: gitsync_engine
-    container_name: engine
-    restart: always
-    volumes:
-      - ./:/gitsync
-      - /:/user_sys
+      - /:/gitsync_user_systeme_data
