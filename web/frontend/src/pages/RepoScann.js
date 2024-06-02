@@ -17,8 +17,8 @@ const RepoScann = ({ getrepo, onAlert }) => {
         axios.post('/api/setconfig', { scannpath: newPath })
             .then(response => {
                 onAlert('Path saved successfully', 'success');
-                setPath(newPath); // Update the path state immediately
-                fetchScann(newPath); // Pass the new path to the fetchScann function
+                setPath(newPath);
+                fetchScann(newPath);
             })
             .catch(error => {
                 onAlert('Error saving path', 'error');

@@ -1,43 +1,41 @@
 #!/bin/bash
 
-# Startup
+# Welcome message
 echo "Welcome! Launching GitSync..."
 
-# Check if the 'data' directory exists
+# Ensure 'data' directory exists
 if [[ ! -d "data" ]]; then
     mkdir data
 fi
 
-# Check the presence of the token.json file
-if [[ ! -f "data/token.json" ]]; then
-    echo '{"token":""}' > data/token.json
-fi
+# Ensure required files exist in the 'data' directory
+for file in token.json repos.json config.json; do
+    if [[ ! -f "data/$file" ]]; then
+        case $file in
+            token.json) echo '{"token":""}' > "data/$file" ;;
+            repos.json) echo '{"repos":[]}' > "data/$file" ;;
+            config.json) echo '{"scanpath":""}' > "data/$file" ;;
+        esac
+    fi
+done
 
-# Check the presence of the repos.json file
-if [[ ! -f "data/repos.json" ]]; then
-    echo '{"repos":[]}' > data/repos.json
-fi
+# Check for the presence of required commands
+for cmd in docker docker-compose python3 pip3; do
+    if ! command -v $cmd &> /dev/null; then
+        echo "Error: $cmd is not installed."
+        exit 1
+    fi
+done
 
-# Check the presence of the repos.json file
-if [[ ! -f "data/config.json" ]]; then
-    echo '{"scannpath":""}' > data/config.json
-fi
+# Install GitSync engine dependencies
+echo -n "Installing GitSync engine dependencies... "
+pip3 install -r scripts/requirements.txt > /dev/null
+echo "Done!"
 
-# Check for the presence of Docker and Docker Compose
-if ! command -v docker &> /dev/null; then
-    echo "Error: Docker is not installed."
-    exit 1
-fi
-
-if ! command -v docker-compose &> /dev/null; then
-    echo "Error: Docker Compose is not installed."
-    exit 1
-fi
-
-# Building the image for the web service
-printf "Building image for the web service... "
+# Build the Docker image for the web service
+echo -n "Building Docker image for the web service... "
 docker build -f dockerfile.web -t gitsync_web . > /dev/null
-printf "Done!\n"
+echo "Done!"
 
 # Function to tail logs of docker-compose
 tail_docker_logs() {
@@ -49,12 +47,8 @@ tail_docker_logs() {
 cleanup() {
     echo "Stopping services..."
     docker-compose down
-    if [[ -n "$python_pid" ]]; then
-        kill $python_pid
-    fi
-    if [[ -n "$docker_compose_pid" ]]; then
-        kill $docker_compose_pid
-    fi
+    [[ -n "$python_pid" ]] && kill $python_pid
+    [[ -n "$docker_compose_pid" ]] && kill $docker_compose_pid
     echo "Services stopped. Exiting."
     exit 0
 }
@@ -62,12 +56,12 @@ cleanup() {
 # Set up trap for SIGINT
 trap cleanup SIGINT
 
-# Starting services and capturing their logs
+# Start services and capture their logs
 echo "Starting services..."
 docker-compose up -d
 tail_docker_logs
 
-# Running the Python script
+# Run the Python script
 cd scripts && python3 gitsync.py &
 python_pid=$!
 

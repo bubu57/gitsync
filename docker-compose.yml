@@ -9,4 +9,4 @@ services:
       - "9002:9002"
     volumes:
       - ./data:/gitsync/data
-      - /:/user_sys
+      - /:/gitsync_user_systeme_data

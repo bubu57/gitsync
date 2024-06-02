@@ -27,6 +27,8 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
 
 - Docker and Docker Compose installed on your system.
 - GitHub access token with appropriate permissions.
+- Debian or Ubuntu operating system.
+- Git installed on your system.
 
 ## Setup
 
