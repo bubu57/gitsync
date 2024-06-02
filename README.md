@@ -9,6 +9,7 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
   - Update repositories when new commits are pushed.
   - Update repositories based on specific commit message patterns.
   - Run custom commands after updating repositories.
+  - ntfy notification when repository is updated.
 
 - **Web Interface**: 
   - View and manage repositories.
@@ -18,6 +19,7 @@ GitSync is a comprehensive tool designed to automate the synchronization of mult
   - Update GitHub access tokens.
   - Information of Repositories.
   - Scan your system to find new repositories.
+  - Configure ntfy notification.
 
 - **Logging**: 
   - Detailed logging of update actions.
