@@ -46,17 +46,9 @@ const RepoScann = ({ getrepo, onAlert }) => {
 
     const fetchScann = async (scanPath) => {
         setScanning(true);
-        setProgress(0);
 
         try {
-            const response = await axios.post('/api/scanRepos', { path: scanPath }, {
-                onDownloadProgress: (progressEvent) => {
-                    if (progressEvent.lengthComputable) {
-                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        setProgress(percentCompleted);
-                    }
-                }
-            });
+            const response = await axios.post('/api/scanRepos', { path: scanPath }, {});
             setFoundRepos(response.data.repos);
         } catch (error) {
             onAlert('Error scanning repositories', 'error');
@@ -103,16 +95,20 @@ const RepoScann = ({ getrepo, onAlert }) => {
         }
     };
 
+    const handleStartScann = () => {
+        start_scann();
+    };
+
     return (
         <div>
             {path ? (
                 <>
                     {scanning && <div>Scaning...</div>}
-                    <a><p onClick={start_scann()}>Refresh scann</p></a>
+                    <button className='txt-button' onClick={handleStartScann}>Refresh scann</button>
 
-                    <a><p onClick={() => setShowChangePath(!showChangePath)}>
+                    <button className='txt-button' onClick={() => setShowChangePath(!showChangePath)}>
                         {showChangePath ? 'Close' : 'Change scann path'}
-                    </p></a>
+                    </button>
                     {showChangePath &&
                         <div>
                             <p>Change scann path</p>
