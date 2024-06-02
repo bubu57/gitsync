@@ -76,7 +76,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h2>Repository {nbrepos}</h2>
+      <h2>Repositories {nbrepos}</h2>
       {showAlert && <p className={`alert ${alertType}`}>{alertmessage}</p>}
       {token ? (
         <>
@@ -98,7 +98,7 @@ const Home = () => {
 
 
           <button className="toggle-button" onClick={() => setShowScannRepo(!ShowScannRepo)}>
-            {ShowScannRepo ? 'Close scann' : 'Scanner les dépôts GitHub'}
+            {ShowScannRepo ? 'Close scan' : 'Scan repo'}
           </button>
           {ShowScannRepo && <RepoScann getrepo={getrepo} onAlert={alert} />}
 
@@ -109,7 +109,7 @@ const Home = () => {
           {showTokenSection && <TokenForm onAlert={alert} />}
 
 
-          <h2>Statistiques</h2>
+          <h2>Statistics</h2>
           <RepoChart repos={repos} onAlert={alert} />
         </>
       ) : (
