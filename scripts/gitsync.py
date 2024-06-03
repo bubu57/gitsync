@@ -5,7 +5,7 @@ import logging
 import requests
 from threading import Thread
 from git import Repo
-import subprocess 
+import subprocess
 
 # path de la racine
 path_racine = ""
@@ -14,7 +14,7 @@ path_racine = ""
 os.makedirs('../data', exist_ok=True)
 
 # Configuration des gestionnaires de logs
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # Gestionnaire de log info
 info_handler = logging.FileHandler('../data/info.log')
@@ -33,6 +33,26 @@ action_handler = logging.FileHandler('../data/action.log')
 action_handler.setLevel(logging.INFO)
 action_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 action_handler.setFormatter(action_formatter)
+
+# Filtre personnalisé pour les logs d'action
+class ActionLogFilter(logging.Filter):
+    def filter(self, record):
+        return 'Action:' in record.msg
+
+# Filtre personnalisé pour les logs d'info
+class InfoLogFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno == logging.INFO and 'Action:' not in record.msg
+
+# Filtre personnalisé pour les logs d'erreur
+class ErrorLogFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno == logging.ERROR
+
+# Ajout des filtres
+info_handler.addFilter(InfoLogFilter())
+error_handler.addFilter(ErrorLogFilter())
+action_handler.addFilter(ActionLogFilter())
 
 # Ajout des gestionnaires au logger
 logger = logging.getLogger()
@@ -111,7 +131,7 @@ def update_repo(repo_info):
 
         # Incrémentation de la valeur de pull
         if 'pull' in repo_info:
-            repo_info['pull'] = str(int(repo_info['pull']) + 1)
+            repo_info['pull'] = str(int(repo_info.get('pull', '0')) + 1)
 
         logging.info(f"Repo {repo_info['name']} updated on branch {branch}")
         logging.getLogger().handlers[2].setLevel(logging.INFO)  # Set action log level
@@ -186,6 +206,7 @@ def handle_uint_updates(repo_info):
     while True:
         logging.info(f"Scheduled update for repo {repo_info['name']}")
         update_repo(repo_info)
+        save_repos('../data/repos.json', load_repos('../data/repos.json'))  # Sauvegarde après mise à jour
         time.sleep(interval * 60)
 
 def main():
