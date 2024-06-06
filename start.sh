@@ -1,6 +1,66 @@
 #!/bin/bash
 
-# Welcome message
+# Log file location
+LOG_FILE="gitsync.log"
+
+# Function to check if the app is running
+is_running() {
+    docker-compose ps | grep -q "Up"
+}
+
+# Function to display the menu
+show_menu() {
+    clear
+    echo "GitSync Control Interface"
+    echo "1. Start GitSync"
+    echo "2. View Logs"
+    echo "3. Stop GitSync"
+    echo "4. Exit"
+    read -p "Choose an option: " option
+    case $option in
+        1) start_gitsync ;;
+        2) view_logs ;;
+        3) stop_gitsync ;;
+        4) exit 0 ;;
+        *) echo "Invalid option" ;;
+    esac
+}
+
+# Function to start GitSync
+start_gitsync() {
+    if is_running; then
+        echo "GitSync is already running."
+    else
+        echo "Starting GitSync..."
+        ./start.sh | tee -a $LOG_FILE &
+        echo "GitSync started."
+    fi
+    sleep 2
+    show_menu
+}
+
+# Function to view logs
+view_logs() {
+    if [ -f $LOG_FILE ]; then
+        tail -f $LOG_FILE
+    else
+        echo "Log file not found."
+    fi
+    show_menu
+}
+
+# Function to stop GitSync
+stop_gitsync() {
+    echo "Stopping GitSync..."
+    docker-compose down
+    pkill -f "python3 gitsync.py"
+    echo "GitSync stopped."
+    sleep 2
+    show_menu
+}
+
+# Main script starts here
+clear
 echo "Welcome! Launching GitSync..."
 
 # Ensure 'data' directory exists
@@ -39,37 +99,5 @@ echo " "
 docker build -f dockerfile.web -t gitsync_web . > /dev/null
 echo "Done!"
 
-# Function to tail logs of docker-compose
-tail_docker_logs() {
-    docker-compose logs -f &
-    docker_compose_pid=$!
-}
-
-# Function to stop services and script
-cleanup() {
-    echo "Stopping services..."
-    docker-compose down
-    [[ -n "$python_pid" ]] && kill $python_pid
-    [[ -n "$docker_compose_pid" ]] && kill $docker_compose_pid
-    echo "Services stopped. Exiting."
-    exit 0
-}
-
-# Set up trap for SIGINT
-trap cleanup SIGINT
-
-# Start services and capture their logs
-echo "Starting services..."
-docker-compose up -d
-tail_docker_logs
-
-# Run the Python script
-cd scripts && python3 gitsync.py &
-python_pid=$!
-
-# Wait for both background processes to complete
-wait $python_pid $docker_compose_pid
-
-# End message with access link
-echo "GitSync is ready to be used."
-echo "Access at: http://localhost:9002"
+# Start the menu
+show_menu
